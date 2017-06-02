@@ -1,0 +1,49 @@
+From 5236526cf8f1586c2afe29d827568e6afa2a0042 Mon Sep 17 00:00:00 2001
+From: ZaneZam <cyxman@yahoo.com>
+Date: Thu, 26 Mar 2015 14:56:22 +0100
+Subject: [PATCH] toolchain: multiple fixes and changes for gcc 5.0.0
+
+---
+ arch/arm/mach-msm/include/mach/qdsp6v2/apr.h               |  2 +-
+ drivers/gpu/msm/Makefile                                   |  3 +++
+ drivers/gpu/msm/adreno_ringbuffer.c                        |  4 ++--
+ drivers/gpu/msm/kgsl_iommu.c                               |  4 ++--
+ drivers/media/platform/msm/camera_oppo_v2/isp/Makefile     |  3 +++
+ drivers/media/platform/msm/camera_oppo_v2/ispif/Makefile   |  3 +++
+ .../platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c    | 14 +++++++-------
+ drivers/media/video/Makefile                               |  2 ++
+ drivers/mmc/host/Makefile                                  |  2 ++
+ drivers/staging/prima/CORE/HDD/src/wlan_hdd_wmm.c          |  2 +-
+ drivers/staging/prima/Kbuild                               |  3 +++
+ drivers/video/msm/mdss/Makefile                            |  3 +++
+ drivers/video/msm/mdss/mdss_mdp_pp.c                       |  2 +-
+ fs/fat/Makefile                                            |  2 ++
+ kernel/Makefile                                            |  2 ++
+ mm/Makefile                                                |  2 ++
+ mm/rmap.c                                                  |  2 +-
+ sound/soc/codecs/Makefile                                  |  3 +++
+ sound/usb/Makefile                                         |  2 ++
+ 19 files changed, 45 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/msm/kgsl_iommu.c b/drivers/gpu/msm/kgsl_iommu.c
+index 1680a679fb0..6a1f62a8a94 100644
+--- a/drivers/gpu/msm/kgsl_iommu.c
++++ b/drivers/gpu/msm/kgsl_iommu.c
+@@ -993,7 +993,7 @@ static int kgsl_iommu_init_sync_lock(struct kgsl_mmu *mmu)
+  *
+  * Return - int - number of commands.
+  */
+-inline unsigned int kgsl_iommu_sync_lock(struct kgsl_mmu *mmu,
++static inline unsigned int kgsl_iommu_sync_lock(struct kgsl_mmu *mmu,
+ 						unsigned int *cmds)
+ {
+ 	struct kgsl_device *device = mmu->device;
+@@ -1063,7 +1063,7 @@ inline unsigned int kgsl_iommu_sync_lock(struct kgsl_mmu *mmu,
+  *
+  * Return - int - number of commands.
+  */
+-inline unsigned int kgsl_iommu_sync_unlock(struct kgsl_mmu *mmu,
++static inline unsigned int kgsl_iommu_sync_unlock(struct kgsl_mmu *mmu,
+ 					unsigned int *cmds)
+ {
+ 	struct kgsl_device *device = mmu->device;

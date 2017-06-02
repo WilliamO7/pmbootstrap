@@ -1,0 +1,113 @@
+# APKBUILD based on linux-vanilla aport. Changes:
+# - disabled module installation
+# - add !check !tracedeps
+# - package: just install zimage and kernel.release, because the kernel config
+#	does not generate modules or dtb files
+# - do not create -dev subpackage (makes no sense without module support)
+#
+# Kernel config based on: arch/arm/configs/lineageos_mako_defconfig
+# Changes:
+# - enable devtmpfs (needed for udev -> touch support in weston)
+
+_vendor=jolla
+_flavor=jolla-sbj
+_hash="2.0.5.6"
+_config="config-${_flavor}.armhf"
+
+pkgname=linux-${_flavor}
+pkgver=3.4.0
+case $pkgver in
+	*.*.*)  _kernver=${pkgver%.*};;
+	*.*) _kernver=$pkgver;;
+esac
+pkgrel=3
+arch="armhf"
+pkgdesc="Jolla phone kernel from sailfish 2"
+url="http://releases.sailfishos.org/sources/2.0.5.6/"
+depends="postmarketos-mkinitfs"
+makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev"
+options="!strip !check !tracedeps"
+install=
+source="
+	$pkgname-$_hash.tar.bz2::http://releases.sailfishos.org/sources/${_hash}/sailfish-${_hash}-oss-adaptation-sbj.tar.bz2
+	$_config
+	compiler-gcc6.h
+	duplicate-return-address-definition.patch
+	kgsl-iommu-locks.patch
+"
+subpackages=""
+license="GPL2"
+
+_abi_release=${pkgver}
+_carch="arm"
+HOSTCC="${CC:-gcc}"
+HOSTCC="${HOSTCC#${CROSS_COMPILE}}"
+
+kver="kernel-adaptation-sbj-3.4.108.20161101.1"
+ksrcdir="$srcdir/$kver"
+kernelarchive="$srcdir/sailfish-${_hash}-oss-adaptation-sbj/kernel-adaptation-sbj/${kver}.tar.bz2"
+
+prepare() {
+	local _patch_failed=
+	cd "$srcdir"
+	tar -xf "$kernelarchive"	
+	cd "$ksrcdir"
+
+	# first apply patches in specified order
+	for i in $source; do
+		case $i in
+		*.patch)
+			msg "Applying $i..."
+			if ! patch -s -p1 -N -i "$srcdir"/$i; then
+				echo $i >>failed
+				_patch_failed=1
+			fi
+			;;
+		esac
+	done
+
+	if ! [ -z "$_patch_failed" ]; then
+		error "The following patches failed:"
+		cat failed
+		return 1
+	fi
+
+	# gcc6 support
+	 cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/"
+
+	mkdir -p "$srcdir"/build
+	cp "$srcdir"/$_config "$srcdir"/build/.config || return 1
+	make -C "$ksrcdir" O="$srcdir"/build ARCH="$_carch" HOSTCC="$HOSTCC" \
+		silentoldconfig
+}
+
+
+
+# this is so we can do: 'abuild menuconfig' to reconfigure kernel
+menuconfig() {
+	cd "$srcdir"/build || return 1
+	make ARCH="$_carch" menuconfig
+	cp .config "$startdir"/$_config
+}
+
+build() {
+	cd "$srcdir"/build
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine" \
+		|| return 1
+}
+
+package() {
+	install -Dm644 "$srcdir/build/arch/arm/boot/zImage" \
+		"$pkgdir/boot/vmlinuz-$_flavor"
+
+	install -D "$srcdir/build/include/config/kernel.release" \
+		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
+}
+
+sha512sums="4e9f7c26fbe47e2244b038137b8b4c4796a1910db7fe58cc87d52f5a71fa06adaf5c76962f7fc3a62ee8dff765469c6b68e3f0b37250c2db95bdfcdc3dc5ca7a  linux-jolla-sbj-2.0.5.6.tar.bz2
+e03c552b07872055791f476d4bbc095745e61fca0702de4bcac85c6b56c579c8ba0aec1692aadbc647af93ea1917e9571923dd2dfdca890031568be3f6543026  config-jolla-sbj.armhf
+d80980e9474c82ba0ef1a6903b434d8bd1b092c40367ba543e72d2c119301c8b2d05265740e4104ca1ac5d15f6c4aa49e8776cb44264a9a28dc551e0d1850dcc  compiler-gcc6.h
+ea1d3b5a234fa565e3c1a792de48f4fc4e6023d281d303c8e319c7ef28edc5739ab0e4dea0139a41f0a5c7d03e27921ccaa214fd0ac5c72245a094ce60128864  duplicate-return-address-definition.patch
+63d18b49c7311fe60e52192dda9a420259e173110ef99a2743db99fa550c9c2b3089f338d65b98c0b825987abbd2eb601c47b03afc835c340256c0dbf1023745  kgsl-iommu-locks.patch"
