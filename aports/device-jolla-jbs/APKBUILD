@@ -1,0 +1,30 @@
+pkgname=device-jolla-jbs
+pkgver=2
+pkgrel=2
+pkgdesc="Jolla phone"
+url="https://github.com/postmarketOS"
+arch="noarch"
+license="MIT"
+depends="linux-jolla-jbs"
+makedepends=""
+install=""
+subpackages=""
+source="deviceinfo initfs-hook.sh profile.sh"
+options="!check"
+
+build() {
+	return 0
+}
+
+package() {
+	install -D -m644 "$srcdir"/deviceinfo \
+		"$pkgdir"/etc/deviceinfo
+	install -D -m644 "$srcdir"/initfs-hook.sh \
+		"$pkgdir"/etc/postmarketos-mkinitfs/hooks/00-${pkgname}.sh
+	install -D -m644 "$srcdir"/profile.sh \
+		"$pkgdir"/etc/profile.d/00-$pkgname.sh
+}
+
+sha512sums="3667ef367ee60074e59d8982f960d6e9fd264f487847f8516976b4a757c9f37fa199afc67a2355a6dd80f2f836ad9307a5f00d592d15c93a8f512c246caacd15  deviceinfo
+8590967fa10388a890fdfafdb1070b9ab22dc89e06a3a8834806c772191e3b67de7b914b0d68e5ddf581cee715cb90f3f24abcb8762c415ff328c6da23e55d52  initfs-hook.sh
+c3d0182161c33047e0af4fd7cc557037e10380896a771446f055a13813e50e4e6c9d5992de7b275a8373a053cca02cb96bcb50c732709a2e9909f903b5fba249  profile.sh"
