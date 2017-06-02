@@ -1,11 +1,11 @@
-pkgname=device-jolla-jbs
+pkgname=device-jolla-sbj
 pkgver=2
 pkgrel=2
 pkgdesc="Jolla phone"
 url="https://github.com/postmarketOS"
 arch="noarch"
 license="MIT"
-depends="linux-jolla-jbs"
+depends="linux-jolla-sbj"
 makedepends=""
 install=""
 subpackages=""
