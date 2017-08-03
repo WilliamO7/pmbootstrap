@@ -1,0 +1,12 @@
+diff --git a/drivers/staging/qcacld-2.0/Kbuild b/drivers/staging/qcacld-2.0/Kbuild
+index f08d9476376b..e9d20fc60935 100644
+--- a/drivers/staging/qcacld-2.0/Kbuild
++++ b/drivers/staging/qcacld-2.0/Kbuild
+@@ -965,7 +965,6 @@ CDEFINES :=	-DANI_LITTLE_BYTE_ENDIAN \
+ 		-DWLAN_PERF \
+ 		-DPTT_SOCK_SVC_ENABLE \
+ 		-Wall\
+-		-Werror\
+ 		-D__linux__ \
+ 		-DHAL_SELF_STA_PER_BSS=1 \
+ 		-DWLAN_FEATURE_VOWIFI_11R \

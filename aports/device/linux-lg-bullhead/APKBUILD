@@ -1,0 +1,115 @@
+# APKBUILD based on linux-vanilla aport. Changes:
+# - disabled module installation
+# - add !check !tracedeps
+# - package: just install zimage and kernel.release, because the kernel config
+#	does not generate modules or dtb files
+# - do not create -dev subpackage (makes no sense without module support)
+#
+# Kernel config based on: arch/arm/configs/bullhead_defconfig
+# Changes:
+# - enable devtmpfs (needed for udev -> touch support in weston)
+
+_vendor=lge
+_flavor=lg-bullhead
+_hash="495c80a60190f72b9244846f6b8ac2a463bef343"
+_config="config-${_flavor}.aarch64"
+
+pkgname=linux-${_flavor}
+pkgver=3.10.73
+case $pkgver in
+	*.*.*)  _kernver=${pkgver%.*};;
+	*.*) _kernver=$pkgver;;
+esac
+pkgrel=4
+arch="aarch64"
+pkgdesc="Nexus 5X kernel from LineageOS"
+url="https://github.com/LineageOS/android_kernel_lge_bullhead"
+depends="postmarketos-mkinitfs"
+makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev"
+options="!strip !check !tracedeps"
+install=
+source="
+	$pkgname-$_hash.tar.gz::https://github.com/LineageOS/android_kernel_lge_bullhead/archive/${_hash}.tar.gz
+	$_config
+	compiler-gcc6.h
+	makefile.patch
+	disable-werror-in-staging.patch
+"
+subpackages=""
+license="GPL2"
+
+_abi_release=${pkgver}
+_carch=${CARCH}
+case "$_carch" in
+aarch64*) _carch="arm64" ;;
+arm*) _carch="arm" ;;
+ppc*) _carch="powerpc" ;;
+s390*) _carch="s390" ;;
+esac
+HOSTCC="${CC:-gcc}"
+HOSTCC="${HOSTCC#${CROSS_COMPILE}}"
+
+ksrcdir="$srcdir/android_kernel_lge_bullhead-${_hash}"
+
+prepare() {
+	local _patch_failed=
+	cd "$ksrcdir"
+
+	# first apply patches in specified order
+	for i in $source; do
+		case $i in
+		*.patch)
+			msg "Applying $i..."
+			if ! patch -s -p1 -N -i "$srcdir"/$i; then
+				echo $i >>failed
+				_patch_failed=1
+			fi
+			;;
+		esac
+	done
+
+	if ! [ -z "$_patch_failed" ]; then
+		error "The following patches failed:"
+		cat failed
+		return 1
+	fi
+
+	# gcc6 support
+	cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/"
+
+	mkdir -p "$srcdir"/build
+	cp "$srcdir"/$_config "$srcdir"/build/.config || return 1
+	make -C "$ksrcdir" O="$srcdir"/build ARCH="$_carch" HOSTCC="$HOSTCC" \
+		silentoldconfig
+}
+
+
+
+# this is so we can do: 'abuild menuconfig' to reconfigure kernel
+menuconfig() {
+	cd "$srcdir"/build || return 1
+	make ARCH="$_carch" menuconfig
+	cp .config "$startdir"/$_config
+}
+
+build() {
+	cd "$srcdir"/build
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine" \
+		|| return 1
+}
+
+package() {
+	install -Dm644 "$srcdir/build/arch/arm64/boot/Image.gz-dtb" \
+		"$pkgdir/boot/vmlinuz-$_flavor"
+
+	install -D "$srcdir/build/include/config/kernel.release" \
+		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
+}
+
+sha512sums="eef66f778ed134f7ed16e0d01df26707d246bc40209af18ed33e5ba31aa8e3aab7238681d3e0db3ea175bcaaeac5614739df612993a9603ba2da7448fdf7347c  linux-lg-bullhead-495c80a60190f72b9244846f6b8ac2a463bef343.tar.gz
+289536d3928b52dfa2b1cb5d2e821cb7416ed34e1962ff464ff588977178ff135fc0530165fbc1caec7a7a67a90d1c79271eea5c7128497e0261c6f600633c75  config-lg-bullhead.aarch64
+d80980e9474c82ba0ef1a6903b434d8bd1b092c40367ba543e72d2c119301c8b2d05265740e4104ca1ac5d15f6c4aa49e8776cb44264a9a28dc551e0d1850dcc  compiler-gcc6.h
+16d6596e529b4017d83c73ae3d35f00c93faffcfb4e0fb342c0b2b24f9d7dd37d480324cc65aa638a89fce4a027abeb8c13574df97c222f3ae88860804291f17  makefile.patch
+d98f65bd943d3ad708e1dec61e877a6ab194507905cdad280c643aa15c2806d0815c0d0af95b03edb0403a26bad2098cac89e307844d4ff2cf6a5c5ed953e9c0  disable-werror-in-staging.patch"
