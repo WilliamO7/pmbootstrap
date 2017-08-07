@@ -1,0 +1,46 @@
+# Contributor:
+# Maintainer:
+_gitrel="14f791ac128a23eec5c48ac7c895c950cb213cd0"
+pkgname=anbox
+pkgver=0.0.0
+pkgrel=0
+pkgdesc="Android in a box"
+url="https://github.com/anbox/anbox"
+arch="all"
+license="GPLv3"
+depends="dbus-libs boost boost-filesystem boost-log boost-iostreams boost-program-options boost-system boost-test- boost-thread libcap protobuf-c sdl2 sdl2_image glib mesa-gles mesa-egl"
+makedepends="cmake boost-dev sdl2-dev sdl2_image-dev libcap-dev protobuf-dev protobuf-c-dev glib-dev mesa-dev"
+install=""
+subpackages="$pkgname-dev $pkgname-doc"
+source="
+	anbox.initd
+	anbox.confd
+	$pkgname-${_gitrel}.tar.gz::https://github.com/anbox/anbox/archive/${_gitrel}.tar.gz
+	"
+
+builddir="$srcdir"/$pkgname-${_gitrel}
+
+prepare() {
+	default_prepare
+	mkdir "$builddir"/build
+	cd "$builddir"/build
+	cmake ..
+}
+
+build() {
+	cd "$builddir"/build
+	make
+}
+
+package() {
+	cd "$builddir"
+
+	install -m755 -D "$srcdir"/$pkgname.initd \
+		"$pkgdir"/etc/init.d/$pkgname || return 1
+	install -m644 -D "$srcdir"/$pkgname.confd \
+		"$pkgdir"/etc/conf.d/$pkgname || return 1
+}
+
+sha512sums="512331fd6b4c5621c14b8bf07a94b2318dc33fea245de1e66d6385e1dc4cbfde7cb0d53507b46c85a11defe65a936cca40ace80df76130c7af2ef5999899892c  anbox.initd
+f11f0d192cd7823307c2ce4ddc7b3fff5190f72d3f65a5524b487021a95a222aca1fd36ab1eb58ed533e7acd555bfb70f0c8a13db20338ea31527f3151fd2bd7  anbox.confd
+6b3dd2ca5a994ae532e09bb91fc16423dc16976d9f0fb0ceea8e3eb88fa70ba8f477efff7fc9d9093c7ea184f91cd7c456ecbd0237ca213659b9939d472fc043  anbox-14f791ac128a23eec5c48ac7c895c950cb213cd0.tar.gz"

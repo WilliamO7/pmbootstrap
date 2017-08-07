@@ -1,0 +1,38 @@
+# Contributor:
+# Maintainer:
+pkgname=process-cpp
+pkgver=3.0.1
+pkgrel=0
+pkgdesc="C++11 library for handling processes"
+url="https://launchpad.net/process-cpp"
+arch="all"
+license="LGPL3"
+depends="boost properties-cpp"
+makedepends="boost-dev cmake doxygen properties-cpp-dev libexecinfo-dev musl-dev"
+install=""
+subpackages="$pkgname-dev"
+source="https://launchpad.net/ubuntu/+archive/primary/+files/process-cpp_3.0.1.orig.tar.gz"
+builddir="$srcdir/${pkgname}-${pkgver}"
+
+prepare() {
+	cd "$builddir"
+	truncate -s 0 tests/CMakeLists.txt
+}
+
+build() {
+	mkdir "$builddir"/build
+	cd "$builddir"/build
+	cmake .. \
+		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DPROCESS_CPP_ENABLE_DOC_GENERATION=no
+	make
+}
+
+package() {
+	cd "$builddir"/build
+	make DESTDIR="$pkgdir/" install
+}
+
+sha512sums="73f2d4501164ae9da7b2901e1a2ae3c55e55639f7579a7e15b64ebd1c6087cc49971f0c0f4b7c2eed4380a29dd59f03119edf95d5034066ce40e7467b82b3111  process-cpp_3.0.1.orig.tar.gz"

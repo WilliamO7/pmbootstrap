@@ -1,0 +1,40 @@
+# Contributor:
+# Maintainer:
+pkgname=dbus-cpp
+pkgver=5.0.0
+pkgrel=0
+pkgdesc="A header-only dbus-binding leveraging C++-11"
+url="https://code.launchpad.net/dbus-cpp"
+arch="all"
+license="LGPL3"
+depends="dbus libxml2 boost properties-cpp"
+makedepends="boost-dev cmake libxml2-dev properties-cpp-dev dbus-dev"
+install=""
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://launchpad.net/ubuntu/+archive/primary/+files/dbus-cpp_5.0.0+16.10.20160809.orig.tar.gz"
+
+prepare() {
+	cd "$srcdir"
+	# Don't build tests
+	truncate -s 0 tests/CMakeLists.txt
+}
+
+build() {
+	mkdir "$srcdir"/build
+	cd "$srcdir"/build
+	cmake .. \
+		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DDBUS_CPP_VERSION_MAJOR=5 \
+		-DDBUS_CPP_VERSION_MINOR=0 \
+		-DDBUS_CPP_VERSION_PATCH=0
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make DESTDIR="$pkgdir/" install
+}
+
+sha512sums="80a571b5e46a03915a48563368284f9549ee763bac359631939739c4eaa44fe166f2deda860688f43a46846a4abe0341a53d39b9f0e637c8f4f86669e126af8d  dbus-cpp_5.0.0+16.10.20160809.orig.tar.gz"
