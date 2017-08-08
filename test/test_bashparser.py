@@ -5,7 +5,7 @@ import pytest
 sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__) + "/..")))
 
-from pmb.parse.bash import BashParser
+from pmb.parse.shell import ShellParser
 
 
 @pytest.mark.parametrize("shell_script,expected", [
@@ -22,7 +22,7 @@ from pmb.parse.bash import BashParser
     ("foo=bar\nfoo=baz", {"foo": "baz"})
 ])
 def test_simple(shell_script, expected):
-    parsed = BashParser(shell_script)
+    parsed = ShellParser(shell_script)
     for key, value in expected.items():
         assert parsed.variables[key] == value
 
@@ -38,5 +38,5 @@ def test_apkbuild():
         "CROSS_COMPILE": "test"
     }
 
-    bash = BashParser(open(fixture), environment=env)
-    assert bash.variables["_flavor"] == "postmarketos"
+    shell = ShellParser(open(fixture), environment=env)
+    assert shell.variables["_flavor"] == "postmarketos"

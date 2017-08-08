@@ -1,7 +1,7 @@
 import re
 
 
-class BashParser:
+class ShellParser:
     REGEX_VARIABLE = re.compile(r"^([a-zA-Z0-9_]+)=(\"|)(.*?)(\"|)$")
     REGEX_NAME = re.compile(r"[a-zA-Z0-9_]")
 
