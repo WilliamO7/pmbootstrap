@@ -5,7 +5,10 @@ import pytest
 sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__) + "/..")))
 
+import pmb.helpers.logging
+
 from pmb.parse.shell import ShellParser
+from pmb.parse.apkbuild import apkbuild
 
 
 @pytest.mark.parametrize("shell_script,expected", [
@@ -40,3 +43,45 @@ def test_apkbuild():
 
     shell = ShellParser(open(fixture), environment=env)
     assert shell.variables["_flavor"] == "postmarketos"
+
+
+@pytest.fixture
+def args(request):
+    import pmb.parse
+    sys.argv = ["pmbootstrap.py", "chroot"]
+    args = pmb.parse.arguments()
+    args.log = args.work + "/log_testsuite.txt"
+    pmb.helpers.logging.init(args)
+    request.addfinalizer(args.logfd.close)
+    return args
+
+
+def test_apkbuild_parser(args):
+    fixture = "../aports/main/linux-postmarketos/APKBUILD"
+
+    result = apkbuild(args, fixture)
+    assert result["pkgname"] == "linux-postmarketos"
+
+    assert isinstance(result["arch"], list)
+    assert len(result["arch"]) == 1
+    assert result["arch"][0] == "all"
+
+    assert isinstance(result["depends"], list)
+    assert len(result["depends"]) == 1
+    assert result["depends"][0] == "postmarketos-mkinitfs"
+
+    assert isinstance(result["makedepends"], list)
+    assert len(result["makedepends"]) == 8
+    assert set(result["makedepends"]) == {"perl", "sed", "installkernel", "bash", "gmp-dev", "bc", "linux-headers",
+                                          "elfutils-dev"}
+
+    assert isinstance(result["options"], list)
+    assert len(result["options"]) == 3
+    assert set(result["options"]) == {"!strip", "!check", "!tracedeps"}
+
+    assert result["pkgrel"] == "4"
+    assert result["pkgver"] == "4.12.4"
+
+    assert isinstance(result["subpackages"], list)
+    assert len(result["subpackages"]) == 1
+    assert set(result["subpackages"]) == {"linux-postmarketos-dev"}
