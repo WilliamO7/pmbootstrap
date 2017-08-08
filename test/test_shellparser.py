@@ -5,8 +5,6 @@ import pytest
 sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__) + "/..")))
 
-import pmb.helpers.logging
-
 from pmb.parse.shell import ShellParser
 from pmb.parse.apkbuild import apkbuild
 
@@ -50,9 +48,6 @@ def args(request):
     import pmb.parse
     sys.argv = ["pmbootstrap.py", "chroot"]
     args = pmb.parse.arguments()
-    args.log = args.work + "/log_testsuite.txt"
-    pmb.helpers.logging.init(args)
-    request.addfinalizer(args.logfd.close)
     return args
 
 
