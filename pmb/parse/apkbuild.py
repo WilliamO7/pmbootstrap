@@ -78,7 +78,6 @@ def apkbuild(args, path):
                 ret[attribute] = ""
 
     # Properly format values
-    ret = replace_variables(ret)
     ret = cut_off_function_names(ret)
 
     # Sanity check: pkgname
@@ -90,6 +89,5 @@ def apkbuild(args, path):
                            " the folder, that contains the APKBUILD!")
 
     # Fill cache
-    ret = cut_off_function_names(ret)
     args.cache["apkbuild"][path] = ret
     return ret
