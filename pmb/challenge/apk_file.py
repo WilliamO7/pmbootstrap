@@ -100,6 +100,8 @@ def apk(args, apk_a, apk_b, stop_after_first_error=False):
                     member_a = tar_a.getmember(name)
                     member_b = tar_b.getmember(name)
                     if member_a.type != member_b.type:
+                        logging.info("NOTE: Type in " + apk_a + ": " + str(member_a.type))
+                        logging.info("NOTE: Type in " + apk_b + ": " + str(member_b.type))
                         raise RuntimeError(
                             "Entry '" + name + "' has a different type!")
 
