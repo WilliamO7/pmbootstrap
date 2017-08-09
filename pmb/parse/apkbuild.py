@@ -66,7 +66,10 @@ def apkbuild(args, path):
         if attribute in parsed.variables:
             value = parsed.variables[attribute]
             if options["array"]:
-                value = value.split(" ")
+                if value == "":
+                    value = []
+                else:
+                    value = value.split(" ")
             ret[attribute] = value
 
     # Add missing keys

@@ -48,7 +48,7 @@ def test_simple(shell_script, expected):
 
 
 def test_apkbuild():
-    fixture = "../aports/main/linux-postmarketos/APKBUILD"
+    fixture = "../aports/main/hello-world/APKBUILD"
 
     env = {
         "CARCH": "armhf",
@@ -59,7 +59,7 @@ def test_apkbuild():
     }
 
     shell = ShellParser(open(fixture), environment=env)
-    assert shell.variables["_flavor"] == "postmarketos"
+    assert shell.variables["pkgname"] == "hello-world"
 
 
 @pytest.fixture
@@ -71,31 +71,28 @@ def args(request):
 
 
 def test_apkbuild_parser(args):
-    fixture = "../aports/main/linux-postmarketos/APKBUILD"
+    fixture = "../aports/main/hello-world-wrapper/APKBUILD"
 
     result = apkbuild(args, fixture)
-    assert result["pkgname"] == "linux-postmarketos"
+    assert result["pkgname"] == "hello-world-wrapper"
 
     assert isinstance(result["arch"], list)
     assert len(result["arch"]) == 1
-    assert result["arch"][0] == "all"
+    assert result["arch"][0] == "noarch"
 
     assert isinstance(result["depends"], list)
     assert len(result["depends"]) == 1
-    assert result["depends"][0] == "postmarketos-mkinitfs"
+    assert result["depends"][0] == "hello-world"
 
     assert isinstance(result["makedepends"], list)
-    assert len(result["makedepends"]) == 8
-    assert set(result["makedepends"]) == {"perl", "sed", "installkernel", "bash", "gmp-dev", "bc", "linux-headers",
-                                          "elfutils-dev"}
+    assert len(result["makedepends"]) == 1
+    assert result["makedepends"][0] == "hello-world"
 
     assert isinstance(result["options"], list)
-    assert len(result["options"]) == 3
-    assert set(result["options"]) == {"!strip", "!check", "!tracedeps"}
+    assert len(result["options"]) == 0
 
-    assert result["pkgrel"] == "4"
-    assert result["pkgver"] == "4.12.4"
+    assert result["pkgrel"] == "1"
+    assert result["pkgver"] == "1"
 
     assert isinstance(result["subpackages"], list)
-    assert len(result["subpackages"]) == 1
-    assert set(result["subpackages"]) == {"linux-postmarketos-dev"}
+    assert len(result["subpackages"]) == 0
