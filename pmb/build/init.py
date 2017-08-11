@@ -35,8 +35,12 @@ def wrap_tar(args, suffix):
         with open(chroot + "/tmp/tar_wrapper.sh", "w") as handle:
             content = """
                 #!/bin/sh
-                # Reproducible file order, important for hardlinks
-                /bin/tar --sort=name "$@"
+                if [ "$1" == "-f" ] && [ "$2" == "-" ] && [ "$3" == "-c" ]; then
+                    # Getting called from apk, sort archive content
+                    /bin/tar --sort=name "$@"
+                else
+                    /bin/tar "$@"
+                fi
             """
             lines = content.split("\n")[1:]
             for i in range(len(lines)):
