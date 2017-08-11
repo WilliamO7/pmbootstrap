@@ -33,7 +33,11 @@ def generate(args, pkgname):
         "pkgdesc": "Stage2 cross-compiler for " + arch,
         "depends": "isl binutils-" + arch,
         "makedepends_build": "gcc g++ paxmark bison flex texinfo gawk zip gmp-dev mpfr-dev mpc1-dev zlib-dev",
-        "makedepends_host": "linux-headers gmp-dev mpfr-dev mpc1-dev isl-dev zlib-dev musl-dev-" + arch + " binutils-" + arch,
+        "makedepends_host": "linux-headers gmp-dev mpfr-dev mpc1-dev"
+                            " isl-dev zlib-dev musl-dev-" + arch +
+                            " binutils-" + arch +
+                            # busybox' tar does not create reproducible archives with hardlinks
+                            " tar",
         "subpackages": "g++-" + arch + ":gpp",
 
         "LIBGOMP": "false",
