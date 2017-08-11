@@ -51,6 +51,15 @@ def generate(args, pkgname):
         LANG_FORTRAN=false
         LANG_ADA=false
         options="!strip !tracedeps"
+
+        # Replace the hardlink of g++ and c++ to the same file with a symbolic link
+        # to make it reproducible (otherwise tar will randomly link one file or the
+        # other in the archive!)
+        package() {
+            _package
+            rm "$pkgdir"/usr/bin/"$CTARGET"-c++
+            ln -s "$pkgdir"/usr/bin/"$CTARGET"-g++ "$pkgdir"/usr/bin/"$CTARGET"-c++
+        }
     """
 
     replace_simple = {
@@ -63,7 +72,7 @@ def generate(args, pkgname):
         # object files, and these object files are inside the .a file in a random
         # order!). The best way would be to patch this upstream in gcc, but for now
         # we repackage the .a files to make sure, that they are reproducible.
-        '*package() {*': """package() {
+        '*package() {*': """_package() {
             # Repack the *.a files to be reproducible (see #64)
             _temp="$_builddir"/_reproducible-patch
             cd "$_builddir"
