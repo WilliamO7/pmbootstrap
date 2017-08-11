@@ -83,11 +83,7 @@ def generate(args, pkgname):
                 cp -v sorted.a "$_builddir"/"$f"
                 cd ..
                 rm -r "$_temp"
-            done
-
-            # tar does not create reproducible archives with hardlinks, so use
-            # symlinks instead.
-            export LN='ln -s'"""
+            done"""
     }
 
     pmb.aportgen.core.rewrite(

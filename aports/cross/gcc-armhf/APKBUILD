@@ -341,10 +341,6 @@ package() {
                 cd ..
                 rm -r "$_temp"
             done
-
-            # tar does not create reproducible archives with hardlinks, so use
-            # symlinks instead.
-            export LN='ln -s'
 	cd "$_builddir"
 	make -j1 DESTDIR="${pkgdir}" install
 
