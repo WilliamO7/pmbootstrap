@@ -26,6 +26,52 @@ import pmb.chroot.apk
 import pmb.helpers.run
 
 
+def wrap_tar(args, suffix):
+    """
+    Add tar wrapper, that adds options to make the archives deterministic
+    """
+    chroot = args.work + "/chroot_" + suffix
+    if not os.path.exists(chroot + "/usr/local/bin/tar"):
+        with open(chroot + "/tmp/tar_wrapper.sh", "w") as handle:
+            content = """
+                #!/bin/sh
+                # Reproducible file order, important for hardlinks
+                /bin/tar --sort=name "$@"
+            """
+            lines = content.split("\n")[1:]
+            for i in range(len(lines)):
+                lines[i] = lines[i][16:]
+            handle.write("\n".join(lines))
+        pmb.chroot.root(args, ["cp", "/tmp/tar_wrapper.sh", "/usr/local/bin/tar"],
+                        suffix)
+        pmb.chroot.root(args, ["chmod", "+x", "/usr/local/bin/tar"], suffix)
+
+
+def wrap_gzip(args, suffix):
+    # Add gzip wrapper, that converts '-9' to '-1'
+    chroot = args.work + "/chroot_" + suffix
+    if not os.path.exists(chroot + "/usr/local/bin/gzip"):
+        with open(chroot + "/tmp/gzip_wrapper.sh", "w") as handle:
+            content = """
+                #!/bin/sh
+                # Simple wrapper, that converts -9 flag for gzip to -1 for speed
+                # improvement with abuild. FIXME: upstream to abuild with a flag!
+                args=""
+                for arg in "$@"; do
+                    [ "$arg" == "-9" ] && arg="-1"
+                    args="$args $arg"
+                done
+                /bin/gzip $args
+            """
+            lines = content.split("\n")[1:]
+            for i in range(len(lines)):
+                lines[i] = lines[i][16:]
+            handle.write("\n".join(lines))
+        pmb.chroot.root(args, ["cp", "/tmp/gzip_wrapper.sh", "/usr/local/bin/gzip"],
+                        suffix)
+        pmb.chroot.root(args, ["chmod", "+x", "/usr/local/bin/gzip"], suffix)
+
+
 def init(args, suffix="native"):
     # Check if already initialized
     marker = "/var/local/pmbootstrap_chroot_build_init_done"
@@ -52,28 +98,6 @@ def init(args, suffix="native"):
             key = key[len(chroot):]
             pmb.chroot.root(args, ["cp", key, "/etc/apk/keys/"], suffix)
 
-    # Add gzip wrapper, that converts '-9' to '-1'
-    if not os.path.exists(chroot + "/usr/local/bin/gzip"):
-        with open(chroot + "/tmp/gzip_wrapper.sh", "w") as handle:
-            content = """
-                #!/bin/sh
-                # Simple wrapper, that converts -9 flag for gzip to -1 for speed
-                # improvement with abuild. FIXME: upstream to abuild with a flag!
-                args=""
-                for arg in "$@"; do
-                    [ "$arg" == "-9" ] && arg="-1"
-                    args="$args $arg"
-                done
-                /bin/gzip $args
-            """
-            lines = content.split("\n")[1:]
-            for i in range(len(lines)):
-                lines[i] = lines[i][16:]
-            handle.write("\n".join(lines))
-        pmb.chroot.root(args, ["cp", "/tmp/gzip_wrapper.sh", "/usr/local/bin/gzip"],
-                        suffix)
-        pmb.chroot.root(args, ["chmod", "+x", "/usr/local/bin/gzip"], suffix)
-
     # Add user to group abuild
     pmb.chroot.root(args, ["adduser", "user", "abuild"], suffix)
 
@@ -81,6 +105,10 @@ def init(args, suffix="native"):
     # inspect it afterwards for debugging
     pmb.chroot.root(args, ["sed", "-i", "-e", "s/^CLEANUP=.*/CLEANUP=''/",
                            "/etc/abuild.conf"], suffix)
+
+    # Wrap tar and gzip
+    wrap_tar(args, suffix)
+    wrap_gzip(args, suffix)
 
     # Mark the chroot as initialized
     pmb.chroot.root(args, ["touch", marker], suffix)
