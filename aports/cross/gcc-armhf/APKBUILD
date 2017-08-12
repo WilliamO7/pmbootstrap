@@ -12,13 +12,16 @@ LANG_FORTRAN=false
 LANG_ADA=false
 options="!strip !tracedeps"
 
-# Replace the hardlink of g++ and c++ to the same file with a symbolic link
-# to make it reproducible (otherwise tar will randomly link one file or the
-# other in the archive!)
+# Replace hardlinks with symlinks, otherwise the links inside the tar will not
+# be reproducible!
 package() {
 _package
-rm "$pkgdir"/usr/bin/"$CTARGET"-c++
-ln -s "$pkgdir"/usr/bin/"$CTARGET"-g++ "$pkgdir"/usr/bin/"$CTARGET"-c++
+
+echo "Replacing hardlinks with symlinks"
+rm -v "$pkgdir"/usr/bin/"$CTARGET"-c++
+ln -s -v "$pkgdir"/usr/bin/"$CTARGET"-g++ "$pkgdir"/usr/bin/"$CTARGET"-c++
+rm -v "$pkgdir"/usr/bin/"$CTARGET"-gcc-"$pkgver"
+ln -s -v "$pkgdir"/usr/bin/"$CTARGET"-gcc "$pkgdir"/usr/bin/"$CTARGET"-gcc-"$pkgver"
 }
 
 pkgname="gcc-armhf"
