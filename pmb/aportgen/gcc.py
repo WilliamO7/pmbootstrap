@@ -59,9 +59,9 @@ def generate(args, pkgname):
 
             echo "Replacing hardlinks with symlinks"
             rm -v "$pkgdir"/usr/bin/"$CTARGET"-c++
-            ln -s -v "$pkgdir"/usr/bin/"$CTARGET"-g++ "$pkgdir"/usr/bin/"$CTARGET"-c++
+            ln -s -v /usr/bin/"$CTARGET"-g++ "$pkgdir"/usr/bin/"$CTARGET"-c++
             rm -v "$pkgdir"/usr/bin/"$CTARGET"-gcc-"$pkgver"
-            ln -s -v "$pkgdir"/usr/bin/"$CTARGET"-gcc "$pkgdir"/usr/bin/"$CTARGET"-gcc-"$pkgver"
+            ln -s -v /usr/bin/"$CTARGET"-gcc "$pkgdir"/usr/bin/"$CTARGET"-gcc-"$pkgver"
         }
     """
 
