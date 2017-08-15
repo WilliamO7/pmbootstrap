@@ -11,6 +11,8 @@ rc-update add acpid default
 rc-update add hwdrivers boot
 # Enable networking service (requires /etc/interfaces, which is configured below)
 rc-update add networking default
+rc-update add networkmanager default
+rc-update add wpa_supplicant default
 
 # Add /boot mount point in fstab
 if [ -z "$(grep /boot /etc/fstab)" ]; then

@@ -1,21 +1,24 @@
 pkgname=postmarketos-base
 pkgver=2
-pkgrel=3
+pkgrel=4
 pkgdesc="Meta package for minimal postmarketos base"
 url="https://github.com/postmarketOS"
 arch="noarch"
 license="GPL3+"
 depends="alpine-base haveged cryptsetup wpa_supplicant iw openssh mosh
-tmux htop nano postmarketos-mkinitfs eudev sudo"
+tmux htop nano postmarketos-mkinitfs eudev sudo networkmanager"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""
-source="sudoers $install"
+source="sudoers networkmanager.conf $install"
 options="!check"
 
 package() {
 	install -D -m644 "$srcdir"/sudoers \
 		"$pkgdir"/etc/sudoers.d/postmarketos
+	install -D -m644 "$srcdir"/networkmanager.conf \
+		"$pkgdir"/etc/NetworkManager/conf.d/postmarketos.conf
 }
 sha512sums="c6de3b44bc45b9f9c641a7e34c69a481ee39b99ac0251cd28f2b3aae49c1a8d1ca448f4936b7942b1a8b8f7c18a5415c938098765ed8cf08456543800160e64b  sudoers
-2b243f7ac38b54cdbb834db45d0bb216c9343ec52aa2a0e4786cc925ef1503089fb1e8a2ca1e3dd833b8797c20c970b0e7989eea1da79d545bec36b233384315  postmarketos-base.post-install"
+f6750935cd304eb8c248f7bc65bed0c8bcd27c00bb8d0565f85ab8cfd5769cf5e8b1f27a7c851edc8236d80b014fb513e42951953fc403d8f47769776122e275  networkmanager.conf
+f5c9e005de1cdcd5cffe045dd0c46277d6611e2122fcf0f20163a3e773e1983c4b0d0abcdb24cbc8e7099360d793b325ada203d555b5d4623a3cc4ddc8af518e  postmarketos-base.post-install"

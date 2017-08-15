@@ -1,6 +1,6 @@
 pkgname=device-nokia-rx51
 pkgver=1
-pkgrel=12
+pkgrel=13
 pkgdesc="Nokia N900"
 url="https://github.com/postmarketOS"
 arch="noarch"
@@ -9,7 +9,7 @@ depends="linux-postmarketos uboot-tools linux-firmware"
 makedepends="uboot-tools"
 install="$pkgname.post-install"
 subpackages=""
-source="deviceinfo uboot-script.cmd backlight-enable.sh 90-touchscreen-dev.rules acpi_handler.sh acpi.map $install"
+source="deviceinfo uboot-script.cmd backlight-enable.sh 90-touchscreen-dev.rules acpi_handler.sh acpi.map profile.sh $install"
 options="!check"
 
 build() {
@@ -31,6 +31,8 @@ package() {
                 "$pkgdir"/etc/acpi/handler.sh
         install -D -m644 "$srcdir"/acpi.map\
                 "$pkgdir"/etc/acpi.map
+        install -D -m755 "$srcdir"/profile.sh\
+                "$pkgdir"/etc/profile.d/n900.sh
 }
 
 sha512sums="4efa28cfb35b0ceb783f15fbcf05d7302690d2d767ec7b87578741ccd52988fdc2095baf2a5ce66b964fb0cb151d05238f223a60a9a52c3670bd7b20ead2862a  deviceinfo
@@ -39,4 +41,5 @@ sha512sums="4efa28cfb35b0ceb783f15fbcf05d7302690d2d767ec7b87578741ccd52988fdc209
 98c554a709d6e8da5835bd792d833355d830fca1cfea12ec7fe4f41d1d1126389c51a8a392a7f94093473c19263cc6846cc40d7e179c2facf12db2d68ff923f9  90-touchscreen-dev.rules
 df5dcae9a32d04ba2fed8b4dbb8722f8d56d063a288dfbaeca37806bdbb8ba4de639b392859b9f24040a1032456d5dcd754f51314e3ab66515b91ae1e03c93a7  acpi_handler.sh
 7761aec6e6e219245b006e7bdc1d19812e9c5915cf3e64bb3dd46bb4b5570c1715650b53a1fc1007cb814076b5d81be0a66ba7ebf06d9a1fa4e364725c3ee633  acpi.map
-f5be149afc242543e4683532a703d7451e1b934e6c23363ea3bd38df307ae7cf657ac875cfb36152ad82f2dc056885fae8e65082eb8e3c73bd01ae44ed2224e8  device-nokia-rx51.post-install"
+98a1b848bcd80d260030c6e1c04da5f5ea7948a06bfd76792eae95bf879474b875ea39febd80e08e2d2cc6031c5b3defc884ed66478eeaeca1101ca80a789a1f  profile.sh
+c07057c78a38e18940223bcccb5fc5640cf9516f5da988abfafaeb4211393984870df49f4267a2deb4538f34bc4d385e8808b460aa10e6b5002d329935a2840e  device-nokia-rx51.post-install"

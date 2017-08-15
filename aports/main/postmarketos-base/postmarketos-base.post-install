@@ -49,5 +49,13 @@ if ! apk audit /etc | grep -q etc/motd; then
 	} >/etc/motd
 fi
 
+# Change wpa_supplicant into dbus mode and enable both drivers
+if ! apk audit /etc | grep -q etc/conf.d/wpa_supplicant; then
+	{
+		echo 'wpa_supplicant_args="-u -Dwext,nl80211"'
+	} >>/etc/conf.d/wpa_supplicant
+fi
+touch /etc/wpa_supplicant/wpa_supplicant.conf
+
 # Enable syslog to SHM. Note: size is 4048KiB, which *should* be More Than Enough(TM) for all but the most chattiest of devices.
 sed s/=\"/=\""-C4048 "/  -i /etc/conf.d/syslog
