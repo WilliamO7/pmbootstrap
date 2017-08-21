@@ -1,0 +1,24 @@
+pkgname=postmarketos-ui-plasma-mobile
+pkgver=1
+pkgrel=3
+pkgdesc="Meta package for Plasma Mobile"
+url="https://github.com/postmarketOS"
+arch="noarch"
+license="GPL3+"
+depends="plasma-mobile plasma-phone-components dbus-nox11
+	postmarketos-demos"
+makedepends=""
+install="$pkgname.post-install"
+subpackages=""
+source="start_plasma.sh startkwin.sh $install"
+options="!check"
+
+package() {
+	install -D -m644 "$srcdir"/start_plasma.sh \
+		"$pkgdir"/etc/profile.d/start_plasma.sh
+	install -D -m644 "$srcdir"/startkwin.sh \
+		"$pkgdir"/bin/startkwin.sh
+}
+sha512sums="83298b90e74df2045106563d6725c64cd0af01c9b277113fc4ad0212c75cde89138e277ead11e35cdaed2bcba23004a0cf8f660327f561a2ac4056cad8c06ef4  start_plasma.sh
+9ead220d9d67a2facb1e37c39e564caccc5130cb823e6dfb8b4bb4b89ef72e0e673955783262da542965a795d01e7838adc82e64a677fc1a420d0854119808f9  startkwin.sh
+cf19f180b35d141142e6b70070ce3fc256686e9ca7da666d693c1e409fb56b95976fe85a90f6d3edf93e6a4483217af0f4335183ee9e301b94ad583aa1c7c049  postmarketos-ui-plasma-mobile.post-install"
