@@ -6,7 +6,7 @@ url="https://github.com/postmarketOS"
 arch="noarch"
 license="GPL3+"
 depends="plasma-mobile plasma-phone-components dbus-nox11
-	postmarketos-demos"
+	breeze-icons postmarketos-demos"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""
