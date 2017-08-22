@@ -8,6 +8,7 @@ pkgdesc='Provides APIs for Wayland'
 depends="qt5-qtdeclarative libxcomposite wayland"
 makedepends="qt5-qtbase-dev libxkbcommon-dev"
 source="http://download.qt.io/official_releases/qt/${pkgver%.*}/${pkgver}/submodules/${pkgname/qt5-/}-opensource-src-$pkgver.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc"
 
 prepare() {
 	mkdir -p $srcdir/build

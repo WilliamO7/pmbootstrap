@@ -5,8 +5,8 @@ pkgdesc='Syntax highlighting engine for structured text and code'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="GPL2"
-depends="qt5-qtbase"
-makedepends="extra-cmake-modules qt5-qttools-dev doxygen"
+depends=""
+makedepends="extra-cmake-modules qt5-qtbase qt5-qttools-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz
         apkbuild-syntax-highlight.patch
 		remove-broken-regex.patch"

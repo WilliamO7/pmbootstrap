@@ -5,8 +5,7 @@ pkgdesc='An easy to use, but flexible, composited Window Manager'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
-depends="xcb-util-cursor xcb-util-keysyms hicolor-icon-theme plasma-framework libinput
-		 consolekit2 xorg-server-xwayland breeze"
+depends="xorg-server-xwayland consolekit2"
 makedepends="extra-cmake-modules qt5-qttools-dev kdoctools-dev kdecoration-dev kjobwidgets-dev
 			 libxkbcommon-dev libepoxy-dev libinput-dev kcmutils-dev kscreenlocker-dev
 			 breeze-dev xcb-util-cursor-dev qt5-qtdeclarative-dev qt5-qtscript-dev kcompletion-dev
@@ -15,7 +14,8 @@ makedepends="extra-cmake-modules qt5-qttools-dev kdoctools-dev kdecoration-dev k
 			 kconfigwidgets-dev kcoreaddons-dev ki18n-dev kpackage-dev kwidgetsaddons-dev
 			 kwindowsystem-dev kidletime-dev kauth-dev kcodecs-dev ktextwidgets-dev
 			 knewstuff-dev kservice-dev kxmlgui-dev kbookmarks-dev kwayland-dev attica-qt5-dev
-			 sonnet-dev kitemviews-dev solid-dev kdeclarative-dev"
+			 sonnet-dev kitemviews-dev solid-dev kdeclarative-dev libdrm-dev eudev-dev
+			 mesa-gbm mesa-libwayland-egl"
 source="https://download.kde.org/stable/plasma/${pkgver}/${pkgname}-${pkgver}.tar.xz
 		D6291.patch"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"

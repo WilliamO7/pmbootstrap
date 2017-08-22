@@ -5,7 +5,7 @@ pkgdesc='Advanced text editing widgets'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kcompletion kservice kiconthemes sonnet"
+depends=""
 makedepends="extra-cmake-modules python doxygen qt5-qttools-dev kcompletion sonnet-dev kauth-dev
 			 kiconthemes-dev kservice-dev kcompletion-dev kconfig-dev kconfigwidgets-dev kcoreaddons-dev
 			 kcodecs-dev kwidgetsaddons-dev ki18n-dev kwindowsystem-dev"

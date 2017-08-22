@@ -5,8 +5,8 @@ pkgdesc="Telepathy GLib-based client library that uses Farstream to handle Call 
 arch="all"
 url="https://telepathy.freedesktop.org/components/telepathy-farstream/"
 license="LGPL2.1"
-depends="telepathy-glib farstream"
-makedepends="dbus-glib-dev file python2 telepathy-glib-dev farstream-dev farstream gtk-doc
+depends=""
+makedepends="dbus-glib-dev file python2 telepathy-glib telepathy-glib-dev farstream-dev gtk-doc
 			 autoconf automake libtool gobject-introspection-dev"
 source="https://github.com/TelepathyIM/$pkgname/archive/$pkgname-$pkgver.tar.gz"
 subpackages="$pkgname-dev $pkgname-doc"

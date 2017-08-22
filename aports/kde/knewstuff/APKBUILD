@@ -5,7 +5,7 @@ pkgdesc='Support for downloading application assets from the network'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kio"
+depends="qt5-qtquickcontrols"
 makedepends="extra-cmake-modules python doxygen qt5-qttools-dev attica-qt5 karchive-dev
 			 kio-dev kservice-dev kbookmarks-dev kjobwidgets-dev solid-dev kxmlgui-dev
 			 qt5-qtdeclarative-dev qt5-qtquickcontrols kcompletion-dev kcoreaddons-dev ki18n-dev

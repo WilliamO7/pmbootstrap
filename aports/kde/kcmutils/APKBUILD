@@ -5,7 +5,7 @@ pkgdesc='Utilities for interacting with KCModules'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kdeclarative"
+depends=""
 makedepends="extra-cmake-modules python doxygen qt5-qttools-dev kdeclarative-dev kiconthemes-dev
 			 kpackage-dev qt5-qtdeclarative-dev kitemviews-dev kconfigwidgets-dev kauth-dev
 			 kcoreaddons-dev kcodecs-dev kconfig-dev kwidgetsaddons-dev ki18n-dev kservice-dev

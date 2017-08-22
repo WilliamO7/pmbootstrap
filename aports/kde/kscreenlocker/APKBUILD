@@ -5,8 +5,8 @@ pkgdesc='Library and components for secure lock screen architecture'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
-depends="kidletime kwayland kdeclarative"
-makedepends="extra-cmake-modules python kdoctools-dev kcmutils-dev libxcursor
+depends=""
+makedepends="extra-cmake-modules python kdoctools-dev kcmutils-dev libxcursor consolekit2-dev
 			 linux-pam-dev kidletime-dev kwayland-dev kdeclarative-dev qt5-qtdeclarative-dev
 			 kcrash-dev kdeclarative-dev kglobalaccel-dev ki18n-dev ktextwidgets-dev
 			 kwindowsystem-dev kxmlgui-dev kconfig-dev sonnet-dev kconfigwidgets-dev

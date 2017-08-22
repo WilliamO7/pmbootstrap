@@ -5,7 +5,7 @@ pkgdesc='Provides integration of QML and KDE Frameworks'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kio kpackage libepoxy"
+depends=""
 makedepends="extra-cmake-modules python doxygen qt5-qttools-dev kpackage-dev kconfig-dev kiconthemes-dev
 			 kio-dev kguiaddons-dev qt5-qtdeclarative-dev ki18n-dev kcoreaddons-dev kservice-dev
 			 kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev kjobwidgets-dev

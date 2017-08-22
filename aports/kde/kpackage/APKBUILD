@@ -5,7 +5,7 @@ pkgdesc='Framework that lets applications manage user installable packages of no
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="karchive ki18n"
+depends=""
 makedepends="extra-cmake-modules qt5-qttools-dev python kdoctools-dev kcoreaddons-dev karchive-dev
 			 ki18n-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"

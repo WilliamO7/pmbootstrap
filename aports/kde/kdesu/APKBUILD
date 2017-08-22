@@ -5,7 +5,7 @@ pkgdesc='Integration with su for elevated privileges'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kservice kpty"
+depends=""
 makedepends="extra-cmake-modules python qt5-qttools-dev kpty-dev kservice-dev kconfig-dev kcoreaddons-dev
 			 ki18n-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"

@@ -5,7 +5,7 @@ pkgdesc='Porting aid from KDELibs4'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kunitconversion kitemmodels kemoticons kded kparts"
+depends=""
 makedepends="extra-cmake-modules kdoctools-dev qt5-qttools-dev networkmanager perl-uri
 			 python kdesignerplugin kunitconversion-dev kemoticons-dev kded-dev kparts-dev qt5-qtsvg-dev
 			 qt5-x11extras-dev kcompletion-dev kconfig-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev

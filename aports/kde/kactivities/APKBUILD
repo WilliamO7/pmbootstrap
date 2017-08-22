@@ -5,7 +5,7 @@ arch="all"
 pkgdesc="Core components for the KDE's Activities"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kcoreaddons kconfig kwindowsystem qt5-qtdeclarative kio"
+depends=""
 makedepends="extra-cmake-modules boost python doxygen qt5-qttools-dev kcoreaddons-dev kconfig-dev
 			 kwindowsystem-dev qt5-qtdeclarative-dev kio-dev boost-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz"

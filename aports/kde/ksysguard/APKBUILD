@@ -5,13 +5,13 @@ pkgdesc='Track and control the processes running in your system'
 arch="all"
 url='https://userbase.kde.org/KSysGuard'
 license="LGPL"
-depends="lm_sensors hicolor-icon-theme"
+depends=""
 makedepends="extra-cmake-modules kdoctools-dev python libksysguard-dev attica-qt5-dev
 			 kinit-dev kxmlgui-dev kconfig-dev kcoreaddons-dev kdbusaddons-dev ki18n-dev
 			 kiconthemes-dev kitemviews-dev kio-dev knotifications-dev kservice-dev
 			 kio-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kjobwidgets-dev
 			 solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwindowsystem-dev
-			 knewstuff-dev"
+			 knewstuff-dev qt5-qtbase-dev"
 source="https://download.kde.org/stable/plasma/${pkgver}/$pkgname-$pkgver.tar.xz
 		 D6631.patch"
 subpackages="$pkgname-doc $pkgname-lang"

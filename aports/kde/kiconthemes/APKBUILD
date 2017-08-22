@@ -5,7 +5,7 @@ pkgdesc='Support for icon themes'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="qt5-qtsvg kconfigwidgets kitemviews karchive"
+depends=""
 makedepends="extra-cmake-modules python mesa-dev doxygen qt5-qttools-dev qt5-qtsvg-dev kitemviews-dev
 			 kconfigwidgets-dev karchive-dev ki18n-dev kcoreaddons-dev kauth-dev kcodecs-dev
 			 kconfig-dev kwidgetsaddons-dev"

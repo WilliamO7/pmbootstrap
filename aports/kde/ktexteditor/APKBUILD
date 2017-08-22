@@ -5,10 +5,12 @@ pkgdesc='Advanced embeddable text editor'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="libgit2"
-makedepends="extra-cmake-modules python qt5-qttools-dev qt5-qtxmlpatterns-dev syntax-highlighting
+depends=""
+makedepends="extra-cmake-modules python qt5-qttools-dev qt5-qtxmlpatterns-dev syntax-highlighting-dev
 			 qt5-qtscript-dev kparts-dev karchive-dev kguiaddons-dev ktextwidgets-dev sonnet-dev
-			 syntax-highlighting-dev"
+			 kconfig-dev ki18n-dev kio-dev kcoreaddons-dev kservice-dev kbookmarks-dev kwidgetsaddons-dev
+			 kcompletion-dev kitemviews-dev kjobwidgets-dev solid-dev kxmlgui-dev kconfigwidgets-dev
+			 kauth-dev kcodecs-dev kiconthemes-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 

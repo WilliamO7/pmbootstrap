@@ -5,8 +5,9 @@ pkgdesc="A library for extracting file metadata"
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="ki18n karchive exiv2 poppler-qt5 taglib ffmpeg"
-makedepends="extra-cmake-modules python qt5-qttools-dev attr-dev doxygen ki18n-dev"
+depends=""
+makedepends="extra-cmake-modules python qt5-qttools-dev attr-dev doxygen ki18n-dev ffmpeg-dev
+			exiv2-dev taglib-dev karchive-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 

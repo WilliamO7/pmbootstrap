@@ -5,8 +5,8 @@ pkgdesc='Qt-style Client and Server library wrapper for the Wayland libraries'
 arch="all"
 url='https://www.kde.org'
 license="LGPL"
-depends="qt5-qtbase wayland"
-makedepends="extra-cmake-modules doxygen qt5-qttools-dev"
+depends="wayland"
+makedepends="extra-cmake-modules doxygen qt5-qtbase qt5-qttools-dev wayland-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 

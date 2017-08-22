@@ -5,7 +5,7 @@ pkgdesc='A library that provides access to all contacts and the people who hold 
 arch="all"
 url='https://community.kde.org/Frameworks'
 license=LGPL
-depends="kservice kwidgetsaddons kitemviews qt5-qtdeclarative"
+depends=""
 makedepends="extra-cmake-modules python mesa-dev qt5-qttools-dev qt5-qtdeclarative-dev kcoreaddons-dev
 			 kwidgetsaddons-dev ki18n-dev kitemviews-dev kservice-dev kconfig-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"

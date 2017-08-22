@@ -5,7 +5,7 @@ pkgdesc='Document centric plugin system'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kio"
+depends=""
 makedepends="extra-cmake-modules python qt5-qttools-dev kio-dev kiconthemes-dev ktextwidgets-dev
 			 sonnet-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev kjobwidgets-dev
 			 solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev kconfig-dev kcoreaddons-dev

@@ -5,7 +5,7 @@ pkgdesc='Support for emoticons and emoticons themes'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="karchive kservice"
+depends=""
 makedepends="extra-cmake-modules python mesa-dev doxygen qt5-qttools-dev karchive-dev kconfig-dev
 			 kservice-dev kcoreaddons-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"

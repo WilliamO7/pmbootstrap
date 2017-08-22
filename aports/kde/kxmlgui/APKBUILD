@@ -5,7 +5,7 @@ pkgdesc='User configurable main windows'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kglobalaccel ktextwidgets"
+depends=""
 makedepends="extra-cmake-modules python mesa-dev doxygen qt5-qttools-dev ktextwidgets-dev
 			 kglobalaccel-dev attica-qt5-dev kcoreaddons-dev kitemviews-dev kconfig-dev
 			 kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev ki18n-dev kiconthemes-dev

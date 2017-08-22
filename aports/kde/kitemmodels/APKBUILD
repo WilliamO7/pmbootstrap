@@ -5,8 +5,8 @@ pkgdesc='Models for Qt Model/View system'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="qt5-qtbase"
-makedepends="extra-cmake-modules py3-qt5 clang qt5-qttools-dev doxygen"
+depends=""
+makedepends="extra-cmake-modules py3-qt5 clang qt5-qtbase-dev qt5-qttools-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 

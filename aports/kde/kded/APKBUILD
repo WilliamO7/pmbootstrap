@@ -5,9 +5,9 @@ pkgdesc='Extensible deamon for providing system level services'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends="kinit"
+depends=""
 makedepends="extra-cmake-modules kdoctools-dev kinit-dev kcrash-dev kdbusaddons-dev kconfig-dev
-			 kcoreaddons-dev kservice-dev"
+			 kcoreaddons-dev kservice-dev qt5-qtbase-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
