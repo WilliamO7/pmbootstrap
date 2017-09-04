@@ -127,3 +127,35 @@ def test_apkbuild_parser_kernel(args):
     assert isinstance(result["subpackages"], list)
     assert len(result["subpackages"]) == 1
     assert set(result["subpackages"]) == {"linux-postmarketos-dev"}
+
+
+def test_apkbuild_parser_gcc(args):
+    fixture = "data/test_shellparser/gcc-armhf/APKBUILD"
+
+    result = apkbuild(args, fixture)
+    assert result["pkgname"] == "gcc-armhf"
+
+    assert isinstance(result["arch"], list)
+    assert len(result["arch"]) == 1
+    assert result["arch"][0] == "all"
+
+    assert isinstance(result["depends"], list)
+    assert len(result["depends"]) == 2
+    assert set(result["depends"]) == {"binutils-armhf", "isl"}
+
+    assert isinstance(result["makedepends"], list)
+    assert len(result["makedepends"]) == 20
+    assert set(result["makedepends"]) == {"bison", "texinfo", "gcc", "binutils-armhf", "gawk", "mpc1-dev", "g++",
+                                          "paxmark", "linux-headers", "musl-dev-armhf", "mpfr-dev", "zip", "gmp-dev",
+                                          "zlib-dev", "flex", "isl-dev"}
+
+    assert isinstance(result["options"], list)
+    assert len(result["options"]) == 2
+    assert set(result["options"]) == {"!strip", "!tracedeps"}
+
+    assert result["pkgrel"] == "5"
+    assert result["pkgver"] == "6.4.0"
+
+    assert isinstance(result["subpackages"], list)
+    assert len(result["subpackages"]) == 1
+    assert set(result["subpackages"]) == {"g++-armhf"}

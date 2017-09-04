@@ -29,6 +29,7 @@ class ShellParser:
     STATE_RAW = 0
     STATE_SUBST_COMPLEX = 1
     STATE_SUBST_SIMPLE = 2
+    STATE_SUBST_SHELL = 3
 
     def __init__(self, data, environment=None):
         """Parse shell script for global variables
@@ -95,6 +96,8 @@ class ShellParser:
                 else:
                     if value[i + 1] == "{":
                         state = self.STATE_SUBST_COMPLEX
+                    elif value[i + 1] == "(":
+                        state = self.STATE_SUBST_SHELL
                     else:
                         state = self.STATE_SUBST_SIMPLE
 
@@ -132,6 +135,20 @@ class ShellParser:
                         processed += label_value
                         state = self.STATE_RAW
 
+                else:
+                    stack[-1] += char
+            elif state == self.STATE_SUBST_SHELL:
+                if char == "(":
+                    stack.append("")
+                elif char == ")":
+                    label = stack.pop()
+                    if len(stack) > 0:
+                        # Append completed stack level to previous stack (unprocessed)
+                        stack[-1] += label
+                    else:
+                        # This was the last nesting level, return unprocessed substitution
+                        processed += label
+                        state = self.STATE_RAW
                 else:
                     stack[-1] += char
             i += 1
