@@ -211,4 +211,24 @@ class ShellParser:
                 return variable[len(pattern):]
             return variable
 
+        if '%%' in label:
+            variable, pattern = label.split('%%')
+            regex = self._glob_to_regex(pattern)
+            variable = regex.sub("", variable)
+            return variable
+
+        if '%' in label:
+            variable, pattern = label.split('%')
+            regex = self._glob_to_regex(pattern)
+            variable = regex.sub("", variable)
+            return variable
+
+        if '/' in label:
+            variable, search, replace = label.split('/')
+            return variable.replace(search, replace)
+
         raise KeyError("Could not find variable {}".format(label))
+
+    def _glob_to_regex(self, globline):
+        regex = globline.replace("*", ".+")
+        return re.compile(regex)
