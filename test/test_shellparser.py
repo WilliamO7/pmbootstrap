@@ -24,6 +24,7 @@ import pytest
 sys.path.append(os.path.abspath(
     os.path.join(os.path.dirname(__file__) + "/..")))
 
+import glob
 from pmb.parse.shell import ShellParser
 from pmb.parse.apkbuild import apkbuild
 
@@ -159,3 +160,19 @@ def test_apkbuild_parser_gcc(args):
     assert isinstance(result["subpackages"], list)
     assert len(result["subpackages"]) == 1
     assert set(result["subpackages"]) == {"g++-armhf"}
+
+
+def test_all_apkbuilds():
+    """ Test all APKBUILD files in the aports directory for crashes """
+    for fixture in glob.glob("../aports/**/APKBUILD", recursive=True):
+        env = {
+            "CARCH": "armhf",
+            "srcdir": "/home/src",
+            "CBUILD_ARCH": "arm",
+            "_kernver": "1.2.3",
+            "CROSS_COMPILE": "test"
+        }
+
+        ShellParser(open(fixture), environment=env)
+        # Assert here is just to show the tests in the counter
+        assert True
