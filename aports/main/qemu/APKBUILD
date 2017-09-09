@@ -50,61 +50,7 @@ options="suid !strip"  # needed for qemu-bridge-helper
 subpackages="$pkgname-doc $pkgname-guest-agent:guest"
 
 _subsystems="
-	aarch64
-	alpha
-	arm
-	armeb
-	cris
-	i386
-	m68k
-	microblaze
-	microblazeel
-	mips
-	mips64
-	mips64el
-	mipsel
-	mipsn32
-	mipsn32el
-	or1k
-	ppc
-	ppc64
-	ppc64abi32
-	ppc64le
-	s390x
-	sh4
-	sh4eb
-	sparc
-	sparc32plus
-	sparc64
-	system-aarch64
-	system-alpha
-	system-arm
-	system-cris
-	system-i386
-	system-lm32
-	system-m68k
-	system-microblaze
-	system-microblazeel
-	system-mips
-	system-mips64
-	system-mips64el
-	system-mipsel
-	system-moxie
-	system-nios2
-	system-or1k
-	system-ppc
-	system-ppc64
-	system-ppcemb
-	system-s390x
-	system-sh4
-	system-sh4eb
-	system-sparc
-	system-sparc64
-	system-tricore
-	system-unicore32
 	system-x86_64
-	system-xtensa
-	system-xtensaeb
 	x86_64
 	"
 for _sub in $_subsystems; do
