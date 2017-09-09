@@ -3,8 +3,9 @@
 # Contributor: Jakub Jirutka <jakub@jirutka.cz>
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=qemu
-pkgver=2.9.0
-pkgrel=2
+pkgver=9999
+_pkgver=2.9.0
+pkgrel=1
 pkgdesc="QEMU is a generic machine emulator and virtualizer"
 url="http://qemu.org/"
 arch="all"
@@ -30,16 +31,19 @@ makedepends="
 	lzo-dev
 	ncurses-dev
 	paxmark
+	sdl-dev
+	sdl2-dev
 	snappy-dev
 	spice-dev
 	texinfo
 	usbredir-dev
 	util-linux-dev
 	vde2-dev
+	virglrenderer-dev
 	xfsprogs-dev
 	zlib-dev
 	"
-depends=""
+depends="virglrenderer mesa-dri-virtio mesa-dri-swrast"
 pkggroups="qemu"
 install="$pkgname.pre-install $pkgname.post-install"
 options="suid !strip"  # needed for qemu-bridge-helper
@@ -119,7 +123,7 @@ fi
 
 subpackages="$subpackages $pkgname-img"  # -img must be declared the last
 
-source="http://wiki.qemu-project.org/download/$pkgname-$pkgver.tar.bz2
+source="http://wiki.qemu-project.org/download/$pkgname-$_pkgver.tar.bz2
 	0001-elfload-load-PIE-executables-to-right-address.patch
 	0006-linux-user-signal.c-define-__SIGRTMIN-MAX-for-non-GN.patch
 	0001-linux-user-fix-build-with-musl-on-aarch64.patch
@@ -135,7 +139,7 @@ source="http://wiki.qemu-project.org/download/$pkgname-$pkgver.tar.bz2
 	80-kvm.rules
 	bridge.conf
 	"
-builddir="$srcdir/$pkgname-$pkgver"
+builddir="$srcdir/$pkgname-$_pkgver"
 
 # secfixes:
 #   2.8.1-r1:
@@ -174,6 +178,8 @@ prepare() {
 }
 
 _compile_common() {
+	#--enable-sdl \
+	#--with-sdlabi=2.0 \
 	"$builddir"/configure \
 		--prefix=/usr \
 		--localstatedir=/var \
@@ -183,8 +189,8 @@ _compile_common() {
 		--disable-debug-info \
 		--disable-bsd-user \
 		--disable-werror \
-		--disable-sdl \
 		--disable-xen \
+		--enable-virglrenderer \
 		--cc="${CC:-gcc}" \
 		"$@"
 	make ARFLAGS="rc"
@@ -230,8 +236,7 @@ build() {
 		--enable-vnc-png \
 		--enable-vnc-jpeg \
 		--enable-spice \
-		--enable-guest-agent \
-		--disable-gtk
+		--enable-guest-agent
 
 
 # tests fails on x86
