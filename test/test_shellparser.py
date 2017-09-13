@@ -29,6 +29,19 @@ from pmb.parse.shell import ShellParser
 from pmb.parse.apkbuild import apkbuild
 
 
+@pytest.fixture
+def args(request):
+    import pmb.parse
+    sys.argv = ["pmbootstrap.py", "chroot"]
+    args = pmb.parse.arguments()
+    return args
+
+
+@pytest.fixture
+def testdir(request):
+    return os.path.dirname(__file__)
+
+
 @pytest.mark.parametrize("shell_script,expected", [
     ("TEST=ABC", {"TEST": "ABC"}),
     ("TEST=\"ABC\"", {"TEST": "ABC"}),
@@ -48,8 +61,8 @@ def test_simple(shell_script, expected):
         assert parsed.variables[key] == value
 
 
-def test_apkbuild():
-    fixture = "../aports/main/hello-world/APKBUILD"
+def test_apkbuild(args):
+    fixture = args.aports + "/main/hello-world/APKBUILD"
 
     env = {
         "CARCH": "armhf",
@@ -63,16 +76,8 @@ def test_apkbuild():
     assert shell.variables["pkgname"] == "hello-world"
 
 
-@pytest.fixture
-def args(request):
-    import pmb.parse
-    sys.argv = ["pmbootstrap.py", "chroot"]
-    args = pmb.parse.arguments()
-    return args
-
-
 def test_apkbuild_parser_helloworld(args):
-    fixture = "../aports/main/hello-world-wrapper/APKBUILD"
+    fixture = args.aports + "/main/hello-world-wrapper/APKBUILD"
 
     result = apkbuild(args, fixture)
     assert result["pkgname"] == "hello-world-wrapper"
@@ -99,8 +104,8 @@ def test_apkbuild_parser_helloworld(args):
     assert len(result["subpackages"]) == 0
 
 
-def test_apkbuild_parser_kernel(args):
-    fixture = "data/test_shellparser/linux-postmarketos/APKBUILD"
+def test_apkbuild_parser_kernel(args, testdir):
+    fixture = testdir + "/data/test_shellparser/linux-postmarketos/APKBUILD"
 
     result = apkbuild(args, fixture)
     assert result["pkgname"] == "linux-postmarketos"
@@ -130,8 +135,8 @@ def test_apkbuild_parser_kernel(args):
     assert set(result["subpackages"]) == {"linux-postmarketos-dev"}
 
 
-def test_apkbuild_parser_gcc(args):
-    fixture = "data/test_shellparser/gcc-armhf/APKBUILD"
+def test_apkbuild_parser_gcc(args, testdir):
+    fixture = testdir + "/data/test_shellparser/gcc-armhf/APKBUILD"
 
     result = apkbuild(args, fixture)
     assert result["pkgname"] == "gcc-armhf"
@@ -162,9 +167,9 @@ def test_apkbuild_parser_gcc(args):
     assert set(result["subpackages"]) == {"g++-armhf"}
 
 
-def test_all_apkbuilds():
+def test_all_apkbuilds(args):
     """ Test all APKBUILD files in the aports directory for crashes """
-    for fixture in glob.glob("../aports/**/APKBUILD", recursive=True):
+    for fixture in glob.glob(args.aports + "/*/*/APKBUILD"):
         env = {
             "CARCH": "armhf",
             "srcdir": "/home/src",
