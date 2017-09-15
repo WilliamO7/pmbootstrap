@@ -1,5 +1,5 @@
 pkgname=plasma-workspace
-pkgver=5.10.4
+pkgver=5.10.5
 pkgrel=0
 pkgdesc='KDE Plasma Workspace'
 arch="all"
@@ -47,5 +47,5 @@ package() {
 
 	install -Dm644 plasmawayland.desktop "$pkgdir"/usr/share/wayland-sessions/plasmawayland.desktop
 }
-sha512sums="4bfcb18f73c4df0b4342e00b94ca375cc0ec1968e0f30ca8e14366dae5723ba9491fd073fc4408a9ae64c2efa52e72efd7e474e15b0cc4c65e1d42f1fe57170a  plasma-workspace-5.10.4.tar.xz
+sha512sums="2b205c5bf1fbdfd3713594292565ea6922c0d82fd12ef43c82e8bbc18049293a5d357460889e5be7ed2a185dd89bb8b77df90bad5d572b2472486e84bdb8bfa2  plasma-workspace-5.10.5.tar.xz
 39c114084b224131d80a77742865c448b54ac1877426ec5591e58f142bbe77fe85d1717c82fe7c8d09b1aa77f7833664e406fbae04254b4e974f09a32486fa31  kde.pam"

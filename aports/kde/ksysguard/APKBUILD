@@ -1,5 +1,5 @@
 pkgname=ksysguard
-pkgver=5.10.4
+pkgver=5.10.5
 pkgrel=1
 pkgdesc='Track and control the processes running in your system'
 arch="all"
@@ -37,5 +37,5 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="3bcb4730ffca30cadf8838ef196b3ebc40e40460d86d1ba28b1778f7c4dc6bb72a875f9ddc28e4211fa232fbddbad90b6742d6ec88471e907dff8fd9e01a2bab  ksysguard-5.10.4.tar.xz
+sha512sums="ce94cca9a0b2b68355a650d0355d243c02ab0b551add1d4fd779e8baae90e2110d72e204c9515031d1faf028f4cdb752fa351e7404b7df356d65a2b37bc8856c  ksysguard-5.10.5.tar.xz
 9125d313335d82a6eaa206b1dcf053be380854978592e1f3cd9cf9977e4d78d105893d9c456d9f79665dd6922d8bd9801e593afe392c4629713949b342093153  D6631.patch"

@@ -1,5 +1,5 @@
 pkgname=kwin
-pkgver=5.10.4
+pkgver=5.10.5
 pkgrel=1
 pkgdesc='An easy to use, but flexible, composited Window Manager'
 arch="all"
@@ -43,5 +43,5 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="54f61e01a7e4dfd980440c0b80da54494d6f9d0f0180dedf82d7de923033d5aae11d8af35b78260b7c8977ed6b78dbdd32a40706e3c05420cdbcbe4277120d2b  kwin-5.10.4.tar.xz
+sha512sums="b679dac07b7cc71c9ac7f4755282f8e30d5c2757c7cf9f29ed4f7653c70832140171e1227299a726af8aef1919db83b115dc4091ff80851b0afc53a4cf06840a  kwin-5.10.5.tar.xz
 c693354311a0fe4064746633a30b205a22bf90f69cae648d1ed5eef98f55062c06e6821c3f646e227b589f4a291b4a23892f8943b2171e10e39ab7f84d24bafb  D6291.patch"
