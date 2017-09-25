@@ -10,4 +10,4 @@ export KWIN_COMPOSE=Q
 
 export $(dbus-launch)
 
-ck-launch-session kwin_wayland --framebuffer --xwayland -- /usr/bin/plasmashell -p org.kde.satellite.phone 2> /tmp/kwin_log.txt
+ck-launch-session kwin_wayland --framebuffer --xwayland -- /usr/bin/plasmashell -p org.kde.satellite.phone &> /tmp/kwin_log.txt
