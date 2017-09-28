@@ -5,7 +5,7 @@ pkgdesc="Plasma Mobile"
 arch="all"
 url="https://community.kde.org/Plasma/Mobile"
 license="GPL3"
-depends="plasma-workspace"
+depends="plasma-workspace solid solid-libs"
 makedepends="extra-cmake-modules kdoctools-dev plasma-workspace-dev qt5-qtdeclarative-dev
 			 kio-dev kdelibs4support-dev kwindowsystem-dev kwayland-dev karchive-dev sonnet-dev
 			 knotifications-dev kiconthemes-dev plasma-framework-dev kpackage-dev kdeclarative-dev
@@ -13,7 +13,7 @@ makedepends="extra-cmake-modules kdoctools-dev plasma-workspace-dev qt5-qtdeclar
 			 kdbusaddons-dev ki18n-dev kservice-dev kcompletion-dev kbookmarks-dev kwidgetsaddons-dev
 			 kitemviews-dev kjobwidgets-dev kxmlgui-dev kconfigwidgets-dev kcrash-dev kdesignerplugin 
 			 kdesignerplugin-dev kemoticons-dev kguiaddons-dev kitemmodels-dev kinit-dev
-			 kparts-dev ktextwidgets-dev kunitconversion-dev"
+			 kparts-dev ktextwidgets-dev kunitconversion-dev solid-dev solid-libs"
 install="$pkgname.post-install
 		 $pkgname.post-upgrade
 		 $pkgname.post-deinstall"
