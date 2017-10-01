@@ -1,0 +1,33 @@
+pkgname=luna-service2
+pkgver=9999
+pkgrel=1
+pkgdesc="Provides header files and source code common to luna-sysmgr and webappmanager"
+arch="all"
+url="http://webos-ports.org"
+license="GPL-3.0+"
+depends=""
+makedepends="cmake-modules-webos glib-dev libpbnjson-dev pmloglib-dev"
+source="$pkgname-$pkgver.zip::https://github.com/webOS-ports/luna-service2/archive/1e2e1a53c089003da333609946dddf063244ee34.zip
+		remove-systemd-harddep.patch"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+	cd "$srcdir"/$pkgname-1e2e1a53c089003da333609946dddf063244ee34
+	patch -p1 < "$srcdir"/remove-systemd-harddep.patch
+}
+
+build() {
+	cd "$srcdir"/build
+	cmake "$srcdir"/$pkgname-1e2e1a53c089003da333609946dddf063244ee34 \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DWEBOS_INSTALL_ROOT=/
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make DESTDIR="$pkgdir" install
+}
+sha512sums="661e672e92a58682c19fe08ef5ac7aff9568f04694e8ba49e49ca1f228275481762f84fc6814c754358d78861d1c8aa2f3fa9b89ddb44d050d6c19a92461f3f2  luna-service2-9999.zip
+c8223795eebd9b0e7037f1ba130d6b4e58496483e886a50a76ed79ef61ed76ebc729f8d031ae9110d80f1ef029e4c8f9529edb483608bdc4aafb39a1bb5e8562  remove-systemd-harddep.patch"

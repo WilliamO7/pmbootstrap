@@ -1,0 +1,35 @@
+pkgname=libpbnjson
+pkgver=2.9.1
+pkgrel=1
+pkgdesc="A JSON engine, implemented as a pair of libraries with APIs for easier C and C++ abstraction over the core PBNJSON library"
+arch="all"
+url="http://webos-ports.org"
+license="GPL-3.0+"
+depends=""
+makedepends="cmake-modules-webos glib-dev yajl-dev gperf gmp-dev uriparser-dev boost-dev sqlite-libs lemon"
+source="$pkgname-$pkgver.tar.gz::https://github.com/openwebos/libpbnjson/archive/versions/2.9.1.tar.gz
+	replace-bash-with-sh.patch"
+subpackages="$pkgname-dev"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+	cd "$srcdir"/$pkgname-versions-$pkgver
+	patch -p1 < "$srcdir"/replace-bash-with-sh.patch
+}
+
+build() {
+	cd "$srcdir"/build
+	cmake "$srcdir"/$pkgname-versions-$pkgver \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DWEBOS_INSTALL_ROOT=/ \
+		-DNO_LOGGING:BOOL=TRUE
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make DESTDIR="$pkgdir" install
+}
+sha512sums="febecef9ad5eaffdb32618bca68bdd3f0121ec34a436c8b0a82a8bc4d18f4b860771bb9ab8a1b3b22a30bf915b3a9ccba491c9c3c6b51537ef5510ef2dd953b3  libpbnjson-2.9.1.tar.gz
+1a62bbb30fabbf7e97fdc64ff278a67cd24f353bcbb4c003580463d4537b5ca5bccd98a90f1787168f273a503f4fab5b2e92d3020fc2507e8fbb6e071b5d2e2e  replace-bash-with-sh.patch"

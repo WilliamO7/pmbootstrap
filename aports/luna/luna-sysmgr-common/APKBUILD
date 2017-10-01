@@ -1,0 +1,29 @@
+pkgname=luna-sysmgr-common
+pkgver=9999
+pkgrel=1
+pkgdesc="Provides header files and source code common to luna-sysmgr and webappmanager"
+arch="all"
+url="http://webos-ports.org"
+license="GPL-3.0+"
+depends=""
+makedepends="cmake-modules-webos qt5-qtbase-dev"
+source="$pkgname-$pkgver.zip::https://github.com/webOS-ports/luna-sysmgr-common/archive/c583bebb8d7fb8381a071730c5c636e95bf851fb.zip"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+}
+
+build() {
+	cd "$srcdir"/build
+	cmake "$srcdir"/$pkgname-c583bebb8d7fb8381a071730c5c636e95bf851fb \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-WEBOS_INSTALL_ROOT=/
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make DESTDIR="$pkgdir" install
+}
+sha512sums="fd501f111848c65a82894538bb9337b0479f2bf447a55d5857feaed5310f7c6bc35b244e713d961d77af81f625d83b31d2ec0b3252732a37dc05875cc690699a  luna-sysmgr-common-9999.zip"

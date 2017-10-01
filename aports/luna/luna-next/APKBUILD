@@ -1,0 +1,35 @@
+pkgname=luna-next
+pkgver=9999
+pkgrel=1
+pkgdesc="The new webOS UI of the webOS ports project."
+arch="all"
+url="http://webos-ports.org"
+license="GPL-3.0+"
+depends=""
+makedepends="extra-cmake-modules cmake-modules-webos qt5-qtbase-dev qt5-qtdeclarative-dev wayland-dev qt5-qtwayland-dev qt5-qtwayland"
+source="$pkgname-$pkgver.zip::https://github.com/webOS-ports/luna-next/archive/428a337f922691b00534f041193ee7dca8defcc2.zip
+	remove-systemd-harddep.patch"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+	cd "$srcdir"/$pkgname-428a337f922691b00534f041193ee7dca8defcc2
+	patch -p1 < "$srcdir"/remove-systemd-harddep.patch
+}
+
+build() {
+	cd "$srcdir"/build
+	cmake "$srcdir"/$pkgname-428a337f922691b00534f041193ee7dca8defcc2 \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DKDE_INSTALL_LIBDIR=lib \
+		-DKDE_INSTALL_LIBEXECDIR=lib \
+		-WEBOS_INSTALL_ROOT=/
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make DESTDIR="$pkgdir" install
+}
+sha512sums="449fdce96c6556666d8c4dcf5837b2cd99109cacc78d8ce5559913f80487db7934792ec1d15eda1ebe349e68d51b75b36f0e0859c4571c93691c9952eca70921  luna-next-9999.zip
+0d369f895560f4f0367d2882197f4d0c9689203be3556856d00b5f47b7c2b3b05e2f06f773141b1134096cd2fc0cf11970749555112e5926ab38f52f9a348209  remove-systemd-harddep.patch"
