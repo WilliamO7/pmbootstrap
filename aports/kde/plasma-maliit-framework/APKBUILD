@@ -1,0 +1,27 @@
+pkgname=plasma-maliit-framework
+pkgver=72
+pkgrel=1
+pkgdesc="Framework for Maliit integration with Plasma"
+arch="all"
+url="http://projects.kde.org/plasma-maliit-framework"
+license="GPL"
+depends=""
+makedepends="qt5-qtbase-dev qt5-qtdeclarative-dev kwayland-dev karchive-dev"
+source=$pkgname-$pkgver.tar.gz::https://github.com/KDE/plasma-maliit-framework/archive/0e273b3863d3435cfc486cf1aa9dcecfad1e180d.tar.gz
+subpackages="$pkgname-dev"
+
+prepare() {
+    mkdir -p "$srcdir"/build
+}
+
+build() {
+    cd "$srcdir"/build
+    qmake-qt5 -makefile CONFIG+=qt5-inputcontext CONFIG+=nohwkeyboard CONFIG+=enable-dbus-activation CONFIG+=notests CONFIG+=nodoc "$srcdir"/$pkgname-0e273b3863d3435cfc486cf1aa9dcecfad1e180d
+    make
+}
+
+package() {
+    cd "$srcdir"/build
+    make install INSTALL_ROOT="$pkgdir/"
+}
+sha512sums="4f92ff93976ff5fbc5a9e51f13b5a8fc683a95f21f714c8c45ec0a13623e71c7f3775fd7568ae474801d749b65009f4057a8dcffc12c36be51b8bf4fb02df1b9  plasma-maliit-framework-72.tar.gz"

@@ -1,0 +1,26 @@
+pkgname=plasma-maliit-plugins
+pkgver=9
+pkgrel=1
+pkgdesc="Plasma Integration for Maliit virtual keyboard"
+arch="noarch"
+url="http://projects.kde.org/plasma-maliit-plugins"
+license="GPL"
+depends=""
+makedepends="qt5-qtbase-dev qt5-qtdeclarative-dev plasma-maliit-framework-dev"
+source=$pkgname-$pkgver.tar.gz::https://github.com/KDE/plasma-maliit-plugins/archive/0b5cdb59bd1b6bc1f88d815e8b97750fdd014993.tar.gz
+
+prepare() {
+    mkdir -p "$srcdir"/build
+}
+
+build() {
+    cd "$srcdir"/build
+    qmake-qt5 CONFIG+=notests CONFIG+=nodoc CONFIG+=disable-maliit-keyboard "$srcdir"/plasma-maliit-plugins-0b5cdb59bd1b6bc1f88d815e8b97750fdd014993
+    make
+}
+
+package() {
+    cd "$srcdir"/build
+    make install INSTALL_ROOT="$pkgdir/"
+}
+sha512sums="25287533ff5ed8d923fa546c1134a744db9cd4cd21975455c62b16bfe971cc2788b1b75bced162c8f93a67d46fc3e4518a3bd07a67187d70f9f33e3f5d8c8670  plasma-maliit-plugins-9.tar.gz"

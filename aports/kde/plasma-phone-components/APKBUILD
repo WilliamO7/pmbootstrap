@@ -5,13 +5,13 @@ pkgdesc="Modules providing phone functionality for Plasma"
 arch="all"
 url="https://community.kde.org/Plasma/Mobile"
 license="GPL3"
-depends="desktop-file-utils qt5-qtgraphicaleffects"
+depends="desktop-file-utils qt5-qtgraphicaleffects kactivities-libs kactivities kactivities-dev qt5-qtquickcontrols2"
 makedepends="extra-cmake-modules kpeople-dev qt5-qtdeclarative-dev kpeople-dev
 			 plasma-framework-dev kservice-dev kdeclarative-dev ki18n-dev kio-dev kcoreaddons-dev
 			 kconfig-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev
 			 kjobwidgets-dev solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev
 			 kpackage-dev kwindowsystem-dev kdbusaddons-dev knotifications-dev kwayland-dev
-			 kactivities-dev"
+			 kactivities-dev kactivities-libs kactivities"
 install="$pkgname.post-install
 		 $pkgname.post-upgrade
 		 $pkgname.post-deinstall"
@@ -42,5 +42,5 @@ package() {
 	make DESTDIR="$pkgdir/" install
 }
 
-sha512sums="3d586c2320e226853b7a6c49e76093d95edb3540276bf4f85078efcb633627111f57c4cb771dbfac213ae8dcbc9f2609182d98ae79de2b420b9ad99d500d66a4  plasma-phone-components-682.tar.gz
+sha512sums="4c7075725c8d1939ac0485b4d1c0231c8b8cd10c6a0d909b53268501d7d68eec5a42fc8c11ff0c27fc2b087727a1652683b05d9c3edccfa91c7355d4da232405  plasma-phone-components-682.tar.gz
 8705fb02720dc4ebd43f078a5c79c7c498c69873b6b231137cd932ab13d4ffd0739dfae06eb4b12bed8c4bd7f05961514abf3a957b7abaa32d228a0c89bb6696  unset-telepathy-dep.patch"

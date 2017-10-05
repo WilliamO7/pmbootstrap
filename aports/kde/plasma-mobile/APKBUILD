@@ -5,7 +5,7 @@ pkgdesc="Plasma Mobile"
 arch="all"
 url="https://community.kde.org/Plasma/Mobile"
 license="GPL3"
-depends="plasma-workspace solid solid-libs"
+depends="plasma-workspace solid solid-libs desktop-file-utils"
 makedepends="extra-cmake-modules kdoctools-dev plasma-workspace-dev qt5-qtdeclarative-dev
 			 kio-dev kdelibs4support-dev kwindowsystem-dev kwayland-dev karchive-dev sonnet-dev
 			 knotifications-dev kiconthemes-dev plasma-framework-dev kpackage-dev kdeclarative-dev

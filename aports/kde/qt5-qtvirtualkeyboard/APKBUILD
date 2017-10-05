@@ -1,0 +1,31 @@
+pkgname=qt5-qtvirtualkeyboard
+pkgver=5.9.1
+pkgrel=1
+arch="all"
+url='http://qt-project.org/'
+license="GPL3"
+pkgdesc='Virtual keyboard framework'
+depends=""
+makedepends="qt5-qtbase-dev qt5-qtdeclarative-dev qt5-qtsvg-dev hunspell-dev"
+source="http://download.qt.io/official_releases/qt/${pkgver%.*}/$pkgver/submodules/${pkgname/qt5-/}-opensource-src-$pkgver.tar.xz"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+}
+
+build() {
+	cd "$srcdir"/build
+
+	qmake-qt5 "$srcdir"/${pkgname/qt5-/}-opensource-src-$pkgver CONFIG+="lang-all handwriting"
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make INSTALL_ROOT="$pkgdir" install
+
+	# Drop QMAKE_PRL_BUILD_DIR because reference the build dir
+	find "$pkgdir/usr/lib" -type f -name '*.prl' \
+		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+}
+sha512sums="ce1fbd787b2722ab90d037e0d0012099c9eb301a942ef989ebc61763f9037703d2017f3c5abcc52790e6378589f443f9539494aa0bf8ed522500fa1606a8c34b  qtvirtualkeyboard-opensource-src-5.9.1.tar.xz"
