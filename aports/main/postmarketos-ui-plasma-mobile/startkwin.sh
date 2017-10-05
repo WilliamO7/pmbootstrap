@@ -9,6 +9,6 @@ export KDE_SESSION_VERSION=5
 export KWIN_COMPOSE=Q
 
 export $(dbus-launch)
-export QML2_IMPORT_PATH=/usr/lib/qt/qml
+export QML2_IMPORT_PATH=/usr/lib/qt/qml:/usr/lib/qt5/qml
 
 ck-launch-session kwin_wayland --framebuffer --xwayland -- /usr/bin/plasmashell -p org.kde.satellite.phone &> /tmp/kwin_log.txt
