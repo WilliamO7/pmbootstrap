@@ -6,7 +6,8 @@ url="https://github.com/postmarketOS"
 arch="noarch"
 license="GPL3+"
 depends="plasma-mobile plasma-phone-components dbus-nox11
-	breeze-icons postmarketos-demos plasma-maliit-plugins"
+	breeze-icons postmarketos-demos plasma-maliit-plugins
+	qt5-qtvirtualkeyboard"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""
