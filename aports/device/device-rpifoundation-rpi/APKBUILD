@@ -1,0 +1,20 @@
+pkgname=device-rpifoundation-rpi
+pkgver=1
+pkgrel=0
+pkgdesc="Raspberry Pi"
+url="https://github.com/postmarketOS"
+arch="noarch"
+license="MIT"
+depends="linux-postmarketos"
+makedepends=""
+install=""
+subpackages=""
+source="deviceinfo"
+options="!check"
+
+package() {
+	install -D -m644 "$srcdir"/deviceinfo \
+		"$pkgdir"/etc/deviceinfo
+}
+
+sha512sums="19a5a033da0df4aba448e2d7c58445e78cb737195d17736dda029646c537bf09c4707d19c0ad5840136cb00a82118de94533ff65592a4fcc3d4e14cf52a85634  deviceinfo"
