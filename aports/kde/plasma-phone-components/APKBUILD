@@ -42,5 +42,5 @@ package() {
 	make DESTDIR="$pkgdir/" install
 }
 
-sha512sums="4c7075725c8d1939ac0485b4d1c0231c8b8cd10c6a0d909b53268501d7d68eec5a42fc8c11ff0c27fc2b087727a1652683b05d9c3edccfa91c7355d4da232405  plasma-phone-components-682.tar.gz
+sha512sums="7dfec55a2b0eab981838a670cb4a452cca51ecb65544a7277ffc2031d2872c6c3f451b140f8a0cb3c2357203e2fb76ebac0753597a1d23789d2b5c0c98fde625  plasma-phone-components-682.tar.gz
 8705fb02720dc4ebd43f078a5c79c7c498c69873b6b231137cd932ab13d4ffd0739dfae06eb4b12bed8c4bd7f05961514abf3a957b7abaa32d228a0c89bb6696  unset-telepathy-dep.patch"

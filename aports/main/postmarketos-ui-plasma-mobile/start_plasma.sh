@@ -15,6 +15,7 @@ if test -z "${XDG_RUNTIME_DIR}"; then
 		udevadm settle
 
 		chown user:user /dev/fb0
+		console-kit-daemon
 		sleep 2
 		su user -c 'sh /bin/startkwin.sh'
 		sleep 1

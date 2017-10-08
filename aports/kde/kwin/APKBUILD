@@ -17,14 +17,22 @@ makedepends="extra-cmake-modules qt5-qttools-dev kdoctools-dev kdecoration-dev k
 			 sonnet-dev kitemviews-dev solid-dev kdeclarative-dev libdrm-dev eudev-dev
 			 mesa-gbm mesa-libwayland-egl"
 source="https://download.kde.org/stable/plasma/${pkgver}/${pkgname}-${pkgver}.tar.xz
-		D6291.patch"
+		D6291.patch
+		0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 prepare() {
 	mkdir -p $srcdir/build
 
 	cd $srcdir/$pkgname-$pkgver
-	patch -p1 < $srcdir/D6291.patch
+	for i in $source; do
+		case ${i%::*} in
+			*.patch)
+				msg "${i%::*}"
+				patch ${patch_args:--p1} -i "$srcdir/${i%::*}" || return 1
+				;;
+		esac
+	done
 }
 
 build() {
@@ -44,4 +52,5 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 sha512sums="b679dac07b7cc71c9ac7f4755282f8e30d5c2757c7cf9f29ed4f7653c70832140171e1227299a726af8aef1919db83b115dc4091ff80851b0afc53a4cf06840a  kwin-5.10.5.tar.xz
-c693354311a0fe4064746633a30b205a22bf90f69cae648d1ed5eef98f55062c06e6821c3f646e227b589f4a291b4a23892f8943b2171e10e39ab7f84d24bafb  D6291.patch"
+c693354311a0fe4064746633a30b205a22bf90f69cae648d1ed5eef98f55062c06e6821c3f646e227b589f4a291b4a23892f8943b2171e10e39ab7f84d24bafb  D6291.patch
+5c35ff9526eb5a239e384025d20840ef159ad1f82922a49bb92ebd251c61410361495da9b03a5e185a26c6ad587ece68a20bd7973cad05cbb4f6cd490a4cbf37  0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"
