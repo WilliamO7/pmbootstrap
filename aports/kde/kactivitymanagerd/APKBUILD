@@ -1,5 +1,5 @@
 pkgname=kactivitymanagerd
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc="System service to manage user's activities and track the usage patterns"
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="97215cbbbb22f75e4244e2e16bfec97612eade16a1e0537698452a823df4198e28e23934b96d988b304afd090df6caa9657708eda53324d78bf509793ae28673  kactivitymanagerd-5.10.5.tar.xz"
+sha512sums="eecf34ea280a81f1fa78511756c2187950c66c147a689ef4bc8fa797a4234e13265efa6b4303ae767530873b06c6371363c05770a1eecaebdd7858b206a77d30  kactivitymanagerd-5.11.0.tar.xz"

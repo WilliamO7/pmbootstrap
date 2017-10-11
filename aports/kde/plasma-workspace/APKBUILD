@@ -1,5 +1,5 @@
 pkgname=plasma-workspace
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=0
 pkgdesc='KDE Plasma Workspace'
 arch="all"
@@ -21,7 +21,7 @@ makedepends="extra-cmake-modules kdoctools-dev gpsd krunner-dev kdesignerplugin 
 			 qt5-qtdeclarative-dev iso-codes-dev qt5-qtwayland-dev"
 source="https://download.kde.org/stable/plasma/${pkgver}/${pkgname}-${pkgver}.tar.xz
 		kde.pam"
-subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+subpackages="$pkgname-dev $pkgname-libs $pkgname-doc $pkgname-lang"
 
 prepare() {
 	mkdir -p $srcdir/build
@@ -47,5 +47,5 @@ package() {
 
 	install -Dm644 plasmawayland.desktop "$pkgdir"/usr/share/wayland-sessions/plasmawayland.desktop
 }
-sha512sums="2b205c5bf1fbdfd3713594292565ea6922c0d82fd12ef43c82e8bbc18049293a5d357460889e5be7ed2a185dd89bb8b77df90bad5d572b2472486e84bdb8bfa2  plasma-workspace-5.10.5.tar.xz
+sha512sums="2882662962f5996b7514b23a166ce19e2813e207463351721be2bb00a6cedd181d30bab38a98ef2aab8db08fccf392acc293def5213879389a7bd4933361dc99  plasma-workspace-5.11.0.tar.xz
 39c114084b224131d80a77742865c448b54ac1877426ec5591e58f142bbe77fe85d1717c82fe7c8d09b1aa77f7833664e406fbae04254b4e974f09a32486fa31  kde.pam"

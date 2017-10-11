@@ -1,5 +1,5 @@
 pkgname=kcmutils
-pkgver=5.37.0
+pkgver=5.38.0
 pkgrel=1
 pkgdesc='Utilities for interacting with KCModules'
 arch="all"

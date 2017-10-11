@@ -7,7 +7,7 @@ arch="noarch"
 license="GPL3+"
 depends="plasma-mobile plasma-phone-components dbus-nox11
 	breeze-icons postmarketos-demos plasma-maliit-plugins
-	qt5-qtvirtualkeyboard"
+	qt5-qtvirtualkeyboard kscreen"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""

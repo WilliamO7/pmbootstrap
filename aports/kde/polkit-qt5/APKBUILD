@@ -1,30 +1,31 @@
 pkgname="polkit-qt5"
 pkgver=0.112.0
-pkgrel=0
+pkgrel=1
+commit=50624e06e88aabd7ae123ad6a4495630f81cd706
 pkgdesc='A library that allows developers to access PolicyKit API with a nice Qt-style API'
 arch="all"
 url='https://www.kde.org/'
 license="LGPL"
 depends="polkit"
 makedepends="cmake automoc4 polkit-dev qt5-qtbase-dev"
-source="$pkgname-$pkgver.tar.gz"
+source="$pkgname-$pkgver.tar.gz::https://github.com/KDE/${pkgname/5/-1}/archive/$commit.tar.gz"
 subpackages="$pkgname-dev $pkgname-dev"
 
 prepare() {
-	mkdir -p $srcdir/build
+	mkdir -p "$srcdir"/build
 }
 
 build() {
-	cd $srcdir/build
+	cd "$srcdir"/build
 
-	cmake "$srcdir"/$pkgname \
+	cmake "$srcdir"/${pkgname/5/-1}-$commit \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DLIB_DESTINATION=/usr/lib
 	make
 }
 package() {
-	cd $srcdir/build
+	cd "$srcdir"/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="09c3b4788decfde30f19f650997473b5455e70d5d20abc48380c72a7134a5e214ac9aa9083d2ae92b5741fd07feae6a49d933bfb997a9cfc59eb9390397b2c9b  polkit-qt5-0.112.0.tar.gz"
+sha512sums="254e2086492eda93e85a30713681a1cee3eda0889750d854c9cbd920dcc1c0a94933ad230dab3e2bb9bcdbc2f4236844a6dbdf0ad6cd8a90f99e24f0d13639ef  polkit-qt5-0.112.0.tar.gz"

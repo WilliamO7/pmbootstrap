@@ -1,0 +1,34 @@
+pkgname=kscreen
+pkgver=5.11.0
+pkgrel=1
+pkgdesc="KDE's screen management software"
+arch="all"
+url='https://www.kde.org/workspaces/plasmadesktop/'
+license="LGPL"
+depends="hicolor-icon-theme"
+makedepends="extra-cmake-modules python qt5-qtbase-dev qt5-qtdeclarative-dev libkscreen-dev
+			kdbusaddons-dev kconfig-dev kconfigwidgets-dev ki18n-dev kxmlgui-dev
+			kauth-dev kcoreaddons-dev kcodecs-dev kwidgetsaddons-dev kglobalaccel-dev"
+source="https://download.kde.org/stable/plasma/$pkgver/kscreen-$pkgver.tar.xz"
+subpackages="$pkgname-lang"
+
+prepare() {
+	mkdir -p "$srcdir"/build
+}
+
+build() {
+	cd "$srcdir"/build
+	cmake "$srcdir"/$pkgname-$pkgver \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_TESTING=OFF
+	make
+}
+
+package() {
+	cd "$srcdir"/build
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="e8aeca2f99efa47f1da5a35235a6d66c2d6934c4bb78065cdeb2e2269d8db78a67b958cfe3b7095174cbb3b471141f59bf240cb5a50314dfedad4ccaf2437365  kscreen-5.11.0.tar.xz"

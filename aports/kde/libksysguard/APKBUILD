@@ -1,5 +1,5 @@
 pkgname=libksysguard
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc='Libksysguard'
 arch="all"
@@ -31,4 +31,4 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="18c649a0fabae7b79159ee70fa1aa60c4dd6d179bdb485f2dfe80d0254d937dee811874c19fe204d8ea164b5907b45ba0ca971b4229551bf5f9330e85916284c  libksysguard-5.10.5.tar.xz"
+sha512sums="810221c4e671262ba9f5a132b10c6b46c4963c3be216b46dd7bc304a5044b2b3fbf7cce848fdc6036f0c47e644966bdba8dc7f0f0290c55efea7cacf7d1c4943  libksysguard-5.11.0.tar.xz"

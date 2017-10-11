@@ -1,5 +1,5 @@
 pkgname=kscreenlocker
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc='Library and components for secure lock screen architecture'
 arch="all"
@@ -35,4 +35,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="c87e9c02de71876016b88acadb04eef4fe4add1f462c2f8c2da9f5c94ca25dcc61fb16a34cf818b920e475ba2f8e85eec9f42c24129471fc32790960977d49e7  kscreenlocker-5.10.5.tar.xz"
+sha512sums="62b2ead4f712db7710302cd35dc04d38eff594914871c279e5665e3593648f493aeec5cee0a3ba0a074b4e6866208b711d1cd9c6f8a6013bbf552eaae1954fd8  kscreenlocker-5.11.0.tar.xz"

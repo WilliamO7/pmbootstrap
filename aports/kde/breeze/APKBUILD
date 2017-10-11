@@ -1,5 +1,5 @@
 pkgname=breeze
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc='Artwork, styles and assets for the Breeze visual style for the Plasma Desktop'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="4af601d1b8f446d6e9d0a381e84ec932294de862f8b13b8e17d01c81d89249d4d841b236498094f21e4402f1448b4f103a49f8010fef90ce603a8493691c3747  breeze-5.10.5.tar.xz"
+sha512sums="e72a409b0881015dc641116254ad1c6b3e7b88844d6dd44081d913bb5d5d14a72ba053d3bd527ec1243375d6d8d356dbfc1189b827e730ecae9a0cf6b070ad1a  breeze-5.11.0.tar.xz"

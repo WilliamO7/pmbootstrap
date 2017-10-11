@@ -1,5 +1,5 @@
 pkgname=ksysguard
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc='Track and control the processes running in your system'
 arch="all"
@@ -12,15 +12,11 @@ makedepends="extra-cmake-modules kdoctools-dev python libksysguard-dev attica-qt
 			 kio-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kjobwidgets-dev
 			 solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwindowsystem-dev
 			 knewstuff-dev qt5-qtbase-dev"
-source="https://download.kde.org/stable/plasma/${pkgver}/$pkgname-$pkgver.tar.xz
-		 D6631.patch"
+source="https://download.kde.org/stable/plasma/${pkgver}/$pkgname-$pkgver.tar.xz"
 subpackages="$pkgname-doc $pkgname-lang"
 
 prepare() {
 	mkdir -p $srcdir/build
-	
-	cd "$srcdir"/$pkgname-$pkgver
-	patch -p1 < ../D6631.patch
 }
 
 build() {
@@ -37,5 +33,4 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="ce94cca9a0b2b68355a650d0355d243c02ab0b551add1d4fd779e8baae90e2110d72e204c9515031d1faf028f4cdb752fa351e7404b7df356d65a2b37bc8856c  ksysguard-5.10.5.tar.xz
-9125d313335d82a6eaa206b1dcf053be380854978592e1f3cd9cf9977e4d78d105893d9c456d9f79665dd6922d8bd9801e593afe392c4629713949b342093153  D6631.patch"
+sha512sums="8c72c79e1183289f9f56b5afe5838d75fd568d3d112108467525909ded31e073e3dca987234a6d4779804f5af8123554847cc9ad40508c668bb484686214c550  ksysguard-5.11.0.tar.xz"

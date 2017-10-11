@@ -1,5 +1,5 @@
 pkgname=milou
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc="A dedicated search application built on top of Baloo"
 arch="all"
@@ -29,4 +29,4 @@ package() {
 	cd "$srcdir"/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="5c5bc1d1ec03bf0e74cb6c201ca7bd7ce587cfb2e34a6811e7905e16e1e75ca90601a93a2238068e0a780d6a7371596b70170fcec34b83781da53f8f9dbb35e9  milou-5.10.5.tar.xz"
+sha512sums="8ce800fb7b79bd92d42e871f6c803db5c84f6a48b73b6e140e251be49b3aeb7501ca5975f14db8e6f634efbc30771cf1e7af9cde4f1fec75b16698f07cf747e6  milou-5.11.0.tar.xz"

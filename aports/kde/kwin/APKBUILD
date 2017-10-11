@@ -1,5 +1,5 @@
 pkgname=kwin
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc='An easy to use, but flexible, composited Window Manager'
 arch="all"
@@ -15,9 +15,8 @@ makedepends="extra-cmake-modules qt5-qttools-dev kdoctools-dev kdecoration-dev k
 			 kwindowsystem-dev kidletime-dev kauth-dev kcodecs-dev ktextwidgets-dev
 			 knewstuff-dev kservice-dev kxmlgui-dev kbookmarks-dev kwayland-dev attica-qt5-dev
 			 sonnet-dev kitemviews-dev solid-dev kdeclarative-dev libdrm-dev eudev-dev
-			 mesa-gbm mesa-libwayland-egl"
+			 mesa-gbm mesa-libwayland-egl xcb-util-wm-dev"
 source="https://download.kde.org/stable/plasma/${pkgver}/${pkgname}-${pkgver}.tar.xz
-		D6291.patch
 		0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
@@ -51,6 +50,5 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="b679dac07b7cc71c9ac7f4755282f8e30d5c2757c7cf9f29ed4f7653c70832140171e1227299a726af8aef1919db83b115dc4091ff80851b0afc53a4cf06840a  kwin-5.10.5.tar.xz
-c693354311a0fe4064746633a30b205a22bf90f69cae648d1ed5eef98f55062c06e6821c3f646e227b589f4a291b4a23892f8943b2171e10e39ab7f84d24bafb  D6291.patch
+sha512sums="88bfa3cd3b89e5e6a300bb1d14e74ed7f695abcea22714ef0d44c4fbaae8f67feca5343c6e9fdece699bc4f24ea9089ff3d318f1f6cc4210bae46f2b96149db4  kwin-5.11.0.tar.xz
 5c35ff9526eb5a239e384025d20840ef159ad1f82922a49bb92ebd251c61410361495da9b03a5e185a26c6ad587ece68a20bd7973cad05cbb4f6cd490a4cbf37  0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"

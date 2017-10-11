@@ -1,5 +1,5 @@
 pkgname=kdecoration
-pkgver=5.10.5
+pkgver=5.11.0
 pkgrel=1
 pkgdesc='Plugin based library to create window decorations'
 arch="all"
@@ -29,4 +29,4 @@ package() {
 	cd $srcdir/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="23a75d237a607d2cb9b7f9ce4cd1f378e791d2774354870bcabc3232b7546775db6770f840e6bbd2f843421338e4fd56122a042520fc4b10a98929c3cacf709f  kdecoration-5.10.5.tar.xz"
+sha512sums="5f9b3265c7c2a5aa20fc8cf821e40a24e92eb0f3ac8d3162424d64185e19c9fb966b0f26c3335a657e5083f581ab798e3bfa0d7d7a2a864bf8f19629cc5adb6d  kdecoration-5.11.0.tar.xz"
