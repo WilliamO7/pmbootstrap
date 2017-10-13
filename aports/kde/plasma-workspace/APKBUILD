@@ -6,7 +6,7 @@ arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
 depends="kwin iso-codes qt5-qtwayland kactivitymanagerd kinit milou"
-makedepends="extra-cmake-modules kdoctools-dev gpsd krunner-dev kdesignerplugin kdesignerplugin-dev
+makedepends="extra-cmake-modules kdoctools-dev gpsd krunner-dev kdesignerplugin-dev kdesignerplugin
 			 kxmlrpcclient-dev kdelibs4support-dev plasma-framework-dev knotifyconfig-dev
 			 libxtst-dev kcmutils-dev kdesu-dev kwallet-dev ksysguard kwin-dev kguiaddons-dev
 			 kjsembed-dev knewstuff-dev libxrender-dev qt5-x11extras-dev ktexteditor-dev
