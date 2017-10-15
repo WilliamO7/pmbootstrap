@@ -1,32 +1,33 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kcodecs
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Provide a collection of methods to manipulate strings using various encodings'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules qt5-qttools-dev clang py3-qt5 gperf doxygen"
+makedepends="extra-cmake-modules qt5-qttools-dev gperf doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
-prepare() {
-	mkdir -p $srcdir/build
-}
-
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="545272128930ef9428732c164d68ed539cecb13f2c6b166d426f387686b25b46ca8b28d1f821413fa1cba43252a3ec260c92001154eae731344f8340935a4c3a  kcodecs-5.38.0.tar.xz"
+sha512sums="66a2b4f73406d826df9e4332c68eb3b10aa1b47a6f3af2f28bfaeb919c9163db9454d517439fa7a8bdef41317e6c2932939b5130aef51a61cff1e8a3235d450f  kcodecs-5.39.0.tar.xz"

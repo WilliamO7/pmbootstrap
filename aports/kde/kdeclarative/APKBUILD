@@ -1,36 +1,38 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdeclarative
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Provides integration of QML and KDE Frameworks'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules python doxygen qt5-qttools-dev kpackage-dev kconfig-dev kiconthemes-dev
+depends_dev="kpackage-dev kconfig-dev kiconthemes-dev kglobalaccel-dev kwindowsystem-dev
 			 kio-dev kguiaddons-dev qt5-qtdeclarative-dev ki18n-dev kcoreaddons-dev kservice-dev
 			 kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev kjobwidgets-dev
-			 solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwindowsystem-dev
-			 kglobalaccel-dev"
+			 solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev"
+makedepends="$depends_dev extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="72ea8b2f17792e3075800de93882c0a0b03732121eef43ab38285c0d1988e148e079f40dd6d4fc8afef75bda47f2e02a3ac84b9546c6a6991b10aade1dbcb978  kdeclarative-5.38.0.tar.xz"
+sha512sums="442f18403788d7cf137438b8991037369d65b0a1cfe14a6067fabb39dcaaebef91cd0cb59992b7d381fe7f54f00a72d7b3de6d84d02a157e5b3e7f0392bd583a  kdeclarative-5.39.0.tar.xz"

@@ -1,35 +1,38 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kiconthemes
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Support for icon themes'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules python mesa-dev doxygen qt5-qttools-dev qt5-qtsvg-dev kitemviews-dev
-			 kconfigwidgets-dev karchive-dev ki18n-dev kcoreaddons-dev kauth-dev kcodecs-dev
-			 kconfig-dev kwidgetsaddons-dev"
+depends_dev="qt5-qtsvg-dev kitemviews-dev kconfigwidgets-dev karchive-dev ki18n-dev kcoreaddons-dev
+			kauth-dev kcodecs-dev kconfig-dev kwidgetsaddons-dev"
+makedepends="$depends_dev extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="886bb36ba6fd0cad40286797d8d433bda3c6a2757c78713389118e1710ac8b57552bf2a04bf108311d504676590c7fdfd87d006f05a4d34e0c17d5400b998a85  kiconthemes-5.38.0.tar.xz"
+sha512sums="1e30b24c1689ef4e7f59cc67fd4dc09e3dfcbfef0cf2b475ac09b43aa6d25ebb4edd8780398eee906f84ee1f5e53b2c0dc839014e185fb47e994c57fff74d7ca  kiconthemes-5.39.0.tar.xz"

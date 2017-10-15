@@ -1,33 +1,36 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kguiaddons
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Addons to QtGui'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules mesa-dev clang py3-qt5 doxygen qt5-qttools-dev"
+makedepends="extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="7e3d56a6dbadf4ebfed5ea43dd474a77dc8c402e84936372064e03d63fe3579f289309bc12ea0d6efe3e9e5d54e9a5adbe28a4d521eb1ee1f8d0bcab2aa952e6  kguiaddons-5.38.0.tar.xz"
+sha512sums="a72c516a963d219bf8b2e1cd226e4ab8fae927f3d5d7f01a468e9c3c84f4cd430c494eac8e1b20668f8c48fdbf8161d3b4dae7b8a05152420aece56c41bc0b6e  kguiaddons-5.39.0.tar.xz"

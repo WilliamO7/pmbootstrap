@@ -1,35 +1,37 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kparts
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Document centric plugin system'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules python qt5-qttools-dev kio-dev kiconthemes-dev ktextwidgets-dev
-			 sonnet-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev kjobwidgets-dev
-			 solid-dev kxmlgui-dev kconfigwidgets-dev kauth-dev kcodecs-dev kconfig-dev kcoreaddons-dev
-			 ki18n-dev kservice-dev doxygen"
+depends_dev="kio-dev kiconthemes-dev ktextwidgets-dev sonnet-dev kbookmarks-dev kwidgetsaddons-dev
+			kcompletion-dev kitemviews-dev kjobwidgets-dev solid-dev kxmlgui-dev kconfigwidgets-dev
+			kauth-dev kcodecs-dev kconfig-dev kcoreaddons-dev ki18n-dev kservice-dev"
+makedepends="$depends_dev extra-cmake-modules qt5-qttools-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="7425ae2e272a78c75c384a4770221712d202dbab05b6f22bdf880b96ff25374989c6c7aab28cc9021079c92380a7683c19b3f858d5fc0fff97236fb4b9224427  kparts-5.38.0.tar.xz"
+sha512sums="bd930eac9acae96d3637729b0447ecadb66aef41d38e6b89b6fe5bc45ae368941cb0ca16452aa20ae96cd29ade7ff2214f8ca70e165a3cbbdf2593f4eafb38d2  kparts-5.39.0.tar.xz"

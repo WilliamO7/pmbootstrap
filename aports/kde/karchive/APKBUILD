@@ -1,6 +1,8 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=karchive
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Qt 5 addon providing access to numerous types of archives'
 arch="all"
 url='https://community.kde.org/Frameworks'
@@ -10,22 +12,21 @@ makedepends="extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev"
 
-prepare() {
-	mkdir -p $srcdir/build
-}
-
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF
+		-DKDE_INSTALL_LIBDIR=lib
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="cfeab8d6f0be5fed2f678b8251d533b5ad359daafde1a17cdfcf7a614540e57f0b6aaf320456622bb48bdc0ee8443d60067c7613c077145a09b32fc2905ee05e  karchive-5.38.0.tar.xz"
+sha512sums="5151bfb0ce8b25593b0da34d376bf1c2bccdce80e8ad95ccad0c7d01aa42a8c12ffa3175192a07ae9b62f869c3b4d1df48e134d30d5506c40649fa4930775142  karchive-5.39.0.tar.xz"

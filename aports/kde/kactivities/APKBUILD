@@ -1,34 +1,40 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kactivities
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 arch="all"
 pkgdesc="Core components for the KDE's Activities"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends="qt5-qtbase-sqlite"
-makedepends="extra-cmake-modules boost python doxygen qt5-qttools-dev kcoreaddons-dev kconfig-dev
-			 kwindowsystem-dev qt5-qtdeclarative-dev kio-dev boost-dev"
+depends_dev="kcoreaddons-dev kconfig-dev kwindowsystem-dev qt5-qtdeclarative-dev kio-dev"
+makedepends="extra-cmake-modules boost doxygen qt5-qttools-dev boost-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz"
 subpackages="$pkgname-dev $pkgname-libs $pkgname-doc"
 
 prepare() {
-	mkdir -p $srcdir/build
+	mkdir -p "$srcdir"/build
 }
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/$pkgname-$pkgver \
+	cd "$srcdir"/build
+	cmake "$builddir" \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
 		-DQML_INSTALL_DIR=lib/qt/qml \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$srcdir"/build
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$srcdir"/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="1de5eec964a0ffa9990162de07c9ce285a40c52a68b8c38d46966cc61e343fa2974dbd44a30731a19a40e3000ef817cd69249f0a7753e5c3d4308422a142f69e  kactivities-5.38.0.tar.xz"
+sha512sums="8f53eae719cf61ffe55a3d6ef5e08ce45ce0b0925f892fb2e5cff29ea5ada7f99932f46d3b29e9ab50ce782200c7a830ed590a5e67c1e9e8a35e8c09d28b70f1  kactivities-5.39.0.tar.xz"

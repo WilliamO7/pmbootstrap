@@ -1,45 +1,45 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdelibs4support
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Porting aid from KDELibs4'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
-depends=""
-makedepends="extra-cmake-modules kdoctools-dev qt5-qttools-dev networkmanager perl-uri
-			 python kdesignerplugin kunitconversion-dev kemoticons-dev kded-dev kparts-dev qt5-qtsvg-dev
-			 qt5-x11extras-dev kcompletion-dev kconfig-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev
-			 kcrash-dev kglobalaccel-dev kservice-dev kguiaddons-dev ki18n-dev kiconthemes-dev kbookmarks-dev
-			 kitemviews-dev kjobwidgets-dev solid-dev kxmlgui-dev knotifications-dev ktextwidgets-dev sonnet-dev
-			 kwindowsystem-dev kdbusaddons-dev kdesignerplugin-dev kbookmarks-dev kcoreaddons-dev kio-dev
-			 kded"
+depends="ca-certificates"
+depends_dev="kdesignerplugin kunitconversion-dev kemoticons-dev kded-dev kparts-dev qt5-qtsvg-dev qt5-x11extras-dev
+			kcompletion-dev kconfig-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev kded
+			kcrash-dev kglobalaccel-dev kservice-dev kguiaddons-dev ki18n-dev kiconthemes-dev kbookmarks-dev
+			kitemviews-dev kjobwidgets-dev solid-dev kxmlgui-dev knotifications-dev ktextwidgets-dev sonnet-dev
+			kwindowsystem-dev kdbusaddons-dev kdesignerplugin-dev kbookmarks-dev kcoreaddons-dev kio-dev"
+makedepends="$depends_dev extra-cmake-modules kdoctools-dev qt5-qttools-dev networkmanager perl-uri ca-certificates"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/portingAids/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="suid !check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DKDE_INSTALL_LIBEXECDIR=lib \
-		-DBUILD_TESTING=OFF
+		-DKDE_INSTALL_LIBEXECDIR=lib
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 
 	# cert bundle seems to be hardcoded
 	# link it to the one from ca-certificates
 	rm -f "$pkgdir"/usr/share/kf5/kssl/ca-bundle.crt
 	ln -sf /etc/ssl/certs/ca-certificates.crt "${pkgdir}"/usr/share/kf5/kssl/ca-bundle.crt
-
-	chmod 0644 $pkgdir/usr/lib/kf5/fileshareset # remove suid bit as it's disallowed by Alpine standards due to being a security risk
 }
-sha512sums="5a5136d530e7b937fa6b50b184651a44eaed8ab61d762c826dbbc24c53bb89580fa948755c28a26cb1dae5a96fdf54b71dd917735682c7832951a75fabbe5d20  kdelibs4support-5.38.0.tar.xz"
+sha512sums="6278c6e3315a367824a7c158ced522a8e79a90f023723620467d0a87fc8908d07c341efd06faab2bf5590e5768722c9bd191b4ad29c4dbc77682e304b0b149e5  kdelibs4support-5.39.0.tar.xz"

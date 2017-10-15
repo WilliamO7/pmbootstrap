@@ -1,36 +1,38 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=krunner
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Framework for providing different actions given a string query'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="GPL"
 depends=""
-makedepends="extra-cmake-modules kdoctools-dev python qt5-qttools-dev plasma-framework-dev threadweaver-dev
-			 kactivities-dev kbookmarks-dev kcompletion-dev kjobwidgets-dev solid-dev kxmlgui-dev
-			 kpackage-dev qt5-qtdeclarative-dev kconfig-dev kcoreaddons-dev ki18n-dev kservice-dev
-			 kwidgetsaddons-dev kitemviews-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwindowsystem-dev
-			 kio-dev doxygen"
+depends_dev="plasma-framework-dev threadweaver-dev kactivities-dev kbookmarks-dev kcompletion-dev
+			kjobwidgets-dev solid-dev kxmlgui-dev kpackage-dev qt5-qtdeclarative-dev kconfig-dev
+			kcoreaddons-dev ki18n-dev kservice-dev kwidgetsaddons-dev kitemviews-dev kconfigwidgets-dev
+			kauth-dev kcodecs-dev kwindowsystem-dev kio-dev"
+makedepends="$depends_dev extra-cmake-modules kdoctools-dev qt5-qttools-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
-
-prepare() {
-	mkdir $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="609f9bc91921902987e53baa08d985f3efdc707cf164cc87821d5b96541e683eb99e49fa70d577e09e178e8cad299727cc571e74c2f2032719dce489945efc08  krunner-5.38.0.tar.xz"
+sha512sums="2a97e4612b9aba202c143da9de11ba95b3f0f9a9d4d7696376d461427392b8ad4575d2272d684b0bfb8bb276c2648daf8dbc6453756219ec13fd1379116269c5  krunner-5.39.0.tar.xz"

@@ -1,36 +1,38 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kxmlgui
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='User configurable main windows'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules python mesa-dev doxygen qt5-qttools-dev ktextwidgets-dev
-			 kglobalaccel-dev attica-qt5-dev kcoreaddons-dev kitemviews-dev kconfig-dev
-			 kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev ki18n-dev kiconthemes-dev
-			 sonnet-dev kwindowsystem-dev"
+depends_dev="ktextwidgets-dev kglobalaccel-dev attica-qt5-dev kcoreaddons-dev kitemviews-dev
+			kconfig-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev ki18n-dev
+			kiconthemes-dev sonnet-dev kwindowsystem-dev"
+makedepends="$depends_dev extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
 	cmake "$srcdir"/${pkgname}-${pkgver} \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
 		-DKDE_INSTALL_LIBEXECDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="b49a217df51d7b9c56e2d034b2329c0506cc9487474ba05070a8988753a647adb6fc692a14239d0e2e3e0c4160bd66406ec1198bb78aee6ba4bdf72910eaf6c2  kxmlgui-5.38.0.tar.xz"
+sha512sums="6ddb408b452a6687e71fdc8770999361d8c764750779f7afaf222b92ff6faa41a2727fcee4769dc38d9a5433373d8d5ae7126179650e186001658f782ceb64c6  kxmlgui-5.39.0.tar.xz"

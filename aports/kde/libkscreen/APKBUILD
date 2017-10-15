@@ -1,32 +1,35 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=libkscreen
 pkgver=5.11.0
-pkgrel=1
+pkgrel=0
 pkgdesc='KDE screen management software'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules qt5-qtbase-dev qt5-x11extras-dev kwayland-dev"
+depends_dev="qt5-qtbase-dev qt5-x11extras-dev kwayland-dev"
+makedepends="$depends_dev extra-cmake-modules"
 source="https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"
 subpackages="$pkgname-dev"
-
-prepare() {
-	mkdir -p "$srcdir"/build
-}
+options="!check" # Fails due to requiring dbus-x11 and it running
 
 build() {
-	cd "$srcdir"/build
-	cmake "$srcdir"/$pkgname-$pkgver \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
-		-DCMAKE_INSTALL_LIBEXECDIR=lib \
-		-DBUILD_TESTING=OFF
+		-DCMAKE_INSTALL_LIBEXECDIR=lib
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd "$srcdir"/build
+	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
 sha512sums="5349f47e753652ec5c975ec8181851a21798d3b4f3794c15cf4751b6fe2217e2fb8308a494a2a5b4c5b41add8a58605d2c2fce9dc5e80058ed86be9ef562676f  libkscreen-5.11.0.tar.xz"

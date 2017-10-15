@@ -16,19 +16,11 @@ install="$pkgname.post-install
 		 $pkgname.post-deinstall"
 source="$pkgname-$pkgver.tar.gz::https://github.com/KDE/$pkgname/archive/master.tar.gz
 		unset-telepathy-dep.patch"
-
-prepare() {
-	mkdir -p "$srcdir"/build
-
-	cd $srcdir/$pkgname-master
-	patch -p1 < $srcdir/unset-telepathy-dep.patch
-}
+builddir="$srcdir/$pkgname-master"
 
 build() {
-	cd "$srcdir"/build
 	cmake "$srcdir"/$pkgname-master \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DBUILD_TESTING=OFF \
 		-DLIB_INSTALL_DIR=lib \
 		-DLIBEXEC_INSTALL_DIR=lib \
 		-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
@@ -36,8 +28,13 @@ build() {
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd "$srcdir"/build
+	cd "$builddir"
 	make DESTDIR="$pkgdir/" install
 }
 

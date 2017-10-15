@@ -1,31 +1,33 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kjs
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Support for JS scripting in applications'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules qt5-qtbase qt5-qtbase-dev kdoctools-dev"
+depends_dev="qt5-qtbase-dev"
+makedepends="$depends_dev extra-cmake-modules kdoctools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/portingAids/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 
-prepare() {
-	mkdir -p $srcdir/build
-}
-
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF
+		-DKDE_INSTALL_LIBDIR=lib
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="33941a4dd77f1df46d88357dfa7363bbb0eff81a8d0543f385237d301d90955ad721bd255fbba810b602d50569556a3d5df0d37c6d4b16fae10e180263e45689  kjs-5.38.0.tar.xz"
+sha512sums="86e38cd720d971469434ef95cfbb5de19a1bba5434b4b39ec922ddcf2812996d84b15746ff2bea19128f8467e1e322916623d93e05b2d4d382e3bb1016305805  kjs-5.39.0.tar.xz"

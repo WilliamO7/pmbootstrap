@@ -1,38 +1,45 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kscreenlocker
 pkgver=5.11.0
-pkgrel=1
+pkgrel=0
 pkgdesc='Library and components for secure lock screen architecture'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
-depends=""
-makedepends="extra-cmake-modules python kdoctools-dev kcmutils-dev libxcursor consolekit2-dev
-			 linux-pam-dev kidletime-dev kwayland-dev kdeclarative-dev qt5-qtdeclarative-dev
-			 kcrash-dev kglobalaccel-dev ki18n-dev ktextwidgets-dev qt5-x11extras-dev
-			 kwindowsystem-dev kxmlgui-dev kconfig-dev sonnet-dev kconfigwidgets-dev
-			 kauth-dev kcoreaddons-dev kcodecs-dev kwidgetsaddons-dev kservice-dev
-			 kpackage-dev knotifications-dev solid-dev xcb-util-keysyms-dev"
-source="https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"
+depends="linux-pam"
+depends_dev="kcmutils-dev consolekit2-dev linux-pam-dev kidletime-dev kwayland-dev
+			kdeclarative-dev qt5-qtdeclarative-dev kcrash-dev kglobalaccel-dev
+			ki18n-dev ktextwidgets-dev qt5-x11extras-dev kwindowsystem-dev kxmlgui-dev
+			kconfig-dev sonnet-dev kconfigwidgets-dev kauth-dev kcoreaddons-dev
+			kcodecs-dev kwidgetsaddons-dev kservice-dev kpackage-dev knotifications-dev
+			solid-dev"
+makedepends="$depends_dev extra-cmake-modules kdoctools-dev libxcursor xcb-util-keysyms-dev"
+source="https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz
+		kde.pam"
 subpackages="$pkgname-dev $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-}
+options="suid !check" # Fails due to requiring running X11 and loginctl
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/$pkgname-$pkgver \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DKDE_INSTALL_LIBEXECDIR=/usr/lib \
-		-DBUILD_TESTING=OFF
+		-DKDE_INSTALL_LIBEXECDIR=/usr/lib
 	make
 }
 
-package() {
-	cd $srcdir/build
-	make DESTDIR="$pkgdir" install
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
 }
 
-sha512sums="62b2ead4f712db7710302cd35dc04d38eff594914871c279e5665e3593648f493aeec5cee0a3ba0a074b4e6866208b711d1cd9c6f8a6013bbf552eaae1954fd8  kscreenlocker-5.11.0.tar.xz"
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$srcdir"/kde.pam "$pkgdir"/etc/pam.d/kde
+}
+
+sha512sums="62b2ead4f712db7710302cd35dc04d38eff594914871c279e5665e3593648f493aeec5cee0a3ba0a074b4e6866208b711d1cd9c6f8a6013bbf552eaae1954fd8  kscreenlocker-5.11.0.tar.xz
+39c114084b224131d80a77742865c448b54ac1877426ec5591e58f142bbe77fe85d1717c82fe7c8d09b1aa77f7833664e406fbae04254b4e974f09a32486fa31  kde.pam"

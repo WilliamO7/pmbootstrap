@@ -1,34 +1,36 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kcrash
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Support for application crash analysis and bug report from apps'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules mesa-dev doxygen qt5-qttools-dev kcoreaddons-dev kwindowsystem-dev
-			 qt5-x11extras-dev"
+depends_dev="kcoreaddons-dev kwindowsystem-dev qt5-x11extras-dev"
+makedepends="$depends_dev extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
-
-prepare() {
-	mkdir $srcdir/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
 		-DKDE_INSTALL_LIBEXECDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="60c13b2e883d3e55b9f431eb1dd7c7332c7e196fe903d0c7fe7f70029ba77600802cc8911be65fb84e1526fb5d9f548d85f6c881e209dee1922aee961279d1b9  kcrash-5.38.0.tar.xz"
+sha512sums="d3444e39cb32abef01441c92af2fa020777bc6e629d3db568aed7e9a4f313fd6fb76a04142119170f2a38d51e65f1791f032c827bd1650e888ff7681883d688f  kcrash-5.39.0.tar.xz"

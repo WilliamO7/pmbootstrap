@@ -1,53 +1,45 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kwin
 pkgver=5.11.0
-pkgrel=1
+pkgrel=0
 pkgdesc='An easy to use, but flexible, composited Window Manager'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
-depends="xorg-server-xwayland consolekit2"
-makedepends="extra-cmake-modules qt5-qttools-dev kdoctools-dev kdecoration-dev kjobwidgets-dev
-			 libxkbcommon-dev libepoxy-dev libinput-dev kcmutils-dev kscreenlocker-dev
-			 breeze-dev xcb-util-cursor-dev qt5-qtdeclarative-dev qt5-qtscript-dev kcompletion-dev
-			 plasma-framework-dev kinit-dev kio-dev xcb-util-keysyms-dev qt5-x11extras-dev
-			 kcrash-dev kglobalaccel-dev knotifications-dev kiconthemes-dev kconfig-dev
-			 kconfigwidgets-dev kcoreaddons-dev ki18n-dev kpackage-dev kwidgetsaddons-dev
-			 kwindowsystem-dev kidletime-dev kauth-dev kcodecs-dev ktextwidgets-dev
-			 knewstuff-dev kservice-dev kxmlgui-dev kbookmarks-dev kwayland-dev attica-qt5-dev
-			 sonnet-dev kitemviews-dev solid-dev kdeclarative-dev libdrm-dev eudev-dev
-			 mesa-gbm mesa-libwayland-egl xcb-util-wm-dev"
+depends="xorg-server-xwayland"
+depends_dev="kdecoration-dev kjobwidgets-dev kcmutils-dev kscreenlocker-dev breeze-dev
+			qt5-qtdeclarative-dev qt5-qtscript-dev kcompletion-dev plasma-framework-dev 
+			kinit-dev kio-dev xcb-util-keysyms-dev qt5-x11extras-dev kcrash-dev kglobalaccel-dev
+			knotifications-dev kiconthemes-dev kconfig-dev kconfigwidgets-dev kcoreaddons-dev
+			ki18n-dev kpackage-dev kwidgetsaddons-dev kwindowsystem-dev kidletime-dev
+			kauth-dev kcodecs-dev ktextwidgets-dev knewstuff-dev kservice-dev kxmlgui-dev
+			kbookmarks-dev kwayland-dev attica-qt5-dev sonnet-dev kitemviews-dev solid-dev
+			kdeclarative-dev kactivities-dev"
+makedepends="$depends_dev extra-cmake-modules qt5-qttools-dev kdoctools-dev libxkbcommon-dev
+			libepoxy-dev libinput-dev xcb-util-cursor-dev libdrm-dev eudev-dev xcb-util-wm-dev"
 source="https://download.kde.org/stable/plasma/${pkgver}/${pkgname}-${pkgver}.tar.xz
 		0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
-
-prepare() {
-	mkdir -p $srcdir/build
-
-	cd $srcdir/$pkgname-$pkgver
-	for i in $source; do
-		case ${i%::*} in
-			*.patch)
-				msg "${i%::*}"
-				patch ${patch_args:--p1} -i "$srcdir/${i%::*}" || return 1
-				;;
-		esac
-	done
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd $srcdir/build
-	cmake $srcdir/$pkgname-$pkgver \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
 		-DKDE_INSTALL_LIBEXECDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DLIBC_IS_GLIBC=0
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
 sha512sums="88bfa3cd3b89e5e6a300bb1d14e74ed7f695abcea22714ef0d44c4fbaae8f67feca5343c6e9fdece699bc4f24ea9089ff3d318f1f6cc4210bae46f2b96149db4  kwin-5.11.0.tar.xz

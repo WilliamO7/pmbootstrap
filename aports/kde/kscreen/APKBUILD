@@ -1,33 +1,36 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kscreen
 pkgver=5.11.0
-pkgrel=1
+pkgrel=0
 pkgdesc="KDE's screen management software"
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
 depends="hicolor-icon-theme"
-makedepends="extra-cmake-modules python qt5-qtbase-dev qt5-qtdeclarative-dev libkscreen-dev
-			kdbusaddons-dev kconfig-dev kconfigwidgets-dev ki18n-dev kxmlgui-dev
-			kauth-dev kcoreaddons-dev kcodecs-dev kwidgetsaddons-dev kglobalaccel-dev"
+depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev libkscreen-dev kdbusaddons-dev
+			kconfig-dev kconfigwidgets-dev ki18n-dev kxmlgui-dev kauth-dev kcoreaddons-dev
+			kcodecs-dev kwidgetsaddons-dev kglobalaccel-dev"
+makedepends="$depends_dev extra-cmake-modules"
 source="https://download.kde.org/stable/plasma/$pkgver/kscreen-$pkgver.tar.xz"
 subpackages="$pkgname-lang"
-
-prepare() {
-	mkdir -p "$srcdir"/build
-}
+options="!check" # Fails due to requiring running X11
 
 build() {
-	cd "$srcdir"/build
-	cmake "$srcdir"/$pkgname-$pkgver \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF
+		-DCMAKE_INSTALL_LIBDIR=lib
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd "$srcdir"/build
+	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
 

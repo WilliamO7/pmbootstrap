@@ -1,33 +1,35 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kbookmarks
-pkgver=5.38.0
-pkgrel=1
+pkgver=5.39.0
+pkgrel=0
 pkgdesc='Support for bookmarks and the XBEL format'
 arch="all"
 url='https://community.kde.org/Frameworks'
 license="LGPL"
 depends=""
-makedepends="extra-cmake-modules qt5-qttools-dev python doxygen kcodecs-dev kconfig-dev kconfigwidgets-dev
-			 kiconthemes-dev kxmlgui-dev kcoreaddons-dev kauth-dev kwidgetsaddons-dev"
+depends_dev="kcodecs-dev kconfig-dev kconfigwidgets-dev kiconthemes-dev kxmlgui-dev kcoreaddons-dev
+			kauth-dev kwidgetsaddons-dev"
+makedepends="extra-cmake-modules qt5-qttools-dev doxygen"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
-prepare() {
-	mkdir -p $srcdir/build
-}
-
 build() {
-	cd $srcdir/build
-	cmake "$srcdir"/${pkgname}-${pkgver} \
+	cmake \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
-		-DBUILD_TESTING=OFF \
 		-DBUILD_QCH=ON
 	make
 }
 
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
 package() {
-	cd $srcdir/build
+	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="fe39f7a006bdc5c377fa490dd351ce507ee7f75b0277ea210a2c62455403660b6e24c7610afd56f35c0999540a666b744d397b507e8acf1454332d37832d0799  kbookmarks-5.38.0.tar.xz"
+sha512sums="901cc0a3a143492770c25dca9d8125d7c9ed4fbdaa2f80ca37fd0d6c811ab5af3ca1f41f38cd32f690024d3ac07faff0525290087c9e469d1518b96184ac2838  kbookmarks-5.39.0.tar.xz"
