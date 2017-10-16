@@ -30,3 +30,9 @@ deviceinfo_flash_pagesize="2048"
 
 # Weston red screen workaround (see issue #54)
 deviceinfo_weston_pixman_type="2"
+
+# Enable framebuffer refresher
+msm_refresher="true"
+
+# Touchscreen device for unlocking
+dev_touchscreen="/dev/input/event1"
