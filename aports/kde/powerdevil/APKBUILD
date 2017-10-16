@@ -7,7 +7,7 @@ pkgdesc='Manages the power consumption settings of a Plasma Shell'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="LGPL"
-depends="plasma-workspace" #bluez-qt networkmanager-qt
+depends="plasma-workspace"
 depends_dev="qt5-qtbase-dev qt5-x11extras-dev kdesignerplugin-dev kdesignerplugin
 			kactivities-dev kauth-dev kidletime-dev kconfig-dev kdbusaddons-dev
 			solid-dev ki18n-dev kglobalaccel-dev kio-dev knotifyconfig-dev kwayland-dev
