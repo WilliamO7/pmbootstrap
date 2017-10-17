@@ -10,7 +10,6 @@ license="LGPL"
 depends_dev="qt5-qtbase-dev"
 makedepends="$depends_dev extra-cmake-modules"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz"
-#options="!check" # test 3 fails
 
 build() {
 	cmake \

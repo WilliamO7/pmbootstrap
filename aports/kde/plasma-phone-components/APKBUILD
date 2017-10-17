@@ -1,6 +1,7 @@
 pkgname=plasma-phone-components
 pkgver=682
 pkgrel=2
+commit=0c92d4d09b48f5b990323874efd1cf9986a6f049
 pkgdesc="Modules providing phone functionality for Plasma"
 arch="all"
 url="https://community.kde.org/Plasma/Mobile"
@@ -14,12 +15,12 @@ makedepends="extra-cmake-modules kpeople-dev qt5-qtdeclarative-dev kactivities-d
 install="$pkgname.post-install
 		 $pkgname.post-upgrade
 		 $pkgname.post-deinstall"
-source="$pkgname-$pkgver.tar.gz::https://github.com/KDE/$pkgname/archive/master.tar.gz
+source="$pkgname-$pkgver.tar.gz::https://github.com/KDE/$pkgname/archive/$commit.tar.gz
 		unset-telepathy-dep.patch"
-builddir="$srcdir/$pkgname-master"
+builddir="$srcdir/$pkgname-$commit"
 
 build() {
-	cmake "$srcdir"/$pkgname-master \
+	cmake \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DLIB_INSTALL_DIR=lib \
 		-DLIBEXEC_INSTALL_DIR=lib \
@@ -38,5 +39,5 @@ package() {
 	make DESTDIR="$pkgdir/" install
 }
 
-sha512sums="3d586c2320e226853b7a6c49e76093d95edb3540276bf4f85078efcb633627111f57c4cb771dbfac213ae8dcbc9f2609182d98ae79de2b420b9ad99d500d66a4  plasma-phone-components-682.tar.gz
+sha512sums="0be4d55340488112a8f3ff0f071b214d45a6dea57dec61e7110953aa1650119e4b48efb699ab7a9e1ee1d9e189e3a7fa8afe2ecef701f54cc0fcde70290ea439  plasma-phone-components-682.tar.gz
 8705fb02720dc4ebd43f078a5c79c7c498c69873b6b231137cd932ab13d4ffd0739dfae06eb4b12bed8c4bd7f05961514abf3a957b7abaa32d228a0c89bb6696  unset-telepathy-dep.patch"
