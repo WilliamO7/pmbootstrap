@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=qt5-qtwayland
-pkgver=5.9.1
+pkgver=5.9.2
 pkgrel=0
 arch="all"
 url='http://qt-project.org/'
@@ -31,4 +31,4 @@ package() {
 	install -d "$pkgdir"/usr/share/licenses
 	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
 }
-sha512sums="619025f6db1234e2e85e8790ca152765696b3019414e4de1a7630ef3cb5a11fa3d0f3955f1e2e9e82f05a90a6da3a0a355c3c4de4dc0006cb91f122428031df3  qtwayland-opensource-src-5.9.1.tar.xz"
+sha512sums="28b6f77be5289cb9eba0e3e6b220d2c99d2ab4dbae8e02caecd7651b5ae33c09f117545664b01649ca52b27025cc15853806ece8dc10713c3d90832416c7def6  qtwayland-opensource-src-5.9.2.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=qt5-qtquickcontrols2
-pkgver=5.9.1
+pkgver=5.9.2
 pkgrel=0
 arch="all"
 url='http://qt-project.org/'
@@ -30,4 +30,4 @@ package() {
 	install -d "$pkgdir"/usr/share/licenses
 	ln -s /usr/share/licenses/qt5-base "$pkgdir"/usr/share/licenses/$pkgname
 }
-sha512sums="f7797fe4f5360c814c426ed1db72e58d66a6ad11e9a94f62176736278f7218966032441b8c52fc815f609237bd3483e72023a3407e290b05c2cf9b815ededfe7  qtquickcontrols-opensource-src-5.9.1.tar.xz"
+sha512sums="fd5833bd3823e3a53b54ac542857af5bb109952035869ad0a151e807abc9d304ef5d3fa04b75df3b59faf0b95412f593d86b56198f96734f3a75b1620688ba4f  qtquickcontrols-opensource-src-5.9.2.tar.xz"

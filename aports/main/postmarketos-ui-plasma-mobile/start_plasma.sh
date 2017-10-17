@@ -7,17 +7,16 @@ if test -z "${XDG_RUNTIME_DIR}"; then
 	if ! test -d "${XDG_RUNTIME_DIR}"; then
 		mkdir "${XDG_RUNTIME_DIR}"
 		chmod 0700 "${XDG_RUNTIME_DIR}"
-		chown 12345:12345 "${XDG_RUNTIME_DIR}"
+		chown $(id -u):$(id -u) "${XDG_RUNTIME_DIR}"
 	fi
 
 	if [ $(tty) = "/dev/tty1" ]; then
 		udevadm trigger
 		udevadm settle
-
-		chown user:user /dev/fb0
+	
 		console-kit-daemon
 		sleep 2
-		su user -c 'sh /bin/startkwin.sh'
+		/bin/startkwin
 		sleep 1
 	fi
 fi
