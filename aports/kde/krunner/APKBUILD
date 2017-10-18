@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Framework for providing different actions given a string query'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="GPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="plasma-framework-dev threadweaver-dev kactivities-dev kbookmarks-dev kcompletion-dev
 			kjobwidgets-dev solid-dev kxmlgui-dev kpackage-dev qt5-qtdeclarative-dev kconfig-dev

@@ -1,15 +1,15 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=milou
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc="A dedicated search application built on top of Baloo"
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="GPL-2.0"
 depends="krunner"
 depends_dev="qt5-qtbase-dev qt5-qtscript-dev qt5-qtdeclarative-dev kcoreaddons-dev
-		ki18n-dev kdeclarative-dev kservice-dev krunner-dev kpackage-dev plasma-framework-de
+		ki18n-dev kdeclarative-dev kservice-dev krunner-dev kpackage-dev plasma-framework-dev
 		kconfig-dev kwindowsystem-dev"
 makedepends="$depends_dev extra-cmake-modules kdoctools-dev"
 source="https://download.kde.org/stable/plasma/${pkgver}/$pkgname-$pkgver.tar.xz"
@@ -31,4 +31,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="8ce800fb7b79bd92d42e871f6c803db5c84f6a48b73b6e140e251be49b3aeb7501ca5975f14db8e6f634efbc30771cf1e7af9cde4f1fec75b16698f07cf747e6  milou-5.11.0.tar.xz"
+sha512sums="2d3c24c8890332c39252a6fdf3b150b5e773aef9576a302f04de72507547e966d27cba9c2f4265c7def9cac3b015a62d4a8164d1405c686f26d9886a8b229150  milou-5.11.1.tar.xz"

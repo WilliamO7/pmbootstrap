@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Document centric plugin system'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kio-dev kiconthemes-dev ktextwidgets-dev sonnet-dev kbookmarks-dev kwidgetsaddons-dev
 			kcompletion-dev kitemviews-dev kjobwidgets-dev solid-dev kxmlgui-dev kconfigwidgets-dev

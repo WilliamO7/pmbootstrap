@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Plasma library and runtime components based upon KF5 and Qt5'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="GPL-2.0"
 depends=""
 depends_dev="kdoctools-dev kactivities-dev kwindowsystem-dev ki18n-dev kiconthemes-dev kpackage-dev
 			 kdeclarative-dev knotifications-dev qt5-qtdeclarative-dev qt5-qtsvg-dev kio-dev

@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=breeze
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc='Artwork, styles and assets for the Breeze visual style for the Plasma Desktop'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kcoreaddons-dev kguiaddons-dev kwayland-dev kservice-dev kdecoration-dev
 			plasma-framework-dev kcmutils-dev breeze-icons kconfigwidgets-dev kauth-dev
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="e72a409b0881015dc641116254ad1c6b3e7b88844d6dd44081d913bb5d5d14a72ba053d3bd527ec1243375d6d8d356dbfc1189b827e730ecae9a0cf6b070ad1a  breeze-5.11.0.tar.xz"
+sha512sums="cd34d600a428f87baa2875e57528d4e302cb1cc3661782fddb739731a6f064d452f0b0265610aeec46b193883bad92009fb24cc45e0fa3048e31cec7e5bb6800  breeze-5.11.1.tar.xz"

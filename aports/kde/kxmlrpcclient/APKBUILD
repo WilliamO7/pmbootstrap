@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc="XML-RPC client library for KDE"
 arch="all"
 url="https://projects.kde.org/projects/kde/pim/kxmlrpcclient"
-license="LGPL"
+license="BSD-2"
 depends=""
 depends_dev="kio-dev kservice-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev
 			kjobwidgets-dev solid-dev kconfig-dev kxmlgui-dev kconfigwidgets-dev kauth-dev

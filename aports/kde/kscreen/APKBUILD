@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kscreen
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc="KDE's screen management software"
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="GPL-2.0"
 depends="hicolor-icon-theme"
 depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev libkscreen-dev kdbusaddons-dev
 			kconfig-dev kconfigwidgets-dev ki18n-dev kxmlgui-dev kauth-dev kcoreaddons-dev
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="e8aeca2f99efa47f1da5a35235a6d66c2d6934c4bb78065cdeb2e2269d8db78a67b958cfe3b7095174cbb3b471141f59bf240cb5a50314dfedad4ccaf2437365  kscreen-5.11.0.tar.xz"
+sha512sums="80ca1be6ed70a3fb568fb5e03ce2db0666b6edb15db045ee149e09c9e2c8001cf3876a881eaf2b4004d790c3532f04006a908c94d83936d32b39061735e0fbb2  kscreen-5.11.1.tar.xz"

@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Utilities for interacting with KCModules'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kdeclarative-dev kiconthemes-dev kxmlgui-dev kpackage-dev qt5-qtdeclarative-dev
 			kitemviews-dev kconfigwidgets-dev kauth-dev kcoreaddons-dev kcodecs-dev kconfig-dev

@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=powerdevil
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc='Manages the power consumption settings of a Plasma Shell'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="GPL-2.0"
 depends="plasma-workspace"
 depends_dev="qt5-qtbase-dev qt5-x11extras-dev kdesignerplugin-dev kdesignerplugin
 			kactivities-dev kauth-dev kidletime-dev kconfig-dev kdbusaddons-dev
@@ -40,4 +40,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="1273c40d1212407b131b8b0307f219f0443292ea23fd67722047371aa7d5bd179408660c439796a9286793d6464804b9b84224f04ab8efcda62de70592de7138  powerdevil-5.11.0.tar.xz"
+sha512sums="b1af8398012c4f42651874f37401ab40bd9a4656ca0f3a84067a565f54c1a9040cde17aebdc778483bbc541a58dfe9b03b16d7271a2f893a76c2532b47b44868  powerdevil-5.11.1.tar.xz"

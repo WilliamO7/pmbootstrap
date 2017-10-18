@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Porting aid from KDELibs4'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends="ca-certificates"
 depends_dev="kdesignerplugin kunitconversion-dev kemoticons-dev kded-dev kparts-dev qt5-qtsvg-dev qt5-x11extras-dev
 			kcompletion-dev kconfig-dev kconfigwidgets-dev kauth-dev kcodecs-dev kwidgetsaddons-dev kded

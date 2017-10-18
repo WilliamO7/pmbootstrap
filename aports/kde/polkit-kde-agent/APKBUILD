@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=polkit-kde-agent
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc='Daemon providing a polkit authentication UI for KDE'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="GPL-2.0"
 depends=""
 depends_dev="qt5-qtbase-dev kiconthemes-dev kdbusaddons-dev kcrash-dev polkit-qt5-dev
 			ki18n-dev kwindowsystem-dev kwidgetsaddons-dev kcoreaddons-dev"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="eba6373c98a4a4f3393f9a22540220b661a28ae19f1414cf50a071dcb7d83e7bbc2ded469790d5a114a7a022eb2e5b86cb9093c637968cc522623d1614658d19  polkit-kde-agent-1-5.11.0.tar.xz"
+sha512sums="e6aacb0c39ef4b53fbac9a3a19aedeaff178ac899a9231d4b739b7e3e29c7c7416a78ebf96fd5a1e7ed10076f14a2085187556eb969221bd827f2670b0f9b66b  polkit-kde-agent-1-5.11.1.tar.xz"

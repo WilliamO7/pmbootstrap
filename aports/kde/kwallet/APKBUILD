@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Secure and unified container for user passwords'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kservice-dev kwindowsystem-dev kconfig-dev kconfigwidgets-dev kauth-dev kcodecs-dev
 			kdbusaddons-dev kiconthemes-dev knotifications-dev kcoreaddons-dev ki18n-dev kwidgetsaddons-dev"

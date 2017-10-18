@@ -6,7 +6,7 @@ pkgrel=1
 arch="all"
 url='https://kde.org/applications/system/konsole/'
 pkgdesc="KDE's terminal emulator"
-license="GPL LGPL FDL"
+license="GPL-2.0"
 depends=""
 makedepends="extra-cmake-modules qt5-qtbase-dev kdoctools-dev kcompletion-dev kconfig-dev
 			kconfigwidgets-dev kcoreaddons-dev kcrash-dev kguiaddons-dev kdbusaddons-dev

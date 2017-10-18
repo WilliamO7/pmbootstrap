@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Support for icon themes'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="qt5-qtsvg-dev kitemviews-dev kconfigwidgets-dev karchive-dev ki18n-dev kcoreaddons-dev
 			kauth-dev kcodecs-dev kconfig-dev kwidgetsaddons-dev"

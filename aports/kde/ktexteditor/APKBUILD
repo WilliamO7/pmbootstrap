@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Advanced embeddable text editor'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="qt5-qtxmlpatterns-dev qt5-qtdeclarative-dev qt5-qtscript-dev kparts-dev karchive-dev
 			kguiaddons-dev ktextwidgets-dev sonnet-dev kconfig-dev ki18n-dev kio-dev kcoreaddons-dev

@@ -6,11 +6,10 @@ pkgrel=0
 pkgdesc='Documentation generation from docbook'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends="docbook-xsl"
-depends_dev="qt5-qtbase-dev ki18n-dev"
-makedepends="$depends_dev extra-cmake-modules perl-uri karchive-dev docbook-xsl libxslt-dev
-			 libxml2-dev"
+depends_dev="qt5-qtbase-dev ki18n-dev karchive-dev libxslt-dev libxml2-dev"
+makedepends="$depends_dev extra-cmake-modules perl-uri"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
 

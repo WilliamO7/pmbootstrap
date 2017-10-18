@@ -7,7 +7,7 @@ arch="noarch"
 license="GPL3+"
 depends="plasma-mobile plasma-phone-components dbus-nox11
 	breeze-icons postmarketos-demos plasma-maliit-plugins
-	qt5-qtvirtualkeyboard kscreen"
+	qt5-qtvirtualkeyboard kscreen konsole"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""
@@ -22,4 +22,4 @@ package() {
 	chmod +x "$pkgdir"/bin/startkwin
 }
 sha512sums="17873724a55e406009c0be63a3e727ca6ddc6f8bfb5d1aad42eb29ebcae2bd41ea9aad4cf79820c76b2f1ee8eff26134e3671ace92b133e04c51a5a540ef13a6  start_plasma.sh
-8acfb953e264b106befcee311f3171c37ebdfc064b7fe6173010e87003715b3e4f2f7c731ca78e53535baed2e7c3d0234f7f37f6293778dc7fd021d84e57e0bb  startkwin"
+f4c4923010751f94a6e8bcbd8b90bd4b45c3d0a0b149e9e920efaa8f5d431a6385144ca2e27f856e66ccbd56b98c624c317fc78da4824086ff24b78bce31d76d  startkwin"

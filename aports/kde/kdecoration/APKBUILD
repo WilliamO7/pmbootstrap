@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdecoration
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc='Plugin based library to create window decorations'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="qt5-qtbase-dev"
 makedepends="$depends_dev extra-cmake-modules"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="5f9b3265c7c2a5aa20fc8cf821e40a24e92eb0f3ac8d3162424d64185e19c9fb966b0f26c3335a657e5083f581ab798e3bfa0d7d7a2a864bf8f19629cc5adb6d  kdecoration-5.11.0.tar.xz"
+sha512sums="ed98f4848068b9c012b5483bca37c8c5662f6589f62dbe5cbb58487148466bc8650038f0c836e1d8939b84a2330a13081dac4fa13d2b03f9fb69513227caeacd  kdecoration-5.11.1.tar.xz"

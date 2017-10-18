@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Resource and network access abstraction'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kdoctools-dev kconfig-dev kdbusaddons-dev kservice-dev solid-dev kbookmarks-dev
 			kjobwidgets-dev knotifications-dev karchive-dev kcoreaddons-dev ki18n-dev kwidgetsaddons-dev 

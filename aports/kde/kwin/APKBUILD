@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kwin
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc='An easy to use, but flexible, composited Window Manager'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="GPL-2.0"
 depends="xorg-server-xwayland"
 depends_dev="kdecoration-dev kjobwidgets-dev kcmutils-dev kscreenlocker-dev breeze-dev
 			qt5-qtdeclarative-dev qt5-qtscript-dev kcompletion-dev plasma-framework-dev 
@@ -42,5 +42,5 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="88bfa3cd3b89e5e6a300bb1d14e74ed7f695abcea22714ef0d44c4fbaae8f67feca5343c6e9fdece699bc4f24ea9089ff3d318f1f6cc4210bae46f2b96149db4  kwin-5.11.0.tar.xz
+sha512sums="3bce8c8499e1358c8d47c897e235e528a30e5ce41ae33ec227924f207996cf332492025df0f7b74ea34eb341babed30f98bf6c5784a40756e7c0bd5065c53bc6  kwin-5.11.1.tar.xz
 5c35ff9526eb5a239e384025d20840ef159ad1f82922a49bb92ebd251c61410361495da9b03a5e185a26c6ad587ece68a20bd7973cad05cbb4f6cd490a4cbf37  0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"

@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Process launcher to speed up launching KDE applications'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kio-dev kservice-dev kcrash-dev kbookmarks-dev qt5-qtbase-dev
 			 kcompletion-dev kitemviews-dev kjobwidgets-dev solid-dev kxmlgui-dev kconfig-dev

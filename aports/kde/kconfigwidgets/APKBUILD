@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Widgets for KConfig'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="kcoreaddons-dev kauth-dev kguiaddons-dev kwidgetsaddons-dev kcodecs-dev kconfig-dev 
 			ki18n-dev"

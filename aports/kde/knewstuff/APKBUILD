@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Support for downloading application assets from the network'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends="qt5-qtquickcontrols2"
 depends_dev="karchive-dev kio-dev kservice-dev kbookmarks-dev kjobwidgets-dev solid-dev kxmlgui-dev
 			qt5-qtdeclarative-dev kcompletion-dev kcoreaddons-dev ki18n-dev kiconthemes-dev

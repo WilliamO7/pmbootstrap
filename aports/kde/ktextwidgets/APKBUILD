@@ -6,7 +6,7 @@ pkgrel=0
 pkgdesc='Advanced text editing widgets'
 arch="all"
 url='https://community.kde.org/Frameworks'
-license="LGPL"
+license="LGPL-2.1"
 depends=""
 depends_dev="sonnet-dev kauth-dev kiconthemes-dev kservice-dev kcompletion-dev kconfig-dev
 			kconfigwidgets-dev kcoreaddons-dev kcodecs-dev kwidgetsaddons-dev ki18n-dev kwindowsystem-dev"

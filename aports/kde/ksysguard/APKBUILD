@@ -1,10 +1,10 @@
 pkgname=ksysguard
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=1
 pkgdesc='Track and control the processes running in your system'
 arch="all"
 url='https://userbase.kde.org/KSysGuard'
-license="LGPL"
+license="GPL-2.0"
 depends=""
 depends_dev="libksysguard-dev attica-qt5-dev kinit-dev kxmlgui-dev kconfig-dev kcoreaddons-dev
 			kdbusaddons-dev ki18n-dev kiconthemes-dev kitemviews-dev kio-dev knotifications-dev
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="8c72c79e1183289f9f56b5afe5838d75fd568d3d112108467525909ded31e073e3dca987234a6d4779804f5af8123554847cc9ad40508c668bb484686214c550  ksysguard-5.11.0.tar.xz"
+sha512sums="f9a30f76c96bca2f2822a23c660c92cafd77b6a77fb53116e8002565a67271e6a9be2e0df7f6173b1d37567d0ba9988217e50a5feed100ec39ef24dbeca6b9aa  ksysguard-5.11.1.tar.xz"

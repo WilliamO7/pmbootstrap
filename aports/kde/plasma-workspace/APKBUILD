@@ -1,12 +1,12 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=plasma-workspace
-pkgver=5.11.0
+pkgver=5.11.1
 pkgrel=0
 pkgdesc='KDE Plasma Workspace'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
-license="LGPL"
+license="GPL-2.0"
 depends="kwin iso-codes qt5-qtwayland kactivitymanagerd kinit milou consolekit2"
 depends_dev="krunner-dev kdesignerplugin-dev kdesignerplugin qt5-qtwayland-dev qt5-qtdeclarative-dev
 			kxmlrpcclient-dev kdelibs4support-dev plasma-framework-dev knotifyconfig-dev
@@ -46,4 +46,4 @@ package() {
 
 	install -Dm644 plasmawayland.desktop "$pkgdir"/usr/share/wayland-sessions/plasmawayland.desktop
 }
-sha512sums="2882662962f5996b7514b23a166ce19e2813e207463351721be2bb00a6cedd181d30bab38a98ef2aab8db08fccf392acc293def5213879389a7bd4933361dc99  plasma-workspace-5.11.0.tar.xz"
+sha512sums="e3315a750d03db717277ab7b3d313cd275284cbc07a79488a4c5d2068c52f7a3c364b7963296973ad9f00e391a58495cf0ce152692857ef909a934fc97f14f14  plasma-workspace-5.11.1.tar.xz"
