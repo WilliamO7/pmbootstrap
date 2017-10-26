@@ -1,0 +1,38 @@
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+
+pkgname=systemsettings
+pkgver=5.11.2
+pkgrel=0
+pkgdesc='KDE system settings'
+arch="all"
+url='https://www.kde.org/workspaces/plasmadesktop/'
+license="GPL-2.0"
+depends=""
+depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev kitemviews-dev
+			kcmutils-dev ki18n-dev kio-dev kservice-dev kiconthemes-dev kwidgetsaddons-dev
+			kwindowsystem-dev kxmlgui-dev kdbusaddons-dev kconfig-dev kdoctools-dev
+			kpackage-dev kdeclarative-dev kactivities-dev kcoreaddons-dev kconfigwidgets-dev
+			kbookmarks-dev kcompletion-dev kjobwidgets-dev solid-dev kactivities-stats-dev
+			kirigami2-dev khtml-dev"
+makedepends="$depends_dev extra-cmake-modules"
+source="https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"
+
+build() {
+	cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	make
+}
+
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+}
+sha512sums="ac2d401758831c09aa1517711c173a3a3fffb5ab2132e3085ca7afe9bc6d0a0fbd22964190c1cf2a2c679ec8ed302b0c36b0eac19f6f5832700473be0db0004a  systemsettings-5.11.2.tar.xz"
