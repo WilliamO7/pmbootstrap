@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kactivitymanagerd
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc="System service to manage user's activities and track the usage patterns"
 arch="all"
@@ -39,4 +39,4 @@ package() {
 	cd "$srcdir"/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="e3584431b88b0edd00e6274adc5346953b23bfddc9e52b0f57d21aebb9e94512688d40b2f8414ad8b9f4efc58a4e0d0e7ad8374391c1fcd7d54330bfc45392a8  kactivitymanagerd-5.11.1.tar.xz"
+sha512sums="e2c85a5b2d8470ae8740adfb1bc872e7a7eafd3a210a37cc2450a99941a29eb0edb454d627915f865831d298faade4793c95d78ec2ff748b7abd9a1802022a86  kactivitymanagerd-5.11.2.tar.xz"

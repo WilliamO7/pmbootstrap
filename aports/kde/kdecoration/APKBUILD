@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdecoration
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc='Plugin based library to create window decorations'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="ed98f4848068b9c012b5483bca37c8c5662f6589f62dbe5cbb58487148466bc8650038f0c836e1d8939b84a2330a13081dac4fa13d2b03f9fb69513227caeacd  kdecoration-5.11.1.tar.xz"
+sha512sums="db0c3690f268fd2ee898d4be2ebebd11754ad473a9d057bdd37d5caa4ed1963fb1cf4b0d3f7ef3e6bfecafe9e7ec4c09fa87054427398f3c2ce579be4bbeb0fa  kdecoration-5.11.2.tar.xz"

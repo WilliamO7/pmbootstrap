@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=breeze
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc='Artwork, styles and assets for the Breeze visual style for the Plasma Desktop'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="cd34d600a428f87baa2875e57528d4e302cb1cc3661782fddb739731a6f064d452f0b0265610aeec46b193883bad92009fb24cc45e0fa3048e31cec7e5bb6800  breeze-5.11.1.tar.xz"
+sha512sums="715353c69c1dd1def9b6fb0b04846a20cbbeb2f057d5935dbeaf55c1a03d92046f1f7ee017e5ee3d12bbba97a6319d36022b04acb6b93e839415733768cb8cf9  breeze-5.11.2.tar.xz"

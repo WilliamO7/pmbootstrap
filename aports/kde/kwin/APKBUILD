@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kwin
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc='An easy to use, but flexible, composited Window Manager'
 arch="all"
@@ -42,5 +42,5 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="3bce8c8499e1358c8d47c897e235e528a30e5ce41ae33ec227924f207996cf332492025df0f7b74ea34eb341babed30f98bf6c5784a40756e7c0bd5065c53bc6  kwin-5.11.1.tar.xz
+sha512sums="2d92676268b2d16eb27e8a44e6ac7b3f2a9126e92f6ec714e6ff64ba25e5ae732f3af126e69c98657af07140de5eb8e499358b58b98cd47a0b730c2a8bca6394  kwin-5.11.2.tar.xz
 5c35ff9526eb5a239e384025d20840ef159ad1f82922a49bb92ebd251c61410361495da9b03a5e185a26c6ad587ece68a20bd7973cad05cbb4f6cd490a4cbf37  0001-fbdev-support-RGB32-framebuffer-with-BGR-order.patch"

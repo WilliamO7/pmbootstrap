@@ -17,6 +17,7 @@ depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev kitemviews-dev
 			kirigami2-dev khtml-dev"
 makedepends="$depends_dev extra-cmake-modules"
 source="https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 
 build() {
 	cmake \

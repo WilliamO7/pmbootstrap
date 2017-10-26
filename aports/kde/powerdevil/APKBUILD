@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=powerdevil
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc='Manages the power consumption settings of a Plasma Shell'
 arch="all"
@@ -40,4 +40,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="b1af8398012c4f42651874f37401ab40bd9a4656ca0f3a84067a565f54c1a9040cde17aebdc778483bbc541a58dfe9b03b16d7271a2f893a76c2532b47b44868  powerdevil-5.11.1.tar.xz"
+sha512sums="1253d87d8e5c88a58f6bd0244bc230d4310fcb7cdbc01b6cec2818227d0f9b0fbac9277d02f90a79bf5a36280ba2637ed44b6212a3a3913093941d03c6df4d4c  powerdevil-5.11.2.tar.xz"

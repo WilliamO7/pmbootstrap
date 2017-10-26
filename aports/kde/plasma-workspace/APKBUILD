@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=plasma-workspace
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc='KDE Plasma Workspace'
 arch="all"
@@ -46,4 +46,4 @@ package() {
 
 	install -Dm644 plasmawayland.desktop "$pkgdir"/usr/share/wayland-sessions/plasmawayland.desktop
 }
-sha512sums="e3315a750d03db717277ab7b3d313cd275284cbc07a79488a4c5d2068c52f7a3c364b7963296973ad9f00e391a58495cf0ce152692857ef909a934fc97f14f14  plasma-workspace-5.11.1.tar.xz"
+sha512sums="0538b18e0991e7aad4a3713e5fc0559e75b2929b8d2c2f3a44ea9ed5c236362956f4ec0ce2697ea337ca7cea29af0030d6b5c0dbd01771253b38dde7d81f6c35  plasma-workspace-5.11.2.tar.xz"

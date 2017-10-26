@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kscreen
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc="KDE's screen management software"
 arch="all"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="80ca1be6ed70a3fb568fb5e03ce2db0666b6edb15db045ee149e09c9e2c8001cf3876a881eaf2b4004d790c3532f04006a908c94d83936d32b39061735e0fbb2  kscreen-5.11.1.tar.xz"
+sha512sums="0ea6cac748f137a7a2cfa65636c5f3c2a45f95ef2723c1990406e9f8ac188e263f101a3b9ff402fd097661b1d29fa3942223f2f18512489c3eeab6847bbb696c  kscreen-5.11.2.tar.xz"

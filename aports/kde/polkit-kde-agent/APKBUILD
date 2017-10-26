@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=polkit-kde-agent
-pkgver=5.11.1
+pkgver=5.11.2
 pkgrel=0
 pkgdesc='Daemon providing a polkit authentication UI for KDE'
 arch="all"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="e6aacb0c39ef4b53fbac9a3a19aedeaff178ac899a9231d4b739b7e3e29c7c7416a78ebf96fd5a1e7ed10076f14a2085187556eb969221bd827f2670b0f9b66b  polkit-kde-agent-1-5.11.1.tar.xz"
+sha512sums="388dd3fb993166e202f00a0a118b7f27a0890dadcbeec30029f35dddcb4eef0be9ef22ebe9e53c33f39dc36559bf64170f745ef1760371bc0604281da27b8ca5  polkit-kde-agent-1-5.11.2.tar.xz"
