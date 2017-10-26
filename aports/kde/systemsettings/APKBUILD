@@ -8,7 +8,7 @@ pkgdesc='KDE system settings'
 arch="all"
 url='https://www.kde.org/workspaces/plasmadesktop/'
 license="GPL-2.0"
-depends=""
+depends="kirigami2"
 depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev kitemviews-dev
 			kcmutils-dev ki18n-dev kio-dev kservice-dev kiconthemes-dev kwidgetsaddons-dev
 			kwindowsystem-dev kxmlgui-dev kdbusaddons-dev kconfig-dev kdoctools-dev

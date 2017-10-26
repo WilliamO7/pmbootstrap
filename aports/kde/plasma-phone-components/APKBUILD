@@ -1,12 +1,12 @@
 pkgname=plasma-phone-components
-pkgver=682
-pkgrel=2
-commit=0c92d4d09b48f5b990323874efd1cf9986a6f049
+pkgver=1
+pkgrel=0
+#commit=0c92d4d09b48f5b990323874efd1cf9986a6f049
 pkgdesc="Modules providing phone functionality for Plasma"
 arch="all"
 url="https://community.kde.org/Plasma/Mobile"
 license="GPL3"
-depends="desktop-file-utils qt5-qtgraphicaleffects kactivities qt5-qtquickcontrols2"
+depends="desktop-file-utils qt5-qtgraphicaleffects kactivities qt5-qtquickcontrols2 qt5-qtquickcontrols"
 makedepends="extra-cmake-modules kpeople-dev qt5-qtdeclarative-dev kactivities-dev
 			 plasma-framework-dev kservice-dev kdeclarative-dev ki18n-dev kio-dev kcoreaddons-dev
 			 kconfig-dev kbookmarks-dev kwidgetsaddons-dev kcompletion-dev kitemviews-dev
@@ -15,9 +15,9 @@ makedepends="extra-cmake-modules kpeople-dev qt5-qtdeclarative-dev kactivities-d
 install="$pkgname.post-install
 		 $pkgname.post-upgrade
 		 $pkgname.post-deinstall"
-source="$pkgname-$pkgver.tar.gz::https://github.com/KDE/$pkgname/archive/$commit.tar.gz
+source="$pkgname-$pkgver.tar.gz
 		unset-telepathy-dep.patch"
-builddir="$srcdir/$pkgname-$commit"
+builddir="$srcdir/$pkgname"
 
 build() {
 	cmake \
@@ -39,5 +39,5 @@ package() {
 	make DESTDIR="$pkgdir/" install
 }
 
-sha512sums="0be4d55340488112a8f3ff0f071b214d45a6dea57dec61e7110953aa1650119e4b48efb699ab7a9e1ee1d9e189e3a7fa8afe2ecef701f54cc0fcde70290ea439  plasma-phone-components-682.tar.gz
+sha512sums="d413317b326072c55c75a2f5f99b66a6aa4f3982701f92605debfa46536578d7f9c9da08639363236d92eb65701bcd870be2a968539cd9aefedfb1e423b9dcea  plasma-phone-components-1.tar.gz
 8705fb02720dc4ebd43f078a5c79c7c498c69873b6b231137cd932ab13d4ffd0739dfae06eb4b12bed8c4bd7f05961514abf3a957b7abaa32d228a0c89bb6696  unset-telepathy-dep.patch"
