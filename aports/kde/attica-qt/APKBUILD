@@ -1,6 +1,6 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
-pkgname=attica-qt5
+pkgname=attica-qt
 pkgver=5.39.0
 pkgrel=0
 arch="all"
@@ -12,7 +12,7 @@ depends_dev="qt5-qtbase-dev"
 makedepends="$depends_dev extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/attica-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc"
-builddir="$srcdir/${pkgname/-qt5/}-$pkgver"
+builddir="$srcdir/${pkgname/-qt/}-$pkgver"
 
 build() {
 	cmake \

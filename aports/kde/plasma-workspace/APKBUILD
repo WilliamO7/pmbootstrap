@@ -12,7 +12,7 @@ depends_dev="krunner-dev kdesignerplugin-dev kdesignerplugin qt5-qtwayland-dev q
 			kxmlrpcclient-dev kdelibs4support-dev plasma-framework-dev knotifyconfig-dev
 			kcmutils-dev kdesu-dev kwallet-dev ksysguard kwin-dev kguiaddons-dev
 			kjsembed-dev knewstuff-dev qt5-x11extras-dev ktexteditor-dev libksysguard-dev
-			kwallet-dev attica-qt5-dev kitemmodels-dev kscreenlocker-dev
+			kwallet-dev attica-qt-dev kitemmodels-dev kscreenlocker-dev
 			qt5-qtscript-dev karchive-dev kcrash-dev kpackage-dev kactivities-dev
 			kdeclarative-dev kpty-dev kjs-dev ktextwidgets-dev sonnet-dev kauth-dev
 			kconfigwidgets-dev ki18n-dev kcodecs-dev kwidgetsaddons-dev kservice-dev
