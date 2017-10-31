@@ -5,7 +5,7 @@ pkgdesc="(Wayland) Mobile variant of KDE Plasma, optimized for touchscreen"
 url="https://github.com/postmarketOS"
 arch="noarch"
 license="GPL3+"
-depends="plasma-mobile plasma-phone-components dbus-nox11 konsole systemsettings
+depends="plasma-mobile plasma-phone-components dbus-nox11 konsole plasma-settings
 		breeze-icons postmarketos-demos kscreen qt5-qtvirtualkeyboard"
 makedepends=""
 install="$pkgname.post-install"
@@ -21,4 +21,4 @@ package() {
 	chmod +x "$pkgdir"/bin/startkwin
 }
 sha512sums="17873724a55e406009c0be63a3e727ca6ddc6f8bfb5d1aad42eb29ebcae2bd41ea9aad4cf79820c76b2f1ee8eff26134e3671ace92b133e04c51a5a540ef13a6  start_plasma.sh
-f4c4923010751f94a6e8bcbd8b90bd4b45c3d0a0b149e9e920efaa8f5d431a6385144ca2e27f856e66ccbd56b98c624c317fc78da4824086ff24b78bce31d76d  startkwin"
+9da4834d8f0c84b021b1b555453b9ba665c386b56eae51dd76211f30157853abe55befaf2c76fc1aa1dfea8bb8c9b40791cc83b710754cc00bb6008d905971b3  startkwin"

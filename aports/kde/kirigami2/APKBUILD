@@ -10,7 +10,7 @@ depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev qt5-qtsvg-dev qt5-qtquickcontr
 			kpackage-dev kcoreaddons-dev kservice-dev kconfig-dev kwindowsystem-dev"
 makedepends="$depends_dev extra-cmake-modules qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
-subpackages="$pkgname-dev $pkgname-lang"
+subpackages="$pkgname-dev $pkgname-libs $pkgname-lang"
 options="!check"
 builddir="$srcdir/build"
 
