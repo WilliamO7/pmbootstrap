@@ -25,6 +25,7 @@ import traceback
 
 from . import config
 from . import parse
+from .config import init as config_init
 from .helpers import frontend
 from .helpers import logging as pmb_logging
 from .helpers import other
@@ -42,11 +43,15 @@ def main():
 
         # Initialize or require config
         if args.action == "init":
-            return config.init(args)
+            return config_init.frontend(args)
         elif not os.path.exists(args.config):
             logging.critical("Please specify a config file, or run"
                              " 'pmbootstrap init' to generate one.")
             return 1
+
+        # Migrate work folder if necessary
+        if args.action not in ["shutdown", "zap", "log"]:
+            other.migrate_work_folder(args)
 
         # Run the function with the action's name (in pmb/helpers/frontend.py)
         if args.action:

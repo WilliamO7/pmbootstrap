@@ -1,26 +1,36 @@
 pkgname=device-asus-flo
 pkgver=0
-pkgrel=3
+pkgrel=7
 pkgdesc="Google Nexus 7 2013 flo"
 url="https://github.com/postmarketOS"
 arch="noarch"
 license="MIT"
-depends="linux-asus-flo mkbootimg firmware-asus-flo mesa mesa-dri-freedreno"
+depends="linux-asus-flo mkbootimg firmware-asus-flo mesa mesa-egl mesa-dri-freedreno"
 makedepends=""
 install=""
-subpackages=""
-source="deviceinfo 90-android-touch-dev.rules wpa_supplicant.conf"
+subpackages="$pkgname-weston"
+source="deviceinfo 90-android-touch-dev.rules wpa_supplicant.conf pointercal weston.ini"
 
 options="!check"
 
 package() {
-	install -D -m644 "$srcdir/deviceinfo" \
-		"$pkgdir/etc/deviceinfo"
-	install -D -m644 "$srcdir/wpa_supplicant.conf" \
-		"$pkgdir/etc/wpa_supplicant/wpa_supplicant.conf"
-	install -D -m644 "$srcdir/90-android-touch-dev.rules" \
-		"$pkgdir/lib/udev/rules.d/90-android-touch-dev.rules"
+	install -D -m644 "$srcdir"/deviceinfo \
+		"$pkgdir"/etc/deviceinfo
+	install -D -m644 "$srcdir"/wpa_supplicant.conf \
+		"$pkgdir"/etc/wpa_supplicant/wpa_supplicant.conf
+	install -D -m644 "$srcdir"/90-android-touch-dev.rules \
+		"$pkgdir"/etc/udev/rules.d/90-android-touch-dev.rules
+	install -D -m644 "$srcdir"/pointercal \
+		"$pkgdir"/etc/pointercal
 }
-sha512sums="c001afc386e71af19caf438c1fe4af3a16982df4c6095e0aa3bb7782ef6e40e93ecc125c28a315e7138ca4acb42234e76ff2f199b7ab6c97ee0ee651ad4e97f6  deviceinfo
-a02db4e1bdb622cc4616b750dc5c3248081f5124cc49ef18f25b430c921c80004eff9f6a9b84a76ce04785c256e71776ff90e0f60140e4cce6860ba8d80cf4d2  90-android-touch-dev.rules
-3278921cc1617d10fdd13dfbeaf213cda0078d069e727acd8cfac10bd8ade6f373be1e22fd1e4b50ae71cd2eae09f7d6aad5de42338d9ea9f8c1a34f0b60cb69  wpa_supplicant.conf"
+
+weston() {
+	install_if="$pkgname weston"
+	install -Dm644 "$srcdir"/weston.ini \
+		"$subpkgdir"/etc/xdg/weston/weston.ini
+}
+sha512sums="40b6e53d5c0ccf80588127607c877d245efeaea0276356749fdaff232e9b9880d9e00c07d7296cfd5f96703ebca9e3f88becc368dff51d819c7f6fb71832ca71  deviceinfo
+5ac89b627f52d2f1103c3329bd905cdbb906cae5bb332d52e6805d7971fbcc0faabe1fd9d2beb7c6de4e4487c05047eaa17852dbf9e114ee3c5d4b0d57d73859  90-android-touch-dev.rules
+3278921cc1617d10fdd13dfbeaf213cda0078d069e727acd8cfac10bd8ade6f373be1e22fd1e4b50ae71cd2eae09f7d6aad5de42338d9ea9f8c1a34f0b60cb69  wpa_supplicant.conf
+cf913217b41a3dde8bc2a16a5bc82013c85679de0e81db1cfc36f2409ea034fec430082ddcb207c16746453601cf8381300b049cd2fb131f1916dc7dbcc247e3  pointercal
+df0fe900693e5f176076c59f5379e56aaa96c3df16a4120448f15b71f530170730b43e5fe32733c40c118a00ca3581043231a062a8a1eb0a930bfbfbb6c52a47  weston.ini"

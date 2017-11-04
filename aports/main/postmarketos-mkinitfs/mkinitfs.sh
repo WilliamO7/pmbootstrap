@@ -46,16 +46,6 @@ get_modules_by_globs()
 		kernel/arch/*/crypto/*
 		kernel/drivers/md/dm-crypt.ko
 
-		# kms.modules
-		kernel/drivers/char/agp
-		kernel/drivers/gpu
-		kernel/drivers/i2c
-		kernel/drivers/video
-		kernel/arch/x86/video/fbdev.ko
-
-		# mmc.modules
-		kernel/drivers/mmc
-
 		# required for modprobe
 		modules.*
 	"
@@ -94,24 +84,48 @@ get_modules()
 }
 
 # Get the paths to all binaries and their dependencies
+BINARIES="/bin/busybox /bin/busybox-extras /usr/sbin/telnetd /sbin/kpartx"
+BINARIES_EXTRA="
+	/sbin/cryptsetup
+	/sbin/dmsetup
+	/usr/sbin/parted
+	/sbin/e2fsck
+	/usr/sbin/resize2fs
+	/usr/bin/osk-sdl
+	/usr/lib/libGL.so.1
+	/usr/lib/ts/*
+	/usr/lib/libts*
+	$(find /usr/lib/directfb-* -name '*.so')
+	/lib/libz.so.1
+"
 get_binaries()
 {
-	BINARIES="/bin/busybox /bin/busybox-extras /usr/sbin/telnetd /sbin/kpartx"
 	if [ "${deviceinfo_msm_refresher}" == "true" ]; then
 		BINARIES="${BINARIES} /usr/sbin/msm-fb-refresher"
 	fi
 	lddtree -l $BINARIES | sort -u
 }
 
+# Collect non-binary files for osk-sdl and its dependencies
+# This gets called as $(get_osk_config), so the exit code can be checked/handled.
+get_osk_config()
+{
+	fontpath=$(awk '/^keyboard-font/{print $3}' /etc/osk.conf)
+	if [ ! -f $fontpath ]; then
+		exit 1
+	fi
+	ret="
+		/etc/osk.conf
+		/etc/ts.conf
+		/etc/pointercal
+		/etc/fb.modes
+		$fontpath
+	"
+	echo "${ret}"
+}
+
 get_binaries_extra()
 {
-	BINARIES_EXTRA="
-		/sbin/cryptsetup
-		/sbin/dmsetup
-		/usr/sbin/parted
-		/sbin/e2fsck
-		/usr/sbin/resize2fs
-	"
 	tmp1=$(mktemp /tmp/mkinitfs.XXXXXX)
 	get_binaries > "$tmp1"
 	tmp2=$(mktemp /tmp/mkinitfs.XXXXXX)
@@ -204,6 +218,10 @@ generate_splash_screens()
 	[ "$1" != "false" ] && clean="true" || clean="false"
 
 	splash_version=$(apk info -v | grep postmarketos-splash)
+	if [ -z "$splash_version" ]; then
+		# If package is not installed yet, use latest version from repository
+		splash_version=$(apk search -x postmarketos-splash)
+	fi
 	splash_config="/etc/postmarketos/splash.ini"
 	splash_config_hash=$(md5sum "$splash_config")
 	splash_width=${deviceinfo_screen_width:-720}
@@ -214,8 +232,7 @@ generate_splash_screens()
 	# $1: splash_name
 	# $2: text
 	# $3: arguments
-	set -- "splash-telnet"           "On-screen keyboard is not implemented yet, plug in a USB cable and run on your PC:\\ntelnet 172.16.42.1" "" \
-	       "splash-loading"          "Loading..." "--center" \
+	set -- "splash-loading"          "Loading..." "--center" \
 	       "splash-noboot"           "boot partition not found\\nhttps://postmarketos.org/troubleshooting" "--center" \
 	       "splash-noinitramfsextra" "initramfs-extra not found\\nhttps://postmarketos.org/troubleshooting" "--center" \
 	       "splash-nosystem"         "system partition not found\\nhttps://postmarketos.org/troubleshooting" "--center" \
@@ -230,7 +247,7 @@ generate_splash_screens()
 		splash_name=$1
 		splash_text=$2
 		splash_args=$3
-		
+
 		# Compute hash using the following values concatenated:
 		# - postmarketos-splash package version
 		# - splash config file
@@ -270,6 +287,44 @@ append_device_tree()
 	cat $kernel $dtb > "${kernel}-dtb"
 }
 
+# Create the initramfs-extra archive
+# $1: outfile
+generate_initramfs_extra()
+{
+	echo "==> initramfs: creating $1"
+
+	osk_conf="$(get_osk_config)"
+	if [ $? -eq 1 ]; then
+		echo "ERROR: Font specified in /etc/osk.conf does not exist!"
+		exit 1
+	fi
+
+	# Ensure cache folder exists
+	mkinitfs_cache_dir="/var/cache/postmarketos-mkinitfs"
+	mkdir -p "$mkinitfs_cache_dir"
+
+	# Generate cache output filename (initfs_extra_cache) by hashing all input files
+	initfs_extra_files=$(echo "$BINARIES_EXTRA$osk_conf" | xargs -0 -I{} sh -c 'ls $1 2>/dev/null' -- {} | sort -u)
+	initfs_extra_files_hashes="$(md5sum $initfs_extra_files)"
+	initfs_extra_hash="$(echo "$initfs_extra_files_hashes" | md5sum | awk '{ print $1 }')"
+	initfs_extra_cache="$mkinitfs_cache_dir/$(basename $1)_${initfs_extra_hash}"
+
+	if ! [ -e "$initfs_extra_cache" ]; then
+		# If a cached file is missing, clear the whole cache and create it
+		rm -f ${mkinitfs_cache_dir}/*
+
+		# Set up initramfs-extra in temp folder
+		tmpdir_extra=$(mktemp -d /tmp/mkinitfs.XXXXXX)
+		mkdir -p "$tmpdir_extra"
+		copy_files "$(get_binaries_extra)" "$tmpdir_extra"
+		copy_files "$osk_conf" "$tmpdir_extra"
+		create_cpio_image "$tmpdir_extra" "$initfs_extra_cache"
+		rm -rf "$tmpdir_extra"
+	fi
+
+	cp "$initfs_extra_cache" "$1"
+}
+
 # initialize
 source_deviceinfo
 parse_commandline "$1" "$2" "$3"
@@ -305,17 +360,6 @@ create_bootimg
 
 rm -rf "$tmpdir"
 
-# initialize initramfs-extra
-echo "==> initramfs: creating $outfile_extra"
-tmpdir_extra=$(mktemp -d /tmp/mkinitfs.XXXXXX)
-
-# set up initfs-extra in temp folder
-mkdir -p "$tmpdir_extra"
-copy_files "$(get_binaries_extra)" "$tmpdir_extra"
-
-# finish up
-create_cpio_image "$tmpdir_extra" "$outfile_extra"
-
-rm -rf "$tmpdir_extra"
+generate_initramfs_extra "$outfile_extra"
 
 exit 0

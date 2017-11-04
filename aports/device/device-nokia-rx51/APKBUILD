@@ -1,14 +1,14 @@
 pkgname=device-nokia-rx51
 pkgver=1
-pkgrel=20
+pkgrel=26
 pkgdesc="Nokia N900"
 url="https://github.com/postmarketOS"
 arch="noarch"
 license="MIT"
-depends="linux-postmarketos uboot-tools linux-firmware kbd kbd-bkeymaps ofono"
+depends="linux-postmarketos-stable uboot-tools linux-firmware kbd kbd-bkeymaps ofono"
 makedepends="uboot-tools kbd kbd-bkeymaps"
 install="$pkgname.post-install"
-subpackages=""
+subpackages="$pkgname-weston:weston"
 source="
 	deviceinfo
 	uboot-script.cmd
@@ -19,6 +19,8 @@ source="
 	acpi.map
 	keymaps/rx51_us.map
 	pointercal
+	asound.state
+	weston.ini
 	$install
 "
 options="!check"
@@ -40,6 +42,8 @@ package() {
 		"$pkgdir"/etc/postmarketos-mkinitfs/hooks/00-${pkgname}-backlight.sh
 	install -D -m644 "$srcdir"/pointercal \
 		"$pkgdir"/etc/pointercal
+	install -D -m644 "$srcdir"/asound.state \
+		"$pkgdir"/var/lib/alsa/asound.state
 
 	# Udev rules
 	install -D -m644 "$srcdir"/90-touchscreen-dev.rules \
@@ -49,18 +53,24 @@ package() {
 
 	# ACPI
 	mkdir "$pkgdir"/etc/acpi
-        install -D -m755 "$srcdir"/acpi_handler.sh\
-                "$pkgdir"/etc/acpi/handler.sh
-        install -D -m644 "$srcdir"/acpi.map\
-                "$pkgdir"/etc/acpi.map
+	install -D -m755 "$srcdir"/acpi_handler.sh \
+		"$pkgdir"/etc/acpi/handler.sh
+	install -D -m644 "$srcdir"/acpi.map \
+		"$pkgdir"/etc/acpi.map
 
 	# Keymap
-        install -D -m644 "$srcdir"/keymaps/rx51_us.bmap.gz\
-                "$pkgdir"/usr/share/bkeymaps/us/rx51_us.bmap.gz
+	install -D -m644 "$srcdir"/keymaps/rx51_us.bmap.gz \
+		"$pkgdir"/usr/share/bkeymaps/us/rx51_us.bmap.gz
 }
 
-sha512sums="7585e3aa89fc6576c70219e15d32af5fe333e2f7379a76e702ffaa959cbcd3e86ee243094abef3cf779545eda9677d55dea4b8c0396ab70191359b35883685c4  deviceinfo
-1b89309dd4fe7ee0ba37c6224a0152d6864bb1c7bc4e96918a57e01bebc4173559855ae9673887223de4a8baa3191c8ad88ec8594776a4110cdb19a7be790db4  uboot-script.cmd
+weston() {
+	install_if="$pkgname weston"
+	install -Dm644 "$srcdir"/weston.ini \
+		"$subpkgdir"/etc/xdg/weston/weston.ini
+}
+
+sha512sums="8e010bebddf1bb09cde3966e402d2c146476eb21761c3110d2ac01010eced42519dab7b81915899894914c7e3820eaf6c48767a21c955412ad53da0bade0c38c  deviceinfo
+8f5b68b86f5345698114a2d70fd174699e5729f6c157659e4e57bef1dcab8c1209c13b30df6f5c2e8f31fee077039ffbc7817ca201f0745467b693e7550eaf6b  uboot-script.cmd
 3d55e34b95791636e44a5f41754f3d0de039dbba41f7a556d43a95c9e64afcfa930046b4b96b40020b6f196096ffba93514682927e32fa4488686fdd19c6da5a  backlight-enable.sh
 d303734dd49fe75a299ca723f4da52bc0cda2775683c54aa736aabf397db4ae8deb6d912d4116800cf2ba17f3a2987ab3e839652879b8ab023b4a91a55849f08  90-touchscreen-dev.rules
 9e72035c88632d12895534e5aa5746f2c130c7dcdafa8702748d62b71ed0e1b5911b6e1f07f9b9e39b6072bbb662f66aead585baa1dcacb7d8c8953ca89b6762  10-nokia-modem.rules
@@ -68,4 +78,6 @@ df5dcae9a32d04ba2fed8b4dbb8722f8d56d063a288dfbaeca37806bdbb8ba4de639b392859b9f24
 7761aec6e6e219245b006e7bdc1d19812e9c5915cf3e64bb3dd46bb4b5570c1715650b53a1fc1007cb814076b5d81be0a66ba7ebf06d9a1fa4e364725c3ee633  acpi.map
 c9ff8b5968fe94007e1139db5ae76f3ee6c214356bff297b9672276c6adb332ba2342b6ca54cf7992d6556f3c68a13ef49ae5e61abe86154935514034170e228  rx51_us.map
 143c21f0b18a016d37cb44178e9daea09f128a90769b48353c03c3f245cb9b1f7e773b9ccee084973fc78ddd7a18c2642e54888a85bda7c7daecddc9a8c62eff  pointercal
-359ed3a0393c57ef7ba9c6ab3e908114df6848035863e1a1f23dffcf3309c02bb27e532cb6a086dbcc4a83447c9e42215757d139732d014d5b6a8ea62a12e4a0  device-nokia-rx51.post-install"
+e023df91295fe7e410e163747d17e5b92fe3c022ff076e286778b8334368f885603b8fda65671e4a7328766da7b2552ea4df1b1399df23e504a41a6655771142  asound.state
+e7749ce65de8e90b64f728f6ff695d4199cfcac31f0a7def19c46cd3cd6fba623b03202036ab99bdaec8611bfe7c787259f6f6ef7316f208a2b2fe9a7d01d22f  weston.ini
+a7ce458dd3c6d2b94639b59719ee972fe8c71781c3415f74f5340a4de1c8211853a07c29001ecbca832c471c288bed54b45c37fad05e088c197edc2bd7e7ce1b  device-nokia-rx51.post-install"

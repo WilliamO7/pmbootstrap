@@ -21,7 +21,7 @@ case $pkgver in
 	*.*.*)  _kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=2
+pkgrel=3
 arch="armhf"
 pkgdesc="Sony Xperia Z2 Tablet kernel"
 url="https://github.com/andersson"
@@ -69,10 +69,10 @@ prepare() {
 	fi
 
 	# gcc6 support
-	cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/" || return 1
+	cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/"
 
 	mkdir -p "$srcdir"/build
-	cp "$srcdir"/$_config "$srcdir"/build/.config || return 1
+	cp "$srcdir"/$_config "$srcdir"/build/.config
 	make -C "$ksrcdir" O="$srcdir"/build ARCH="$_carch" HOSTCC="$HOSTCC" \
 		silentoldconfig
 }
@@ -81,7 +81,7 @@ prepare() {
 
 # this is so we can do: 'abuild menuconfig' to reconfigure kernel
 menuconfig() {
-	cd "$srcdir"/build || return 1
+	cd "$srcdir"/build
 	make ARCH="$_carch" menuconfig
 	cp .config "$startdir"/$_config
 }
@@ -92,8 +92,7 @@ build() {
 
 	make ARCH="$_carch" CC="${CC:-gcc}" \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine" \
-		CFLAGS_MODULE=-fno-pic \
-		|| return 1
+		CFLAGS_MODULE=-fno-pic
 }
 
 package() {
@@ -111,11 +110,10 @@ package() {
 	make -j1 modules_install \
 		ARCH="$_carch" \
 		INSTALL_MOD_STRIP=1 \
-		INSTALL_MOD_PATH="$pkgdir" \
-		|| return 1
+		INSTALL_MOD_PATH="$pkgdir"
 }
 
 sha512sums="42e3d7ea75a2e69a7589e74409fe43f2abdee0f4cc1fcea1b138622e3845524145e4c41343abc57d71236b1e2f59715f719845fcf5e628a6c343e9b10d06942a  linux-sony-castor-windy-next.tar.gz
-7a39cb11eba808c1c8450925b2a865192f02572bc2c64de362ba9d26098852f8f7ce602ba2a3c418a1b12d2359d6e5fd6d3463bb338ba3071b0c72ba7f43aad4  config-sony-castor-windy.armhf
+fd1df610c222a0be9aeddd43fd322a99c2344cd9ffb993483dba10c9d0c22596d01df5071b25c1dde5ee4dd5dc242adcfeb67d28274496d9a20bc571697945c6  config-sony-castor-windy.armhf
 a13b17a151f732c2842df963019079cab07118fcdcdb2f2dfdfbd18571c7e2bd95a94734dc3a4eef1dae970e698f46047973efba6f355b26bf553fa6c2ac895d  mmc-wifi-fix.patch
 d80980e9474c82ba0ef1a6903b434d8bd1b092c40367ba543e72d2c119301c8b2d05265740e4104ca1ac5d15f6c4aa49e8776cb44264a9a28dc551e0d1850dcc  compiler-gcc6.h"

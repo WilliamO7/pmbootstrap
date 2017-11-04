@@ -11,8 +11,6 @@ rc-update add acpid default
 rc-update add hwdrivers boot
 # Enable networking service (requires /etc/interfaces, which is configured below)
 rc-update add networking default
-# Trigger udev on boot (necessary to get the nokia-modem stuff to register with udev)
-rc-update add udev-trigger default
 # Enable ofono
 rc-update add ofono default
 
@@ -20,11 +18,6 @@ rc-update add ofono default
 NMC=/etc/modules-load.d/nokia-modem.conf
 if [ ! -f $NMC ] || [ -z "$(grep nokia-modem $NMC)" ]; then
 	echo "nokia-modem" >> /etc/modules-load.d/nokia-modem.conf
-fi
-
-# Add /boot mount point in fstab
-if [ -z "$(grep /boot /etc/fstab)" ]; then
-        echo "/dev/dm-0 /boot   ext2    defaults        0       0" >> /etc/fstab
 fi
 
 # Set RTC device for hwclock

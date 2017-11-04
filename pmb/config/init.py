@@ -23,6 +23,7 @@ import os
 import pmb.config
 import pmb.helpers.cli
 import pmb.helpers.devices
+import pmb.helpers.run
 import pmb.helpers.ui
 import pmb.chroot.zap
 import pmb.parse.deviceinfo
@@ -41,7 +42,23 @@ def ask_for_work_path(args):
         try:
             ret = os.path.expanduser(pmb.helpers.cli.ask(
                 args, "Work path", None, args.work, False))
-            os.makedirs(ret, 0o700, True)
+            ret = os.path.realpath(ret)
+
+            # Work must not be inside the pmbootstrap path
+            if ret == pmb.config.pmb_src or ret.startswith(pmb.config.pmb_src +
+                                                           "/"):
+                logging.fatal("ERROR: The work path must not be inside the"
+                              " pmbootstrap path. Please specify another"
+                              " location.")
+                continue
+
+            # Create the folder with a version file
+            if not os.path.exists(ret):
+                os.makedirs(ret, 0o700, True)
+                with open(ret + "/version", "w") as handle:
+                    handle.write(pmb.config.work_version + "\n")
+
+            # Make sure, that we can write into it
             os.makedirs(ret + "/cache_http", 0o700, True)
             return ret
         except OSError:
@@ -52,7 +69,9 @@ def ask_for_work_path(args):
 def ask_for_ui(args):
     ui_list = pmb.helpers.ui.list(args)
     logging.info("Available user interfaces (" +
-                 str(len(ui_list) - 1) + "): " + ", ".join(ui_list))
+                 str(len(ui_list) - 1) + "): ")
+    for ui, description in ui_list.items():
+        logging.info("* " + ui + ": " + description)
     while True:
         ret = pmb.helpers.cli.ask(args, "User interface", None, args.ui, True)
         if ret in ui_list:
@@ -79,24 +98,68 @@ def ask_for_keymaps(args, device):
                       " one from the list above.")
 
 
-def init(args):
-    cfg = pmb.config.load(args)
+def ask_for_timezone(args):
+    localtimes = ["/etc/zoneinfo/localtime", "/etc/localtime"]
+    zoneinfo_path = "/usr/share/zoneinfo/"
+    for localtime in localtimes:
+        if not os.path.exists(localtime):
+            continue
+        tz = ""
+        if os.path.exists(localtime):
+            tzpath = os.path.realpath(localtime)
+            tzpath = tzpath.rstrip()
+            if os.path.exists(tzpath):
+                try:
+                    _, tz = tzpath.split(zoneinfo_path)
+                except:
+                    pass
+        if tz:
+            logging.info("Your host timezone: " + tz)
+            if pmb.helpers.cli.confirm(args, "Use this timezone instead of GMT?",
+                                       default="y"):
+                return tz
+    logging.info("WARNING: Unable to determine timezone configuration on host, using GMT.")
+    return "GMT"
 
-    # Device
+
+def ask_for_device(args):
     devices = sorted(pmb.helpers.devices.list(args))
     logging.info("Target device (either an existing one, or a new one for"
                  " porting).")
     logging.info("Available (" + str(len(devices)) + "): " +
                  ", ".join(devices))
-    cfg["pmbootstrap"]["device"] = pmb.helpers.cli.ask(args, "Device",
-                                                       None, args.device, False, "[a-z0-9]+-[a-z0-9]+")
+    while True:
+        device = pmb.helpers.cli.ask(args, "Device", None, args.device, False,
+                                     "[a-z0-9]+-[a-z0-9]+")
+        device_exists = os.path.exists(args.aports + "/device/device-" +
+                                       device + "/deviceinfo")
+        if not device_exists:
+            logging.info("You are about to do a new device port for '" +
+                         device + "'.")
+            if not pmb.helpers.cli.confirm(args, default=True):
+                continue
 
-    device_exists = os.path.exists(args.aports + "/device/device-" + cfg["pmbootstrap"]["device"] + "/deviceinfo")
+            pmb.aportgen.generate(args, "device-" + device)
+            pmb.aportgen.generate(args, "linux-" + device)
+        break
+
+    return (device, device_exists)
+
+
+def frontend(args):
+    cfg = pmb.config.load(args)
+
+    # Device
+    cfg["pmbootstrap"]["device"], device_exists = ask_for_device(args)
 
     # Device keymap
     if device_exists:
         cfg["pmbootstrap"]["keymap"] = ask_for_keymaps(args, device=cfg["pmbootstrap"]["device"])
 
+    # Username
+    cfg["pmbootstrap"]["user"] = pmb.helpers.cli.ask(args, "Username", None,
+                                                     args.user, False,
+                                                     "[a-z_][a-z0-9_-]*")
     # UI and work folder
     cfg["pmbootstrap"]["ui"] = ask_for_ui(args)
     cfg["pmbootstrap"]["work"] = ask_for_work_path(args)
@@ -122,6 +185,9 @@ def init(args):
     cfg["pmbootstrap"]["extra_packages"] = pmb.helpers.cli.ask(args, "Extra packages",
                                                                None, args.extra_packages,
                                                                validation_regex="^(|[-.+\w\s]+(?:,[-.+\w\s]*)*)$")
+
+    # Configure timezone info
+    cfg["pmbootstrap"]["timezone"] = ask_for_timezone(args)
 
     # Do not save aports location to config file
     del cfg["pmbootstrap"]["aports"]

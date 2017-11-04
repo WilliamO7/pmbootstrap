@@ -78,7 +78,7 @@ def shutdown(args, only_install_related=False):
     # Umount all losetup mounted images
     chroot = args.work + "/chroot_native"
     if pmb.helpers.mount.ismount(chroot + "/dev/loop-control"):
-        pattern = chroot + "/home/user/rootfs/*.img"
+        pattern = chroot + "/home/pmos/rootfs/*.img"
         for path_outside in glob.glob(pattern):
             path = path_outside[len(chroot):]
             pmb.install.losetup.umount(args, path)
@@ -91,7 +91,7 @@ def shutdown(args, only_install_related=False):
     if not only_install_related:
         # Clean up the rest
         pmb.helpers.mount.umount_all(args, args.work)
-        arch = args.deviceinfo["arch"]
-        if pmb.parse.arch.cpu_emulation_required(args, arch):
-            pmb.chroot.binfmt.unregister(args, arch)
+        for arch in pmb.config.build_device_architectures:
+            if pmb.parse.arch.cpu_emulation_required(args, arch):
+                pmb.chroot.binfmt.unregister(args, arch)
         logging.info("Shutdown complete")

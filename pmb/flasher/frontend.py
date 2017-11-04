@@ -47,12 +47,10 @@ def kernel(args):
         pmb.flasher.run(args, "flash_kernel", flavor)
     logging.info("You will get an IP automatically assigned to your "
                  "USB interface shortly.")
-    logging.info("Connect to the telnet session and type your LUKS password"
-                 " to boot postmarketOS (not necessary if full disk"
-                 " encryption is disabled):")
-    logging.info("telnet " + pmb.config.default_ip)
-    logging.info("Then you can connect to your device using ssh:")
-    logging.info("ssh user@" + pmb.config.default_ip)
+    logging.info("Then you can connect to your device using ssh after pmOS has booted:")
+    logging.info("ssh {}@{}".format(args.user, pmb.config.default_ip))
+    logging.info("NOTE: If you enabled full disk encryption, you should make sure that"
+                 " osk-sdl has been properly configured for your device")
 
 
 def list_flavors(args):
@@ -64,7 +62,7 @@ def list_flavors(args):
 
 def system(args):
     # Generate system image, install flasher
-    img_path = "/home/user/rootfs/" + args.device + ".img"
+    img_path = "/home/pmos/rootfs/" + args.device + ".img"
     if not os.path.exists(args.work + "/chroot_native" + img_path):
         raise RuntimeError("The system image has not been generated yet,"
                            " please run 'pmbootstrap install' first.")
@@ -79,6 +77,12 @@ def list_devices(args):
 
 
 def sideload(args):
+    method = args.flash_method or args.deviceinfo["flash_methods"]
+    cfg = pmb.config.flashers[method]
+
+    # Install depends
+    pmb.chroot.apk.install(args, cfg["depends"])
+
     # Mount the buildroot
     suffix = "buildroot_" + args.deviceinfo["arch"]
     mountpoint = "/mnt/" + suffix

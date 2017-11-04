@@ -65,10 +65,13 @@ def _parse_flavor(args):
 
 
 def _parse_suffix(args):
-    if args.rootfs:
+    if "rootfs" in args and args.rootfs:
         return "rootfs_" + args.device
     elif args.buildroot:
-        return "buildroot_" + args.deviceinfo["arch"]
+        if args.buildroot == "device":
+            return "buildroot_" + args.deviceinfo["arch"]
+        else:
+            return "buildroot_" + args.buildroot
     elif args.suffix:
         return args.suffix
     else:
@@ -77,6 +80,7 @@ def _parse_suffix(args):
 
 def aportgen(args):
     for package in args.packages:
+        logging.info("Generate aport: " + package)
         pmb.aportgen.generate(args, package)
 
 
@@ -129,7 +133,8 @@ def config(args):
 
 
 def index(args):
-    pmb.build.index_repo(args)
+    pmb.build.index_repo(args, args.arch_native)
+    pmb.build.symlink_noarch_packages(args)
 
 
 def initfs(args):
@@ -149,7 +154,7 @@ def export(args):
 
 
 def menuconfig(args):
-    pmb.build.menuconfig(args, args.package, args.deviceinfo["arch"])
+    pmb.build.menuconfig(args, args.package)
 
 
 def kconfig_check(args):
@@ -208,7 +213,7 @@ def log(args):
 
 
 def log_distccd(args):
-    logpath = "/home/user/distccd.log"
+    logpath = "/home/pmos/distccd.log"
     if args.clear_log:
         pmb.chroot.user(args, ["truncate", "-s", "0", logpath], log=False)
     pmb.chroot.user(args, ["tail", "-f", logpath, "-n", args.lines], log=False)
@@ -216,4 +221,5 @@ def log_distccd(args):
 
 def zap(args):
     pmb.chroot.zap(args, packages=args.packages, http=args.http,
-                   mismatch_bins=args.mismatch_bins, distfiles=args.distfiles)
+                   mismatch_bins=args.mismatch_bins, old_bins=args.old_bins,
+                   distfiles=args.distfiles)

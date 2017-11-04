@@ -24,7 +24,8 @@ import pmb.chroot
 import pmb.helpers.run
 
 
-def zap(args, confirm=True, packages=False, http=False, mismatch_bins=False, distfiles=False):
+def zap(args, confirm=True, packages=False, http=False, mismatch_bins=False,
+        old_bins=False, distfiles=False):
     """
     Shutdown everything inside the chroots (e.g. distccd, adb), umount
     everything and then safely remove folders from the work-directory.
@@ -33,11 +34,22 @@ def zap(args, confirm=True, packages=False, http=False, mismatch_bins=False, dis
     :arg http: Clear the http cache (used e.g. for the initial apk download)
     :arg mismatch_bins: Remove the packages, that have a different version
                         compared to what is in the abuilds folder.
+    :arg old_bins: Clean out outdated binary packages downloaded from
+                   mirrors (e.g. from Alpine)
     :arg distfiles: Clear the downloaded files cache
 
     NOTE: This function gets called in pmb/config/init.py, with only args.work
     and args.device set!
     """
+
+    # Delete packages with a different version compared to aports, then re-index
+    if mismatch_bins:
+        zap_mismatch_bins(args, confirm)
+
+    # Delete outdated binary packages
+    if old_bins:
+        zap_old_bins(args, confirm)
+
     pmb.chroot.shutdown(args)
 
     # Deletion patterns for folders inside args.work
@@ -61,15 +73,21 @@ def zap(args, confirm=True, packages=False, http=False, mismatch_bins=False, dis
             if not confirm or pmb.helpers.cli.confirm(args, "Remove " + match + "?"):
                 pmb.helpers.run.root(args, ["rm", "-rf", match])
 
-    # Delete packages with a different version compared to aports, then re-index
-    if mismatch_bins:
-        binaries(args)
-        pmb.build.other.index_repo(args)
+    # Chroots were zapped, so no repo lists exist anymore
+    args.cache["apk_repository_list_updated"].clear()
 
 
-def binaries(args):
+def zap_mismatch_bins(args, confirm=True):
+    if not os.path.exists(args.work + "/packages/"):
+        return
+    if confirm and not pmb.helpers.cli.confirm(args, "Remove packages that are newer than"
+                                               " the corresponding package in aports?"):
+        return
     for arch in os.listdir(os.path.realpath(args.work + "/packages/")):
         arch_pkg_path = os.path.realpath(args.work) + "/packages/" + arch
+        # Delete all broken symbolic links
+        pmb.helpers.run.root(args, ["find", "-L", arch_pkg_path, "-maxdepth", "1",
+                             "-type", "l", "-delete"])
         bin_apks = pmb.parse.apkindex.parse(args, arch_pkg_path + "/APKINDEX.tar.gz")
         for bin_apk in bin_apks:
             bin_pkgname = bin_apks[bin_apk]["pkgname"]
@@ -90,3 +108,15 @@ def binaries(args):
                              aport_version + "): " + arch + "/" + bin_pkgname + "-" +
                              bin_version + ".apk")
                 pmb.helpers.run.root(args, ["rm", bin_apk_path])
+    pmb.build.other.index_repo(args)
+
+
+def zap_old_bins(args, confirm=True):
+    if confirm and not pmb.helpers.cli.confirm(args, "Remove outdated binary packages?"):
+        return
+    arch_native = pmb.parse.arch.alpine_native()
+    if os.path.exists(args.work + "/cache_apk_" + arch_native):
+        pmb.chroot.root(args, ["apk", "-v", "cache", "clean"])
+    for arch in pmb.config.build_device_architectures:
+        if arch != arch_native and os.path.exists(args.work + "/cache_apk_" + arch):
+            pmb.chroot.root(args, ["apk", "-v", "cache", "clean"], "buildroot_" + arch)

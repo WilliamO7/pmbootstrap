@@ -28,7 +28,32 @@ import pmb.helpers.run
 import pmb.parse
 
 
-def menuconfig(args, pkgname, arch):
+def get_arch(args, apkbuild):
+    """
+    Get the architecture, that the user wants to run menuconfig on, depending on
+    the APKBUILD and on the --arch parameter.
+
+    :param apkbuild: looks like: {"pkgname": "linux-...", "arch": ["all"]}
+                     or: {"pkgname": "linux-...", "arch": ["armhf"]}
+    """
+    pkgname = apkbuild["pkgname"]
+
+    # Multiple architectures (requires --arch)
+    if "all" in apkbuild["arch"]:
+        if args.arch is None:
+            raise RuntimeError("Package '" + pkgname + "' supports multiple"
+                               " architectures, please use '--arch' to specify"
+                               " the desired architecture.")
+        return args.arch
+
+    # Single architecture (--arch must be unset or match)
+    if args.arch is None or args.arch == apkbuild["arch"][0]:
+        return apkbuild["arch"][0]
+    raise RuntimeError("Package '" + pkgname + "' only supports the '" +
+                       apkbuild["arch"][0] + "' architecture.")
+
+
+def menuconfig(args, pkgname):
     # Pkgname: allow omitting "linux-" prefix
     if pkgname.startswith("linux-"):
         pkgname_ = pkgname.split("linux-")[1]
@@ -40,19 +65,20 @@ def menuconfig(args, pkgname, arch):
     # Read apkbuild
     aport = pmb.build.find_aport(args, pkgname)
     apkbuild = pmb.parse.apkbuild(args, aport + "/APKBUILD")
+    arch = get_arch(args, apkbuild)
 
     # Set up build tools and makedepends
     pmb.build.init(args)
     depends = apkbuild["makedepends"] + ["ncurses-dev"]
-    pmb.chroot.apk.install(args, depends, build=False)
+    pmb.chroot.apk.install(args, depends)
 
     # Patch and extract sources
     pmb.build.copy_to_buildpath(args, pkgname)
     logging.info("(native) extract kernel source")
-    pmb.chroot.user(args, ["abuild", "unpack"], "native", "/home/user/build")
+    pmb.chroot.user(args, ["abuild", "unpack"], "native", "/home/pmos/build")
     logging.info("(native) apply patches")
     pmb.chroot.user(args, ["CARCH=" + arch, "abuild", "prepare"], "native",
-                    "/home/user/build", log=False)
+                    "/home/pmos/build", log=False)
 
     # Run abuild menuconfig
     cmd = []
@@ -61,12 +87,12 @@ def menuconfig(args, pkgname, arch):
         cmd += [key + "=" + value]
     cmd += ["abuild", "-d", "menuconfig"]
     logging.info("(native) run menuconfig")
-    pmb.chroot.user(args, cmd, "native", "/home/user/build", log=False)
+    pmb.chroot.user(args, cmd, "native", "/home/pmos/build", log=False)
 
     # Update config + checksums
     config = "config-" + apkbuild["_flavor"] + "." + arch
     logging.info("Copy kernel config back to aport-folder")
-    source = args.work + "/chroot_native/home/user/build/" + config
+    source = args.work + "/chroot_native/home/pmos/build/" + config
     if not os.path.exists(source):
         raise RuntimeError("No kernel config generated!")
     target = aport + "/" + config

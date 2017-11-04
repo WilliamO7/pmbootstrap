@@ -1,7 +1,6 @@
 #!/bin/sh
 # This file will be in /init_functions.sh inside the initramfs.
 IP=172.16.42.1
-TELNET_PORT=23
 
 # Redirect stdout and stderr to logfile
 setup_log() {
@@ -40,6 +39,10 @@ setup_mdev() {
 }
 
 mount_subpartitions() {
+	# Do not create subpartition mappings if pmOS_boot
+	# already exists (e.g. installed on an sdcard)
+	blkid |grep -q "pmOS_boot"  && return
+
 	for i in /dev/mmcblk*; do
 		case "$(kpartx -l "$i" 2>/dev/null | wc -l)" in
 			2)
@@ -62,25 +65,14 @@ find_root_partition() {
 	#
 	# mount_subpartitions() must get executed before calling
 	# find_root_partition(), so partitions from b) also get found.
-	#
-	# However, after executing mount_subpartitions(), the partitions
-	# from a) get mounted to /dev/mapper - and then you can only use
-	# the ones from /dev/mapper, not the original partition paths (they
-	# will appear as busy when trying to mount them). This is an
-	# unwanted side-effect, that we must deal with.
-	# The subpartitions from b) get mounted to /dev/mapper, and this is
-	# what we want.
-	#
-	# To deal with the side-effect, we use the partitions from
-	# /dev/mapper first, and then fall back to partitions with all paths
-	# (in case the user inserted an SD card after mount_subpartitions()
-	# ran!).
 
-	# Try the partitions in /dev/mapper first.
+	# Try partitions in /dev/mapper and /dev/dm-* first
 	for id in pmOS_root crypto_LUKS; do
-		DEVICE="$(blkid | grep /dev/mapper | grep "$id" \
-			| cut -d ":" -f 1)"
-		[ -z "$DEVICE" ] || break
+		for path in /dev/mapper /dev/dm; do
+			DEVICE="$(blkid | grep "$path" | grep "$id" \
+				| cut -d ":" -f 1)"
+			[ -z "$DEVICE" ] || break 2
+		done
 	done
 
 	# Then try all devices
@@ -162,8 +154,7 @@ unlock_root_partition() {
 	partition="$(find_root_partition)"
 	if cryptsetup isLuks "$partition"; then
 		until cryptsetup status root | grep -qwi active; do
-			start_usb_unlock
-			cryptsetup luksOpen "$partition" root || continue
+			start_onscreen_keyboard
 		done
 		# Show again the loading splashscreen
 		show_splash /splash-loading.ppm.gz
@@ -182,7 +173,7 @@ resize_root_filesystem() {
 mount_root_partition() {
 	partition="$(find_root_partition)"
 	echo "Mount root partition ($partition)"
-	mount -w -t ext4 "$partition" /sysroot
+	mount -t ext4 -o ro "$partition" /sysroot
 	if ! [ -e /sysroot/usr ]; then
 		echo "ERROR: unable to mount root partition!"
 		show_splash /splash-mounterror.ppm.gz
@@ -264,30 +255,18 @@ start_udhcpd() {
 	udhcpd
 }
 
-start_usb_unlock() {
-	# Only run once
-	_marker="/tmp/_start_usb_unlock"
-	[ -e "$_marker" ] && return
-	touch "$_marker"
-
-	# Set up networking
-	setup_usb_network
-	start_udhcpd
-
-	# Telnet splash
-	show_splash /splash-telnet.ppm.gz
-
-	echo "Start the telnet daemon (unlock encrypted partition)"
-	{
-		echo '#!/bin/sh'
-		echo '. /init_functions.sh'
-		echo 'unlock_root_partition'
-		echo 'echo_connect_ssh_message'
-		echo 'killall cryptsetup'
-		echo "pkill -f telnetd.*:${TELNET_PORT}"
-	} >/telnet_connect.sh
-	chmod +x /telnet_connect.sh
-	telnetd -b "${IP}:${TELNET_PORT}" -l /telnet_connect.sh
+start_onscreen_keyboard(){
+	# Set up directfb and tslib for osk-sdl
+	# Note: linux_input module is disabled since it will try to take over
+	# the touchscreen device from tslib (e.g. on the N900)
+	export DFBARGS="system=fbdev,no-cursor,disable-module=linux_input"
+	# shellcheck disable=SC2154
+	if [ ! -z "$deviceinfo_dev_touchscreen" ]; then
+		export TSLIB_TSDEVICE="$deviceinfo_dev_touchscreen"
+	fi
+	osk-sdl -n root -d "$partition" -c /etc/osk.conf -v > /osk-sdl.log 2>&1
+	unset DFBARGS
+	unset TSLIB_TSDEVICE
 }
 
 # $1: path to ppm.gz file
@@ -307,6 +286,15 @@ start_msm_refresher() {
 	if [ "${deviceinfo_msm_refresher}" = "true" ]; then
 		/usr/sbin/msm-fb-refresher --loop &
 	fi
+}
+
+set_framebuffer_mode() {
+	[ -e "/sys/class/graphics/fb0/modes" ] || return
+	[ -z "$(cat /sys/class/graphics/fb0/mode)" ] || return
+
+	_mode="$(cat /sys/class/graphics/fb0/modes)"
+	echo "Setting framebuffer mode to: $_mode"
+	echo "$_mode" > /sys/class/graphics/fb0/mode
 }
 
 loop_forever() {

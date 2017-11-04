@@ -14,6 +14,7 @@
 #
 # Kernel config changes, based on: arch/arm/configs/janice_defconfig
 # - enable devtmpfs (needed for udev -> touch support in weston)
+# - disable ANDROID_PARANOID_NETWORK (removes network restrictions)
 
 _vendor=samsung
 _flavor=samsung-i9070
@@ -26,7 +27,7 @@ case $pkgver in
 	*.*.*)  _kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=6
+pkgrel=9
 arch="armhf"
 pkgdesc="Samsung Galaxy S Advance kernel from Epirex"
 url="https://github.com/Epirex/Samsung_STE_Kernel"
@@ -83,22 +84,22 @@ prepare() {
 	cp -v /usr/$(arch_to_hostspec $arch)/bin/busybox.static \
 		"$ksrcdir"/usr/u8500_initramfs_files/busybox
 
-	# use custom init script in the initramfs which loads the initramfs from 
+	# use custom init script in the initramfs which loads the initramfs from
 	# the kernel2 partition ("isorec")
-	cp -v "$srcdir"/init "$ksrcdir"/usr/u8500_initramfs_files/init || return 1
+	cp -v "$srcdir"/init "$ksrcdir"/usr/u8500_initramfs_files/init
 
 	# gcc6 support
-	cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/" || return 1
+	cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/"
 
 	mkdir -p "$srcdir"/build
-	cp "$srcdir"/$_config "$srcdir"/build/.config || return 1
+	cp "$srcdir"/$_config "$srcdir"/build/.config
 	make -C "$ksrcdir" O="$srcdir"/build ARCH="$_carch" HOSTCC="$HOSTCC" \
 		silentoldconfig
 }
 
 # this is so we can do: 'abuild menuconfig' to reconfigure kernel
 menuconfig() {
-	cd "$srcdir"/build || return 1
+	cd "$srcdir"/build
 	echo "--[ menuconfig ]--"
 	make ARCH="$_carch" menuconfig
 	cp .config "$startdir"/$_config
@@ -110,15 +111,14 @@ build() {
 
 	echo "--[ Build kernel ]--"
 	make ARCH="$_carch" CC="${CC:-gcc}" \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1))-Alpine" \
-		|| return 1
+		KBUILD_BUILD_VERSION="$((pkgrel + 1))-Alpine"
 
 	echo "--[ Build modules ]--"
-	# the 'no-pic' flag is necessary to avoid the 
+	# the 'no-pic' flag is necessary to avoid the
 	# error 'Unknown symbol _GLOBAL_OFFSET_TABLE_ (err 0)' when loading the module
 	make ARCH="$_carch" CC="${CC:-gcc}" CFLAGS_MODULE="-fno-pic" \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1))-Alpine" CONFIG_NO_ERROR_ON_MISMATCH=y \
-		modules || return 1
+		modules
 }
 
 package() {
@@ -135,12 +135,11 @@ package() {
 	echo "--[ Installing modules ]--"
 	make ARCH="$_carch" CC="${CC:-gcc}" \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1))-Alpine" CONFIG_NO_ERROR_ON_MISMATCH=y \
-		INSTALL_MOD_PATH="$pkgdir" INSTALL_MOD_STRIP=1 modules_install \
-		|| return 1
+		INSTALL_MOD_PATH="$pkgdir" INSTALL_MOD_STRIP=1 modules_install
 }
 
 sha512sums="bb8218d803ec27f983449a43d14df75122311609a39e5b57095f4e8933752a2699fa0d4df1674aeee7d6e3a439551dacc9af3cab26b6e3e71f0441a4f16693df  linux-samsung-i9070-ac7219c4b8dcec7bc5a598d42c6be0db4aa36332.tar.gz
-65ac788fc01180b803d8110333cbd0e30e742801647d6d4d813aaa6eca0c3d216f5daef0fc9583aef5a1ea2475d48567896da8e443781a1f08ff10ff8d6ea0a6  config-samsung-i9070.armhf
+84dab76407f10e1bc9072a53596a38d96acb129c67fbb8f8fe1c737e165ccaba283b1a20830c0ed6ec7a3183a85ccfee5f2918f99567f3bba8b3ffc01fc228e1  config-samsung-i9070.armhf
 ea1d3b5a234fa565e3c1a792de48f4fc4e6023d281d303c8e319c7ef28edc5739ab0e4dea0139a41f0a5c7d03e27921ccaa214fd0ac5c72245a094ce60128864  00_fix_return_address.patch
 c8f12ecf578be0c4600563134079b980a1079b08ac868302af8821022befe873aa94c67b9690ba87f5967f0a48939d15e871dc2d2862bed7b6a1d0c9a95cfd8f  01_remove_ramdisks_from_initramfs.patch
 ef5b912c26fea4ab882592bdf7487942c64b123de8d25d08d976f29743f311742ee2f773bf2d110ddb5095f254dbb0bd4487c5cfce77311929082599199e7ebd  02_reduce_lzo_compression.patch

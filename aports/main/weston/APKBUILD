@@ -7,7 +7,7 @@
 pkgname=weston
 pkgver=9999
 _pkgver=3.0.0
-pkgrel=5
+pkgrel=7
 _libname=lib$pkgname
 _libdir=$_libname-${_pkgver%%.*}
 pkgdesc="The reference Wayland server"
@@ -22,7 +22,7 @@ _client="info terminal wcap-decode"
 _backend="backend-drm backend-fbdev backend-headless
 	backend-rdp backend-x11 backend-wayland
 	"
-options="!check"
+options="!check suid"
 
 for _sub in $_cms $_shell $_client $_backend; do
 	subpackages="$subpackages $pkgname-$_sub:_sub"
@@ -77,19 +77,22 @@ libs() {
 
 _libd() {
 	pkgdesc="Desktop shells abstraction library for libweston compositors"
-	mkdir -p "$subpkgdir"/usr/lib || return 1
+	mkdir -p "$subpkgdir"/usr/lib
 	mv "$pkgdir"/usr/lib/*desktop* "$subpkgdir"/usr/lib
 }
 
 clients() {
 	pkgdesc="Weston example clients"
-	mkdir -p "$subpkgdir"/usr/bin || return 1
+	mkdir -p "$subpkgdir"/usr/bin
 	mv "$pkgdir"/usr/bin/$pkgname-* "$subpkgdir"/usr/bin
+
+	# Set SUID bit to run it with proper credentials
+	chmod +s "$subpkgdir"/usr/bin/weston-launch
 }
 
 xwayland() {
 	pkgdesc="Wayland module to run X Clients"
-	mkdir -p "$subpkgdir"/usr/lib/$_libdir || return 1
+	mkdir -p "$subpkgdir"/usr/lib/$_libdir
 	mv "$pkgdir"/usr/lib/$_libdir/xwayland.so \
 		"$subpkgdir"/usr/lib/$_libdir
 }
@@ -130,7 +133,7 @@ _sub() {
 		pkgdesc="Weston client: $name"
 		;;
 	esac
-	mkdir -p "$subpkgdir"/$path || return 1
+	mkdir -p "$subpkgdir"/$path
 	mv "$pkgdir"/$path/$name "$subpkgdir"/$path
 }
 sha512sums="b824c39f2a884f6d50d607613f447090621f684c96f7d905f25f6e500dabd03ecb2b1cd1030babc193c3417223cb220103abb792437e1a5ead7229a76b5c7a58  weston-3.0.0.tar.xz

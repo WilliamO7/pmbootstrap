@@ -37,7 +37,7 @@ def system_image(args, device):
     Returns path to system image for specified device. In case that it doesn't
     exist, raise and exception explaining how to generate it.
     """
-    path = args.work + "/chroot_native/home/user/rootfs/" + device + ".img"
+    path = args.work + "/chroot_native/home/pmos/rootfs/" + device + ".img"
     if not os.path.exists(path):
         logging.debug("Could not find system image: " + path)
         img_command = "pmbootstrap install"
@@ -120,10 +120,12 @@ def qemu_command(args, arch, device, img_path, config):
     telnet_port = str(args.port + 1)
     telnet_debug_port = str(args.port + 2)
 
-    rootfs = args.work + "/chroot_rootfs_" + device
+    suffix = "rootfs_" + device
+    rootfs = args.work + "/chroot_" + suffix
+    flavor = pmb.chroot.other.kernel_flavor_autodetect(args, suffix)
     command = [qemu_bin]
-    command += ["-kernel", rootfs + "/boot/vmlinuz-postmarketos"]
-    command += ["-initrd", rootfs + "/boot/initramfs-postmarketos"]
+    command += ["-kernel", rootfs + "/boot/vmlinuz-" + flavor]
+    command += ["-initrd", rootfs + "/boot/initramfs-" + flavor]
     command += ["-append", '"' + cmdline + '"']
     command += ["-m", str(args.memory)]
     command += ["-netdev",
@@ -253,7 +255,7 @@ def run(args):
     print()
     logging.info("You can connect to the virtual machine using the"
                  " following services:")
-    logging.info("(ssh) ssh -p " + str(args.port) + " user@localhost")
+    logging.info("(ssh) ssh -p {port} {user}@localhost".format(**vars(args)))
     logging.info("(telnet) telnet localhost " + str(args.port + 1))
     logging.info("(telnet debug) telnet localhost " + str(args.port + 2))
 

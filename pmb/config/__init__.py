@@ -22,7 +22,6 @@ import os
 #
 # Exported functions
 #
-from pmb.config.init import init
 from pmb.config.load import load
 from pmb.config.save import save
 
@@ -30,7 +29,7 @@ from pmb.config.save import save
 #
 # Exported variables (internal configuration)
 #
-version = "0.2.0"
+version = "0.3.0"
 pmb_src = os.path.normpath(os.path.realpath(__file__) + "/../../..")
 apk_keys_path = pmb_src + "/keys"
 
@@ -38,6 +37,11 @@ apk_keys_path = pmb_src + "/keys"
 # (which may contain a vulnerable apk/libressl, and allows an attacker to
 # exploit the system!)
 apk_tools_static_min_version = "2.7.2-r0"
+
+# Version of the work folder (as asked during 'pmbootstrap init'). Increase
+# this number, whenever migration is required and provide the migration code,
+# see migrate_work_folder()).
+work_version = "1"
 
 # Config file/commandline default values
 # $WORK gets replaced with the actual value for args.work (which may be
@@ -56,7 +60,9 @@ defaults = {
     "work": os.path.expanduser("~") + "/.local/var/pmbootstrap",
     "port_distccd": "33632",
     "ui": "weston",
+    "user": "user",
     "keymap": "",
+    "timezone": "GMT",
 
     # aes-xts-plain64 would be better, but this is not supported on LineageOS
     # kernel configs
@@ -97,12 +103,21 @@ chroot_host_path = os.environ["PATH"] + ":/usr/sbin/"
 chroot_mount_bind = {
     "/proc": "/proc",
     "$WORK/cache_apk_$ARCH": "/var/cache/apk",
-    "$WORK/cache_ccache_$ARCH": "/home/user/.ccache",
+    "$WORK/cache_ccache_$ARCH": "/mnt/pmbootstrap-ccache",
     "$WORK/cache_distfiles": "/var/cache/distfiles",
-    "$WORK/cache_git": "/home/user/git",
-    "$WORK/config_abuild": "/home/user/.abuild",
+    "$WORK/cache_git": "/mnt/pmbootstrap-git",
+    "$WORK/config_abuild": "/mnt/pmbootstrap-abuild-config",
     "$WORK/config_apk_keys": "/etc/apk/keys",
-    "$WORK/packages": "/home/user/packages/user",
+    "$WORK/packages": "/mnt/pmbootstrap-packages",
+}
+
+# Building chroots (all chroots, except for the rootfs_ chroot) get symlinks in
+# the "pmos" user's home folder pointing to mountfolders from above.
+chroot_home_symlinks = {
+    "/mnt/pmbootstrap-abuild-config": "/home/pmos/.abuild",
+    "/mnt/pmbootstrap-ccache": "/home/pmos/.ccache",
+    "/mnt/pmbootstrap-git": "/home/pmos/git",
+    "/mnt/pmbootstrap-packages": "/home/pmos/packages/pmos",
 }
 
 # The package alpine-base only creates some device nodes. Specify here, which
@@ -136,10 +151,13 @@ build_cross_native = ["linux-*"]
 
 # Necessary kernel config options
 necessary_kconfig_options = {
+    "ANDROID_PARANOID_NETWORK": False,
     "DEVTMPFS": True,
     "DEVTMPFS_MOUNT": False,
     "DM_CRYPT": True,
-    "VT": True,
+    "PFT": False,
+    "SYSVIPC": True,
+    "VT": True
 }
 
 
@@ -155,6 +173,7 @@ apkbuild_attributes = {
     "makedepends": {"array": True},
     "options": {"array": True},
     "pkgname": {"array": False},
+    "pkgdesc": {"array": False},
     "pkgrel": {"array": False},
     "pkgver": {"array": False},
     "subpackages": {"array": True},
@@ -194,6 +213,7 @@ deviceinfo_attributes = [
     "flash_heimdall_partition_kernel",
     "flash_heimdall_partition_initfs",
     "flash_heimdall_partition_system",
+    "flash_fastboot_vendor_id",
     "flash_offset_base",
     "flash_offset_kernel",
     "flash_offset_ramdisk",
@@ -256,7 +276,7 @@ $FLAVOR: Kernel flavor
 $IMAGE: Path to the system partition image
 $PARTITION_SYSTEM: Partition to flash the system image
 
-Fastboot specific: $KERNEL_CMDLINE
+Fastboot specific: $KERNEL_CMDLINE, $VENDOR_ID
 Heimdall specific: $PARTITION_KERNEL, $PARTITION_INITFS
 """
 flashers = {
@@ -264,11 +284,15 @@ flashers = {
         "depends": ["android-tools"],
         "actions":
                 {
-                    "list_devices": [["fastboot", "devices", "-l"]],
-                    "flash_system": [["fastboot", "flash", "$PARTITION_SYSTEM", "$IMAGE"]],
-                    "flash_kernel": [["fastboot", "flash", "boot", "$BOOT/boot.img-$FLAVOR"]],
-                    "boot": [["fastboot", "-c", "$KERNEL_CMDLINE", "boot", "$BOOT/boot.img-$FLAVOR"]],
-
+                    "list_devices": [["fastboot", "-i", "$VENDOR_ID",
+                                      "devices", "-l"]],
+                    "flash_system": [["fastboot", "-i", "$VENDOR_ID",
+                                      "flash", "$PARTITION_SYSTEM", "$IMAGE"]],
+                    "flash_kernel": [["fastboot", "-i", "$VENDOR_ID",
+                                      "flash", "boot", "$BOOT/boot.img-$FLAVOR"]],
+                    "boot": [["fastboot", "-i", "$VENDOR_ID",
+                              "-c", "$KERNEL_CMDLINE", "boot",
+                              "$BOOT/boot.img-$FLAVOR"]],
         },
     },
     # Some Samsung devices need the initramfs to be baked into the kernel (e.g.
@@ -323,4 +347,19 @@ flashers = {
 git_repos = {
     "aports_upstream": "https://github.com/alpinelinux/aports",
     "apk-tools": "https://github.com/alpinelinux/apk-tools",
+}
+
+
+#
+# APORTGEN
+#
+aportgen = {
+    "cross": {
+        "prefixes": ["binutils", "busybox-static", "gcc", "musl"],
+        "confirm_overwrite": False,
+    },
+    "device": {
+        "prefixes": ["device", "linux"],
+        "confirm_overwrite": True,
+    }
 }

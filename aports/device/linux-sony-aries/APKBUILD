@@ -1,110 +1,62 @@
-# APKBUILD based on linux-vanilla aport. Changes:
-# - disabled module installation
-# - add !check !tracedeps
-# - package: just install zImage-dtb and kernel.release, because the kernel config
-#	does not generate modules or dtb files
-# - do not create -dev subpackage (makes no sense without module support)
-#
-# Kernel config changes, based on: arch/arm/configs/aosp_shinano_aries_defconfig
-# - enable devtmpfs (needed for udev -> touch support in weston)
-# - change compression from CONFIG_KERNEL_LZMA=y to
-#	CONFIG_KERNEL_GZIP=y (so it works with busybox)
-# - disable proprietary graphics driver
+# Kernel config based on: arch/arm/configs/aosp_shinano_aries_defconfig
 
-_vendor=sony
-_flavor=sony-aries
-_hash="b1ceda7b02ea29c526d329884db1e9f2694ab394"
-_config="config-${_flavor}.armhf"
-
-pkgname=linux-${_flavor}
+pkgname="linux-sony-aries"
 pkgver=3.10.84
-case $pkgver in
-	*.*.*)  _kernver=${pkgver%.*};;
-	*.*) _kernver=$pkgver;;
-esac
-pkgrel=3
-arch="armhf"
+pkgrel=7
 pkgdesc="Sony Xperia Z3 Compact kernel"
+arch="armhf"
+_carch="arm"
+_flavor=sony-aries
 url="https://github.com/sonyxperiadev/kernel"
-depends="postmarketos-mkinitfs"
-makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev"
+license="GPL2"
 options="!strip !check !tracedeps"
-install=
+makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev"
+HOSTCC="${CC:-gcc}"
+HOSTCC="${HOSTCC#${CROSS_COMPILE}}"
+
+# Source
+_repository="kernel"
+_commit="b1ceda7b02ea29c526d329884db1e9f2694ab394"
+_config="config-${_flavor}.armhf"
 source="
-	$pkgname-$_hash.tar.gz::https://github.com/sonyxperiadev/kernel/archive/${_hash}.tar.gz
+	$pkgname-$_commit.tar.gz::https://github.com/sonyxperiadev/${_repository}/archive/${_commit}.tar.gz
 	$_config
 	compiler-gcc6.h
 	02_mdss_fb_refresh_rate.patch
 "
-subpackages=""
-license="GPL2"
-
-_abi_release=${pkgver}
-_carch="arm"
-HOSTCC="${CC:-gcc}"
-HOSTCC="${HOSTCC#${CROSS_COMPILE}}"
-
-ksrcdir="$srcdir/kernel-${_hash}"
+builddir="$srcdir/${_repository}-${_commit}"
 
 prepare() {
-	local _patch_failed=
-	cd "$ksrcdir"
-
-	# first apply patches in specified order
-	for i in $source; do
-		case $i in
-		*.patch)
-			msg "Applying $i..."
-			if ! patch -s -p1 -N -i "$srcdir"/$i; then
-				echo $i >>failed
-				_patch_failed=1
-			fi
-			;;
-		esac
-	done
-
-	if ! [ -z "$_patch_failed" ]; then
-		error "The following patches failed:"
-		cat failed
-		return 1
-	fi
+	default_prepare
 
 	# gcc6 support
-	cp -v "$srcdir/compiler-gcc6.h" "$ksrcdir/include/linux/" || return 1
+	cp -v "$srcdir/compiler-gcc6.h" "$builddir/include/linux/"
 
-	mkdir -p "$srcdir"/build
-	cp "$srcdir"/$_config "$srcdir"/build/.config || return 1
-	make -C "$ksrcdir" O="$srcdir"/build ARCH="$_carch" HOSTCC="$HOSTCC" \
-		silentoldconfig
+	cp "$srcdir"/$_config "$builddir"/.config
+	make ARCH="$_carch" HOSTCC="$HOSTCC" silentoldconfig
 }
 
-
-
-# this is so we can do: 'abuild menuconfig' to reconfigure kernel
 menuconfig() {
-	cd "$srcdir"/build || return 1
+	cd "$builddir"
 	make ARCH="$_carch" menuconfig
 	cp .config "$startdir"/$_config
 }
 
 build() {
-	cd "$srcdir"/build
 	unset LDFLAGS
-
 	make ARCH="$_carch" CC="${CC:-gcc}" \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine" \
-		|| return 1
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-Alpine"
 }
 
 package() {
-	install -Dm644 "$srcdir/build/arch/arm/boot/zImage-dtb" \
+	install -Dm644 "$builddir/arch/arm/boot/zImage-dtb" \
 		"$pkgdir/boot/vmlinuz-$_flavor"
 
-	install -D "$srcdir/build/include/config/kernel.release" \
+	install -D "$builddir/include/config/kernel.release" \
 		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
 }
 
 sha512sums="f63f32b9eb0e81509dad2ede7c8e8f8e367c80ede2c411009c7135a1108a62042a67e911bf7811fb340e9a868a382b7da18f2b5c01e04034c2b5661049a573e0  linux-sony-aries-b1ceda7b02ea29c526d329884db1e9f2694ab394.tar.gz
-0df5781942db4a9e391f0ddde057b3075ee18a0e0ceb4bec17bd2b9febe48376b790e66a86d72f0fe66a24943ebafa457fcd0b44b942f191266c715128d12f8f  config-sony-aries.armhf
+0c453c3f74941854e98d3a4465e667e6996192b2c0e8ef69a3de5815cd26317642099bf7e85b91f200c5ba5edd70c43fb7a5982f0268fb8d31788a537914c8ef  config-sony-aries.armhf
 d80980e9474c82ba0ef1a6903b434d8bd1b092c40367ba543e72d2c119301c8b2d05265740e4104ca1ac5d15f6c4aa49e8776cb44264a9a28dc551e0d1850dcc  compiler-gcc6.h
 a8c955bf718f155011e980f3d0948be98e1fee5649f418299a4851780543019daf7afa406aa7b0829375645107e4e6fbf241026b0cabe2b2ac895a47df83d2d8  02_mdss_fb_refresh_rate.patch"

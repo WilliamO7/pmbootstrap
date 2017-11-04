@@ -101,6 +101,8 @@ def arguments_initfs(subparser):
 
 def arguments():
     parser = argparse.ArgumentParser(prog="pmbootstrap")
+    arch_native = pmb.parse.arch.alpine_native()
+    arch_choices = set(pmb.config.build_device_architectures + [arch_native])
 
     # Other
     parser.add_argument("-V", "--version", action="version",
@@ -172,6 +174,8 @@ def arguments():
     zap.add_argument("-m", "--mismatch-bins", action="store_true", help="also delete"
                      " binary packages that are newer than the corresponding"
                      " package in aports")
+    zap.add_argument("-o", "--old-bins", action="store_true", help="also delete outdated"
+                     " binary packages downloaded from mirrors (e.g. from Alpine)")
     zap.add_argument("-d", "--distfiles", action="store_true", help="also delete"
                      " downloaded files cache")
 
@@ -187,10 +191,12 @@ def arguments():
                         " to execute inside the chroot. default: sh", nargs='*')
     for action in [build_init, chroot]:
         suffix = action.add_mutually_exclusive_group()
-        suffix.add_argument("-r", "--rootfs", action="store_true",
-                            help="Chroot for the device root file system")
-        suffix.add_argument("-b", "--buildroot", action="store_true",
-                            help="Chroot for building packages for the device "
+        if action == chroot:
+            suffix.add_argument("-r", "--rootfs", action="store_true",
+                                help="Chroot for the device root file system")
+        suffix.add_argument("-b", "--buildroot", nargs="?", const="device",
+                            choices={"device"} | arch_choices,
+                            help="Chroot for building packages, defaults to device "
                                  "architecture")
         suffix.add_argument("-s", "--suffix", default=None,
                             help="Specify any chroot suffix, defaults to"
@@ -216,17 +222,18 @@ def arguments():
     install.add_argument("--android-recovery-zip",
                          help="generate TWRP flashable zip",
                          action="store_true", dest="android_recovery_zip")
-    install.add_argument("--recovery-flash-bootimg",
-                         help="include kernel in recovery flashable zip",
-                         action="store_true", dest="recovery_flash_bootimg")
     install.add_argument("--recovery-install-partition", default="system",
                          help="partition to flash from recovery,"
                               " eg. external_sd",
                          dest="recovery_install_partition")
+    install.add_argument("--recovery-no-kernel",
+                         help="do not overwrite the existing kernel",
+                         action="store_false", dest="recovery_flash_kernel")
 
     # Action: menuconfig / parse_apkbuild
     menuconfig = sub.add_parser("menuconfig", help="run menuconfig on"
                                 " a kernel aport")
+    menuconfig.add_argument("--arch", choices=arch_choices)
     parse_apkbuild = sub.add_parser("parse_apkbuild")
     for action in [menuconfig, parse_apkbuild]:
         action.add_argument("package")
@@ -237,7 +244,7 @@ def arguments():
                               " (aport/APKBUILD) based on an upstream aport from Alpine")
     build = sub.add_parser("build", help="create a package for a"
                            " specific architecture")
-    build.add_argument("--arch")
+    build.add_argument("--arch", choices=arch_choices)
     build.add_argument("--force", action="store_true")
     build.add_argument("--buildinfo", action="store_true")
     build.add_argument("--strict", action="store_true", help="(slower) zap and install only"
@@ -319,7 +326,7 @@ def arguments():
             setattr(args, varname, old.replace("$WORK", args.work))
 
     # Add convenience shortcuts
-    setattr(args, "arch_native", pmb.parse.arch.alpine_native())
+    setattr(args, "arch_native", arch_native)
 
     # Add a caching dict (caches parsing of files etc. for the current session)
     setattr(args, "cache", {"apkindex": {},
@@ -330,7 +337,7 @@ def arguments():
                             "find_aport": {}})
 
     # Add and verify the deviceinfo (only after initialization)
-    if args.action != "init":
+    if args.action not in ("init", "config"):
         setattr(args, "deviceinfo", pmb.parse.deviceinfo(args))
         arch = args.deviceinfo["arch"]
         if (arch != args.arch_native and
