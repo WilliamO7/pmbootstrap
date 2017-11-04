@@ -6,7 +6,7 @@ arch="all"
 url="http://webos-ports.org"
 license="GPL-3.0+"
 depends=""
-makedepends="cmake-modules-webos qt5-qtbase-dev"
+makedepends="cmake-modules-webos qt5-qtbase-dev luna-service2"
 source="$pkgname-$pkgver.zip::https://github.com/webOS-ports/luna-sysmgr-common/archive/c583bebb8d7fb8381a071730c5c636e95bf851fb.zip"
 
 prepare() {

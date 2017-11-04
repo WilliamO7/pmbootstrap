@@ -6,7 +6,7 @@ arch="all"
 url="http://webos-ports.org"
 license="GPL-3.0+"
 depends=""
-makedepends="extra-cmake-modules cmake-modules-webos qt5-qtbase-dev qt5-qtdeclarative-dev wayland-dev qt5-qtwayland-dev qt5-qtwayland"
+makedepends="extra-cmake-modules cmake-modules-webos qt5-qtbase-dev qt5-qtdeclarative-dev wayland-dev qt5-qtwayland-dev qt5-qtwayland luna-sysmgr-common"
 source="$pkgname-$pkgver.zip::https://github.com/webOS-ports/luna-next/archive/428a337f922691b00534f041193ee7dca8defcc2.zip
 	remove-systemd-harddep.patch"
 
