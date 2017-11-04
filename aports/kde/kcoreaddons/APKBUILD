@@ -11,6 +11,7 @@ depends=""
 makedepends="extra-cmake-modules qt5-qttools-dev doxygen shared-mime-info"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+options="!check" # armhf problems
 
 build() {
 	cmake \

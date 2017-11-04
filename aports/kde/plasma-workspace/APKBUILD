@@ -19,7 +19,8 @@ depends_dev="krunner-dev kdesignerplugin-dev kdesignerplugin qt5-qtwayland-dev q
 			kxmlgui-dev kwindowsystem-dev kcoreaddons-dev kconfig-dev kemoticons-dev
 			kiconthemes-dev kinit-dev knotifications-dev kio-dev kbookmarks-dev kparts-dev
 			kcompletion-dev kitemviews-dev kjobwidgets-dev solid-dev kunitconversion-dev
-			kdbusaddons-dev kidletime-dev kglobalaccel-dev phonon-qt5-dev kwayland-dev"
+			kdbusaddons-dev kidletime-dev kglobalaccel-dev phonon-qt5-dev kwayland-dev
+			baloo-dev prison-dev"
 makedepends="$depends_dev extra-cmake-modules kdoctools-dev gpsd iso-codes-dev libxtst-dev
 			xcb-util-image-dev libxrender-dev"
 source="https://download.kde.org/stable/plasma/${pkgver}/$pkgname-$pkgver.tar.xz"

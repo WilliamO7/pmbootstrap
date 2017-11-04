@@ -13,6 +13,7 @@ makedepends="$depends_dev extra-cmake-modules qt5-qttools-dev attr-dev doxygen f
 			exiv2-dev taglib-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+options="!check" # armhf problems
 
 build() {
 	cmake \

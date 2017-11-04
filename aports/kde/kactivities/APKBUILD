@@ -9,7 +9,7 @@ url='https://community.kde.org/Frameworks'
 license="GPL-2.0 LGPL-2.1"
 depends="qt5-qtbase-sqlite"
 depends_dev="kcoreaddons-dev kconfig-dev kwindowsystem-dev qt5-qtdeclarative-dev kio-dev"
-makedepends="extra-cmake-modules boost doxygen qt5-qttools-dev boost-dev"
+makedepends="$depends_dev extra-cmake-modules boost doxygen qt5-qttools-dev boost-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz"
 subpackages="$pkgname-dev $pkgname-libs $pkgname-doc"
 

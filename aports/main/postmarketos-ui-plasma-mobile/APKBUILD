@@ -6,7 +6,8 @@ url="https://github.com/postmarketOS"
 arch="noarch"
 license="GPL3+"
 depends="plasma-mobile plasma-phone-components dbus-nox11 konsole plasma-settings
-		breeze-icons postmarketos-demos kscreen qt5-qtvirtualkeyboard"
+	breeze-icons postmarketos-demos kscreen qt5-qtvirtualkeyboard
+	plasma-camera peruse elisa"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""

@@ -11,7 +11,7 @@ depends=""
 depends_dev="kdeclarative-dev kiconthemes-dev kxmlgui-dev kpackage-dev qt5-qtdeclarative-dev
 			kitemviews-dev kconfigwidgets-dev kauth-dev kcoreaddons-dev kcodecs-dev kconfig-dev
 			kwidgetsaddons-dev ki18n-dev kservice-dev"
-makedepends="extra-cmake-modules doxygen qt5-qttools-dev"
+makedepends="$depends_dev extra-cmake-modules doxygen qt5-qttools-dev"
 source="https://download.kde.org/stable/frameworks/${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
 subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
 

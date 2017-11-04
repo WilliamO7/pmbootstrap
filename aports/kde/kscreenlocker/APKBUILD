@@ -16,7 +16,8 @@ depends_dev="kcmutils-dev consolekit2-dev linux-pam-dev kidletime-dev kwayland-d
 			solid-dev"
 makedepends="$depends_dev extra-cmake-modules kdoctools-dev libxcursor xcb-util-keysyms-dev"
 source="https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz
-		kde.pam"
+		kde.pam
+		kde-np.pam"
 subpackages="$pkgname-dev $pkgname-lang"
 options="suid !check" # Fails due to requiring running X11 and loginctl
 
@@ -38,8 +39,10 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 
-	install -Dm644 "$srcdir"/kde.pam "$pkgdir"/etc/pam.d/kde
+	install -D -m644 "$srcdir"/kde.pam "$pkgdir"/etc/pam.d/kde
+	install -m644 "$srcdir"/kde-np.pam "$pkgdir"/etc/pam.d/kde-np
 }
 
 sha512sums="ed51ff7ddad6ba84e1d5e685c30263a5209d96c6a9b6d979999c4222c32e822c567c9727cfec4de64ae2b910ed72fe9e1776d900ad7e8cffc147449b3ce287bc  kscreenlocker-5.11.2.tar.xz
-39c114084b224131d80a77742865c448b54ac1877426ec5591e58f142bbe77fe85d1717c82fe7c8d09b1aa77f7833664e406fbae04254b4e974f09a32486fa31  kde.pam"
+56e87d02d75c4a8cc4ed183faed416fb4972e7f223b8759959c0f5da32e11e657907a1df279d62a44a6a174f5aca8b2ac66a5f3325c5deb92011bcf71eed74c3  kde.pam
+565265485dd7466b77966d75a56766216b8bcc187c95a997e531e9481cf50ddbe576071eb0e334421202bcab19aa6de6b93e042447ca4797a24bf97e1d053ffd  kde-np.pam"
