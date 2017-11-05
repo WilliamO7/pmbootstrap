@@ -2,24 +2,20 @@ pkgname=postmarketos-ui-plasma-mobile
 pkgver=1
 pkgrel=3
 pkgdesc="(Wayland) Mobile variant of KDE Plasma, optimized for touchscreen"
-url="https://github.com/postmarketOS"
+url="https://wiki.postmarketos.org/wiki/Plasma_Mobile"
 arch="noarch"
 license="GPL3+"
 depends="plasma-mobile plasma-phone-components dbus-nox11 konsole plasma-settings
 	breeze-icons postmarketos-demos kscreen qt5-qtvirtualkeyboard
-	plasma-camera peruse elisa"
+	plasma-camera peruse elisa pulseaudio pulseaudio-utils"
 makedepends=""
 install="$pkgname.post-install"
 subpackages=""
-source="start_plasma.sh startkwin"
+source="start_plasma.sh"
 options="!check"
 
 package() {
 	install -D -m644 "$srcdir"/start_plasma.sh \
 		"$pkgdir"/etc/profile.d/start_plasma.sh
-	install -D -m644 "$srcdir"/startkwin \
-		"$pkgdir"/bin/startkwin
-	chmod +x "$pkgdir"/bin/startkwin
 }
-sha512sums="17873724a55e406009c0be63a3e727ca6ddc6f8bfb5d1aad42eb29ebcae2bd41ea9aad4cf79820c76b2f1ee8eff26134e3671ace92b133e04c51a5a540ef13a6  start_plasma.sh
-9da4834d8f0c84b021b1b555453b9ba665c386b56eae51dd76211f30157853abe55befaf2c76fc1aa1dfea8bb8c9b40791cc83b710754cc00bb6008d905971b3  startkwin"
+sha512sums="c8fc4dbd6e237a17d8b3d5bcad989d2ece0360c9cbbe58776a24f3100cb7981780db1cb25da8ef3733bc4e0c1bb5a0b610b90b74641709d0f404bc26d6faafa0  start_plasma.sh"
