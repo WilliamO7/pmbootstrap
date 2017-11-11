@@ -80,3 +80,6 @@ def test_newapkbuild(args, monkeypatch, tmpdir):
     apkbuild = pmb.parse.apkbuild(args, apkbuild_path)
     assert apkbuild["pkgname"] == pkgname
     assert apkbuild["pkgdesc"] == pkgdesc
+
+    # There should be no src folder
+    assert not os.path.exists(tmpdir + "/main/" + pkgname + "/src")

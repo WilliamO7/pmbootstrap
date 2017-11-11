@@ -54,6 +54,12 @@ def newapkbuild(args, folder, args_passed):
             raise RuntimeError("Aborted.")
         pmb.helpers.run.user(args, ["rm", "-r", target])
 
+    # Remove the "src" folder. Alpine usually builds packages directly inside
+    # their aports repository and has the "src" folder in the .gitignore. We
+    # always copy the whole aport to /home/pmos/build in the building chroot,
+    # so generating the "src" folder in args.aports doesn't make sense for us.
+    pmb.helpers.run.root(args, ["rm", "-r", source + "/src"])
+
     # Copy the APKBUILD
     logging.info("Create " + target)
     pmb.helpers.run.user(args, ["mkdir", "-p", args.aports + "/" + folder])
