@@ -157,6 +157,10 @@ def menuconfig(args):
     pmb.build.menuconfig(args, args.package)
 
 
+def newapkbuild(args):
+    pmb.build.newapkbuild(args, args.folder, args.args_passed)
+
+
 def kconfig_check(args):
     # Default to all kernel packages
     packages = args.packages

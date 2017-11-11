@@ -23,3 +23,4 @@ from pmb.build.other import copy_to_buildpath, is_necessary, \
     symlink_noarch_packages, find_aport, ccache_stats, index_repo
 from pmb.build.package import package
 from pmb.build.menuconfig import menuconfig
+from pmb.build.newapkbuild import newapkbuild
