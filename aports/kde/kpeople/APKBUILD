@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kpeople
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='A library that provides access to all contacts and the people who hold them'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="756b9d798da7f1d8583ef3ecd76d82a4cbb7ef5cee5331a371066401455953b95888974d48e86a6d132b998d48b480a80ae500240ac00e186bd5ae80d2e92955  kpeople-5.39.0.tar.xz"
+sha512sums="18b57e846bc614371c65c63662238b806c7dfd999be97695eeff1d1b4e4edb92ec3b7363e5876ec1bb9f9ff9335f6d7e8bd0140cf488f180fa660db20baab665  kpeople-5.40.0.tar.xz"

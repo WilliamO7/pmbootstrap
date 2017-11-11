@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdeclarative
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Provides integration of QML and KDE Frameworks'
 arch="all"
@@ -35,4 +35,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="442f18403788d7cf137438b8991037369d65b0a1cfe14a6067fabb39dcaaebef91cd0cb59992b7d381fe7f54f00a72d7b3de6d84d02a157e5b3e7f0392bd583a  kdeclarative-5.39.0.tar.xz"
+sha512sums="b934a4404717d2c47a28282937ef04e724e0b492e6838974765ccb3cd1ba62ac2d598c5e55e4e6cdd7831f521ae95c67dfeaab04353b89fb46393d9610d65e66  kdeclarative-5.40.0.tar.xz"

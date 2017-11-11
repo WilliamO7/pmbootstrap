@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kunitconversion
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Support for unit conversion'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="68debfe9b12862fe1e753884c701211bfa390dcf47c19edeaed3ed25003e7f72b232a00bed5e6ebdd389cf5de41395410cd8128eedacfc8515c1adfdacceb508  kunitconversion-5.39.0.tar.xz"
+sha512sums="a863956bf359b694cf3f2ffe7de2e79abfe379b6ed4c68ed73550da96c5d98f3ec562e7f790e97731abfb5b290dd874a459e91d38edd8918073d10c5b16c896d  kunitconversion-5.40.0.tar.xz"

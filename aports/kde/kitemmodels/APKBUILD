@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kitemmodels
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Models for Qt Model/View system'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="cf00e36915a9a6f6078baadc7783e5e0648c7197aa212a095ef1e2d1ce21e03877261a05a4cf521cbf6d96249a49df13fef760352cca5c9c74b3605534cdb24e  kitemmodels-5.39.0.tar.xz"
+sha512sums="17f78419b5860b6423a555d5ab529f68e7589e76b1f0c32f5ff0f581991a480cd9424d86d1384a85c221bb3037491a8fa4a0bf1e20ee7ed046d9be8c76e74446  kitemmodels-5.40.0.tar.xz"

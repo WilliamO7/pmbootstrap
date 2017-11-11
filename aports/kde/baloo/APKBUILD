@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=baloo
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='A framework for searching and managing metadata'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="ef9890ca10ea46f8e03b7ced8777502f23a7a02ac7ce05aa65745ecb06b529f9c6c7e463a507c17597341be6d7554e0203d4ff7e4fd5b92a622195dbd5bf5f04  baloo-5.39.0.tar.xz"
+sha512sums="5853246ac632ef6e528956d35e4b0a0321dd62e266e6e7f4f6c3be2ef1650191dacd248cfdc1b7cdc35f6d6eb0e4cb763a8336d5bde9329fbb27ca4f2a0b7e50  baloo-5.40.0.tar.xz"

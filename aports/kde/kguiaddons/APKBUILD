@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kguiaddons
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Addons to QtGui'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="a72c516a963d219bf8b2e1cd226e4ab8fae927f3d5d7f01a468e9c3c84f4cd430c494eac8e1b20668f8c48fdbf8161d3b4dae7b8a05152420aece56c41bc0b6e  kguiaddons-5.39.0.tar.xz"
+sha512sums="42543c4b29355d5998abd4bee14530a9e96b7d3f4378ea11952af67a157be23acf45b5c801e80909546e7903c73df3a650a05fa6ee8594a2cbe9e8ce66146976  kguiaddons-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: k0r10n <k0r10n.dev@gmail.com>
 # Contributor: Ivan Tham <pickfire@riseup.net>
 pkgname=extra-cmake-modules
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc="Extra CMake modules"
 url="https://projects.kde.org/projects/kdesupport/extra-cmake-modules"
@@ -27,4 +27,4 @@ package() {
 		"$pkgdir"/usr/share/licenses/$pkgname/COPYING
 }
 
-sha512sums="c41df32aa6641824b7e69b001997fa61ab4d4df9aa0b850d8eecb0e434836e35f7c928952771cb2c5258117ac318e199659991619f37ad3ff82744ab66071ece  extra-cmake-modules-5.39.0.tar.xz"
+sha512sums="5390edfde7acb4c89abd2f5abc4fb533f2f4b45061127796b3a2f9d7ab65d7b8ba5cc0aee0543a28886118af8f1c7aed4f5b51c33f20223d9948ca39944c399c  extra-cmake-modules-5.40.0.tar.xz"

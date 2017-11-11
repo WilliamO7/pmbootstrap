@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kiconthemes
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Support for icon themes'
 arch="all"
@@ -35,4 +35,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="1e30b24c1689ef4e7f59cc67fd4dc09e3dfcbfef0cf2b475ac09b43aa6d25ebb4edd8780398eee906f84ee1f5e53b2c0dc839014e185fb47e994c57fff74d7ca  kiconthemes-5.39.0.tar.xz"
+sha512sums="bed22e1e1173e5838a43cce8305b0df3b6c7f5f90d958feaf14a8a9612de2d81bdc57a2e6807ac9375cdd8a96a433672484a931ec30c6816ba58f752b2b8c2cb  kiconthemes-5.40.0.tar.xz"

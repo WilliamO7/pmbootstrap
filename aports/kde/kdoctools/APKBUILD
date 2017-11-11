@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdoctools
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Documentation generation from docbook'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="a9ef804175ed465753bcac7bee2d92a7a17f24b0c778d86c9a05aa09e643f949ee388e5133249bc27e13fbea7944fa10906a75e894806094700eb25b6971b95c  kdoctools-5.39.0.tar.xz"
+sha512sums="7279a2bbb01c9b6e31e4c7c1b9b5b1a14d9ba8ec78e63d4bf635838fbf01bc90e88ea9eb0788886548cd6c031b6c7d270c667c13f2c14d4fda6a786bc94d641b  kdoctools-5.40.0.tar.xz"

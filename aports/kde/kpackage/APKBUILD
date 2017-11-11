@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kpackage
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Framework that lets applications manage user installable packages of non-binary assets'
 arch="all"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="64d26f23911cb6f6d1912e92d9681885e4155b5bd06c284ba30f71ada37c7910e3acc0bcf63e9dd202005e523d1c7e184e46d3660595b174371319ff1c6a7583  kpackage-5.39.0.tar.xz"
+sha512sums="969250d2bfeabbb9e69d940156adde87d3819182bd71a36f4b02a7145023e39442b18785dc3ac58f44bd5dd865cc8dad88b731afb7def38f0c6e333553452870  kpackage-5.40.0.tar.xz"

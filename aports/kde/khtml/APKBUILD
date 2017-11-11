@@ -1,5 +1,5 @@
 pkgname=khtml
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=1
 pkgdesc='KHTML APIs'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="796e7d97d0889cccbd6093c20967a37e5ca1af1596b3f6dc71a8857f3175e5f12d027566b5e8497ec82c88622cab546e429194090948f1785e2f28f91867891e  khtml-5.39.0.tar.xz"
+sha512sums="e64cc9c32944c6cd1f45c745f4e653ca1b6023061ede3ed87886e3ed95e9d2d7a7753b396631d256b7f1a4c34b788e9a9b80253f151f73b3fdec3f862f8adcef  khtml-5.40.0.tar.xz"

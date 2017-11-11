@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kitemviews
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Widget addons for Qt Model/View'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="b61238d5a59dedc8c262e572e757a2a5724552f41105b60285b04111c24257663546df3d9b964db9abbe8b6445b29bb4b12c7f7fa78ca29688b1a88d64105371  kitemviews-5.39.0.tar.xz"
+sha512sums="54e7f7fe422c0750a20b9cbf4a44c8865513574ae79afea8a2bac70637d293514b0f3a386567fcb6ad559da18ff9a6589d5b55bdf8411606ad24592c857a110c  kitemviews-5.40.0.tar.xz"

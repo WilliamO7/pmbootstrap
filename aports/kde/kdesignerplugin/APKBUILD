@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdesignerplugin
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Integration of Frameworks widgets in Qt Designer/Creator'
 arch="all"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="3324989254386d3a5060172d396e312551ab00d1f524e43fa2d97aaad3dd88d007f635fc61682b4fe2d28f358f491bc9c4eb82842ce31666e49c7b4824929406  kdesignerplugin-5.39.0.tar.xz"
+sha512sums="e9874339ac1d694f249a20fe86504b776959b4e225b5377ba27df8cea14ffd35a42516308cb2daef0a9595c0f57ecb1328c35778d00fa05add19f7e5cce4dd99  kdesignerplugin-5.40.0.tar.xz"

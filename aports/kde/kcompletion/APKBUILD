@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kcompletion
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Text completion helpers and widgets'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="f7add324fdee5d3679b71a5b36a3a6d6cd56580935eb74ca2d5bf7281334865bad19d3fa0058af0599d8009dacc55893928e9a09e63aabe143be2c79b15ec2ce  kcompletion-5.39.0.tar.xz"
+sha512sums="ffd59f3a9803856f43e2c9e7c125f789fe4ef5d261daf05e02c4f95df121b5854a1ac57d1249e734180ee205b49a742a717aee9572f5a69eb104a11aaa839b64  kcompletion-5.40.0.tar.xz"

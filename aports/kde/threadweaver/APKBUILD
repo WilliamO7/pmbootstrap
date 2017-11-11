@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=threadweaver
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='High-level multithreading framework'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="3c307c53829d59d370175da05355d1ca3950feafab22a53ae8f36c03545e1b69afaf4947a2325830b33d928868c5b5a645447ddbeb6f76963141077e5a271ad2  threadweaver-5.39.0.tar.xz"
+sha512sums="7ea45517957a0970370a57f3f2e50fb39b8e4723546d5f0784db14df310ef5ad1820e682da36e109c13a1215992235a9bb878ac2b592f03e31a516976404765b  threadweaver-5.40.0.tar.xz"

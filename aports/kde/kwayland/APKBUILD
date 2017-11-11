@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kwayland
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Qt-style Client and Server library wrapper for the Wayland libraries'
 arch="all"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="ca71d9a07d38f813f34e05c034acc626d1e5c878d05eb5174764dd695ac18b99d29a3ec8df49f0fd9807dcfb1ce85b8e884c7389eb86cc0e7310ca2b8ec4f4b4  kwayland-5.39.0.tar.xz"
+sha512sums="3bbf49ee8a7cbf613d29fec59ac1444be1e89946792fc265a6c889fb32cb2ac93aca16ddd0e636daa8fda556ad01210e4bdd6b6ef4783ca95de5b0834baaa403  kwayland-5.40.0.tar.xz"

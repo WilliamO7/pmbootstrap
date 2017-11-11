@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kbookmarks
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Support for bookmarks and the XBEL format'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="901cc0a3a143492770c25dca9d8125d7c9ed4fbdaa2f80ca37fd0d6c811ab5af3ca1f41f38cd32f690024d3ac07faff0525290087c9e469d1518b96184ac2838  kbookmarks-5.39.0.tar.xz"
+sha512sums="b9adaab77f3104ffb0f470ccae25db75b1e73f54bbf49a5b8bdb7bf1271911c8a296cf68d1dc17a0b3e44e9fccc11e44ef2c90d2f03bd504488e2b6a832c097d  kbookmarks-5.40.0.tar.xz"

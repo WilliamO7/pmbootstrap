@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kfilemetadata
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc="A library for extracting file metadata"
 arch="all"
@@ -35,4 +35,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="df3e17fd19e64af2e413ff0e0405654e52e245185762a1d7bed8dec63b2a567e23c1f4340d946de8a076264d62fddae8184d70dfb001147e52e003bb4a416391  kfilemetadata-5.39.0.tar.xz"
+sha512sums="b3f632af0847dd3bed8bf0214e3786fe72ffbdc90454d7a2117e8b30023c43b594a27c5811a6e77d1e46a68261e950a5dc016b9ae6f80f3db539c29eaa53297d  kfilemetadata-5.40.0.tar.xz"

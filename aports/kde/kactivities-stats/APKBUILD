@@ -2,7 +2,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 
 pkgname=kactivities-stats
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 arch="all"
 pkgdesc="A library for accessing the usage data collected by the activities system"
@@ -40,4 +40,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="20c643e3f55b977a9a6e33866dec099428ec7fb3d8e3598bd9c5ff2e446b28c90151deba3f04955617da484dffee20b937ae76dfef426ea2a06baf00f04ee205  kactivities-stats-5.39.0.tar.xz"
+sha512sums="1c5285038247dd778579daef2b4bc4663b67a18364670ef953c52311931e0f1c5147bba2f699a316be52a41d641ee7b9db4fd78c6f96db47883c95a442ecd907  kactivities-stats-5.40.0.tar.xz"

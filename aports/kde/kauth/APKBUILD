@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kauth
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Abstraction to system policy and authentication features'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="28ec07f9d799e4140e238c86c600a4e9705ab8099c657ca07220c13e06bb41b62552d71852ad03736dbe9c93fd44b71d6484a5bdcc0a8c47d86e505bda000dcb  kauth-5.39.0.tar.xz"
+sha512sums="912e45a18f98086a35caf7b65316e4fe0defbbcc80f334bcdfd146a398cfb40abe2aa6b358d2057d457a51ba9fb61b05b1319ca3ff00edea82014919f632116a  kauth-5.40.0.tar.xz"

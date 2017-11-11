@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=knotifications
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Abstraction for system notifications'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="510ed096fcb241b9e52af39d1b1fd1d5d22309e06c3979eac7c05bbb9174c484c2f88a66a4b6f645b11b398d6dfa4be77399982bed53c903537259bf4ac1b66f  knotifications-5.39.0.tar.xz"
+sha512sums="7fbeff7ce781904ae9d3d57ef439c1d41880558f219465d5b593ee3099d3ce091124067494f5ce9da590ce68ab8f12ac2eda96c59be8d0a767b3edafeb251675  knotifications-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kcrash
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Support for application crash analysis and bug report from apps'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="d3444e39cb32abef01441c92af2fa020777bc6e629d3db568aed7e9a4f313fd6fb76a04142119170f2a38d51e65f1791f032c827bd1650e888ff7681883d688f  kcrash-5.39.0.tar.xz"
+sha512sums="2440b64e5ec6dd38682a9d7fa92e112faa41c6190faae42cb291df4fe8c77ef4013d06a333a997fa25fe15ca2f8dc1bed36973f7ef44d7bc2b59c3bb9427403a  kcrash-5.40.0.tar.xz"

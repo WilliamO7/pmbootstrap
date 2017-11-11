@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kactivities
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 arch="all"
 pkgdesc="Core components for the KDE's Activities"
@@ -37,4 +37,4 @@ package() {
 	cd "$srcdir"/build
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="8f53eae719cf61ffe55a3d6ef5e08ce45ce0b0925f892fb2e5cff29ea5ada7f99932f46d3b29e9ab50ce782200c7a830ed590a5e67c1e9e8a35e8c09d28b70f1  kactivities-5.39.0.tar.xz"
+sha512sums="030c3678c2971c9d499c9cdb863363ae82e35295d88aec141149988aa1596996cf0a32863db6024ac2ed15879d8edc5feef4b72ee89d2efe5641b33690ecfbce  kactivities-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kpty
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=1
 pkgdesc='Pty abstraction'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="f830b39fe073377280ee896147b6f0b504c8bdad42976b0bab8027a50f6b3540e0ab6a21012417fbd70bd1a04c8109452330f2acd90ab925ccaf061e2d99f0d9  kpty-5.39.0.tar.xz"
+sha512sums="85092a0ef665f7bcb22573c8cb678a4bd0f62a22e02f321caaf3857998396c1fbaeb135a7a40abe519e5421a14932e348223c2a7956befdf7b06cea378f8cea2  kpty-5.40.0.tar.xz"

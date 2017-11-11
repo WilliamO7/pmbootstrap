@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kxmlrpcclient
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc="XML-RPC client library for KDE"
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="d0ee59a250b1c3599c90689ea43169a2c032d104e50519ccfedbf19e8ba323dc1b3d293dbebbe25ed8c9ec3d2b51b72dbfcb359d9e2ca7de0b23368d749a37cc  kxmlrpcclient-5.39.0.tar.xz"
+sha512sums="e35410b53dc39940b5487bae385167d86f8b2cb82248953aca246cdb8bf21db65749f3179940156e302d43aac03756a2085217cf66716718dfd6765caafc7294  kxmlrpcclient-5.40.0.tar.xz"

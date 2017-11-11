@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kded
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Extensible deamon for providing system level services'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="272f24356de9f34f27d61929d475d7e76fd783b827686549db7a07961c7a5ab2b936bf9969808b85274f67cc2d5d37eec4c0562ba471f18efd522bb6cf4ec8c7  kded-5.39.0.tar.xz"
+sha512sums="559cc4bff3d18104326fdcdb35eca16e36b06c6a8547e77ac78833931f32f22c8497e4db08434bf889a7cdfaf72affaff342487e2387748705b49b6feb9e30a8  kded-5.40.0.tar.xz"

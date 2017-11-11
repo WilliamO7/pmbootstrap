@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=knewstuff
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Support for downloading application assets from the network'
 arch="all"
@@ -35,4 +35,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="7ff97230aea7cdbffe721167a4c42963eb9d620f946f8d8369f040a83937ef211fa5a614cc8ae791c9dfb85b3168313fb44e7376fa19275ab6ee6c7f0af3af6a  knewstuff-5.39.0.tar.xz"
+sha512sums="496feafb526ee7ae835e5e590f691c86b22bffb2c446de151a6d582662c856f0df755bbbe91fec06c2e06bc5577181972bb95a3f1afcf9aabca1f055e56c42ff  knewstuff-5.40.0.tar.xz"

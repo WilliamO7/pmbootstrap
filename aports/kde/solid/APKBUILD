@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=solid
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Hardware integration and detection'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="ab6775dbe0cf0f06e3049c4d54552d7231c3ce55176e9d3912c729613e2554be4a750356fe681d4d8f0cf1f4647f42a4076442357a59bd2800a6576199ac9352  solid-5.39.0.tar.xz"
+sha512sums="83a63f08569b385ef21e3401aabe61c04cc7a727e0788b126a9c23f659fb24186f8810223b8b64da605033f46775b5b3ce6e8b2f1b2886b2b533afbcf2691bb9  solid-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kwallet
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Secure and unified container for user passwords'
 arch="all"
@@ -32,4 +32,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="b8fef894a492a27691ae37199b9e564094bc3f2e342458ea97bac415148abd4b85018f1ec201e61bd28460909bbb719de30b7786dd1d954018a4f6f1a3ad28bf  kwallet-5.39.0.tar.xz"
+sha512sums="a162d5ed1901fe3c8675f715ddb9a32640d7b563bf0755a7add885208a8f55465d9082d2abb9553d411018d3a5a4856b17efc94789dbd5993ac6f11a8a0c71c8  kwallet-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kjsembed
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Embedded JS'
 arch="all"
@@ -30,4 +30,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="48b85bc2a8e1860cd2033e76aa76f6de18db4eaf6e89ae091eedc83956e8d1cbfdd78b56cf3b0177b9c057effbb687742428020b0219a2eca7e56bab5192576f  kjsembed-5.39.0.tar.xz"
+sha512sums="4b14d85bf5d67f61eea08eba31e4c3891c418f9bd7af931c6c643672b765ad0714b39da23f8ec57e2d752cabcd04db5647cf1a088f8bdc06be5f606d93297078  kjsembed-5.40.0.tar.xz"

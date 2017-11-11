@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kservice
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Advanced plugin and service introspection'
 arch="all"
@@ -34,4 +34,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="9626f866531d08def470646991dc94ab5092a03958afe84a9c45723b5a8fefced61d84f472353d74bac94128ab1748c31118aaf83fe9d4e6e51c22eeab887aae  kservice-5.39.0.tar.xz"
+sha512sums="362a81aedb24f0fb2c598329e8b4fb174435b756f9a13617935d96eed1e5d40be38a8f27c7aedb0bd0cf07e73b5e1d464d53266e34b426958876aff2540fe89c  kservice-5.40.0.tar.xz"

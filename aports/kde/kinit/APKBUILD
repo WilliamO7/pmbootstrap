@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kinit
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Process launcher to speed up launching KDE applications'
 arch="all"
@@ -36,4 +36,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="538f6385bf76d5ff267b0ab70a1cc26794b5489a56c65080b29f3d8b2eda1126aa92f7e60b223a0241db17c2d81b89b5c9e361545dcf35804d82f7133fde0904  kinit-5.39.0.tar.xz"
+sha512sums="1bfa884726e4379d9e0246e283dd7867bb404416eb90226f644b46e06c4bc17c898470bddafaf9f6ba9fc6be5ea4d975cacb0e5fc5ea4d1038616e91e7ddcb07  kinit-5.40.0.tar.xz"

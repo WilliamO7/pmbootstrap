@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdelibs4support
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Porting aid from KDELibs4'
 arch="all"
@@ -42,4 +42,4 @@ package() {
 	rm -f "$pkgdir"/usr/share/kf5/kssl/ca-bundle.crt
 	ln -sf /etc/ssl/certs/ca-certificates.crt "${pkgdir}"/usr/share/kf5/kssl/ca-bundle.crt
 }
-sha512sums="6278c6e3315a367824a7c158ced522a8e79a90f023723620467d0a87fc8908d07c341efd06faab2bf5590e5768722c9bd191b4ad29c4dbc77682e304b0b149e5  kdelibs4support-5.39.0.tar.xz"
+sha512sums="ea6758a42d993af312f0231c75b77f00c0a4938dfd8efa82d443d60e553865ed59621413a651aef1443ec1d07bcc273532b11f1699382b66c0ea91e2bfdf94d1  kdelibs4support-5.40.0.tar.xz"

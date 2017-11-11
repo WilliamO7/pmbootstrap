@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kwindowsystem
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Access to the windowing system'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="723157c663ed4d9025fe0966c66031f5b2083ddc0cdc5cdbdcc6a4cb3b100ebc72d03356d118683bda666f1cd162004d3782604a29ac0f7a4a7f6ce2b0b74994  kwindowsystem-5.39.0.tar.xz"
+sha512sums="e07531098de25d96168efb2820b209b47cc5fd0ea5a9a38e3c7c86b079619427e1e597e7b07fd92ea1a64ad6f031afe037ccc73c64bc59e3e5143ab54fff530a  kwindowsystem-5.40.0.tar.xz"

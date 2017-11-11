@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kconfig
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Configuration system'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="d14ee524c7c06eec8f6bb953c203bb4077ccffaaa01b7f25496819bb19bdedce098342e90c357b70eb46815ea1f9a85bb6d00c575f31c9d0519921c33b02860e  kconfig-5.39.0.tar.xz"
+sha512sums="c61f86144af8aba52341be2f2bd80dfa4a3a68fbf7daf65f49441c9ad00385080e161965bfbdd190e52cad023e8b7774bfb9e13546a9e909cc09de15c55fdfac  kconfig-5.40.0.tar.xz"

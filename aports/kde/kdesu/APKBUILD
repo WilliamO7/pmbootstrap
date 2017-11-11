@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kdesu
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Integration with su for elevated privileges'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="28de20d1910d8fde6ba7514e3d9890deb93e04476376461b113af3b504c71cd59236f5d00a0fc0455a38ac131aa93fc84eb9cdafd93bdb8fc05fa9b23e9d3026  kdesu-5.39.0.tar.xz"
+sha512sums="53ecfc0388a8246ec6b29de63ddb580071eaca33f7b1806e77b1200d79bbccb2bef38e4b482f0dd53e4767c873dc64d8cceb03d9ae75be41e8fe5a56ec90ebf1  kdesu-5.40.0.tar.xz"

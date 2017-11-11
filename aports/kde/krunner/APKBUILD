@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=krunner
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Framework for providing different actions given a string query'
 arch="all"
@@ -35,4 +35,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="2a97e4612b9aba202c143da9de11ba95b3f0f9a9d4d7696376d461427392b8ad4575d2272d684b0bfb8bb276c2648daf8dbc6453756219ec13fd1379116269c5  krunner-5.39.0.tar.xz"
+sha512sums="fc634c01935096500614525f33c60497946b43d82f2656ab601ca49147c3d615288fa25645daf83c9fd6e734178b0abcd6c73f238ad8c5866ad1a47e83e60bb8  krunner-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kcmutils
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Utilities for interacting with KCModules'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="9889ebcbdc043d5a5e00857cbf52736d88da8be5a8126254b5a65b280e3bc97476404a99e053114140fe0ea5afa8c13ecc909c0a46a2add20407d28a2e1af5fd  kcmutils-5.39.0.tar.xz"
+sha512sums="d59e225438d8c43d3c62ed15a3cb38fc08e05a2af4cdf6c1d0100347dd29a1e34906447eb96f9ef4c50bcb81c76e62d951df7d42e30a6214e9db5b3690880324  kcmutils-5.40.0.tar.xz"

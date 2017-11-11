@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kplotting
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Lightweight plotting framework'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	make DESTDIR="${pkgdir}" install
 }
 
-sha512sums="a4c43260989892d913c7589036579daf74399a9743bc1bc95eead1aaab9db912531b4f764e1a0610080864aa5d0d4f998f2bc65202c27480562b225c5c8e212a  kplotting-5.39.0.tar.xz"
+sha512sums="71a9ec3d041c3cc05f221230cb8727873eb354d8b6c55b12aeaf1f8b41de492d37a66d47baf860b1b222265211351245dc47ff5d08f2c5839cbcf24b5fb53b40  kplotting-5.40.0.tar.xz"

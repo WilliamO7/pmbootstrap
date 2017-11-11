@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kconfigwidgets
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Widgets for KConfig'
 arch="all"
@@ -33,4 +33,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="eac166a17331cfcfa5ddb74d80a4507cfc57e648b501ae5865a62b7d9d3ab2dd7d16f458657854fa24aeb803cd65ceef180af51b3a067184c54f74ab512eb79b  kconfigwidgets-5.39.0.tar.xz"
+sha512sums="af8cb1aaddb69e21e6b0dcaff0caeb5f0e81d3b6db9b34216011f82872fe129cc5029b84fa90a54194d2c4270e35f868b24326e86a2a776e9e73b985fcdb09c3  kconfigwidgets-5.40.0.tar.xz"

@@ -1,7 +1,7 @@
 # Contributor: Bart Ribbers <bribbers@disroot.org>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=kjs
-pkgver=5.39.0
+pkgver=5.40.0
 pkgrel=0
 pkgdesc='Support for JS scripting in applications'
 arch="all"
@@ -30,4 +30,4 @@ package() {
 	cd "$builddir"
 	make DESTDIR="${pkgdir}" install
 }
-sha512sums="86e38cd720d971469434ef95cfbb5de19a1bba5434b4b39ec922ddcf2812996d84b15746ff2bea19128f8467e1e322916623d93e05b2d4d382e3bb1016305805  kjs-5.39.0.tar.xz"
+sha512sums="a9db958cb99f47d8fbc428ace36f050e191f47058ae1fc7f9f4f7bdb8d763e65870a79a1fac504706d26d1d5bbb1988543235519a1cefa46ca4e6e14323208b5  kjs-5.40.0.tar.xz"
