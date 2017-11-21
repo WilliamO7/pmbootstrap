@@ -1,7 +1,7 @@
 pkgname=plasma-mobile
-pkgver=1
+pkgver=0_git20171108
 pkgrel=0
-#commit=8005327e22c54b1e7e4be20c844819a43aa7d108
+_commit="df1eeb023083fbc300bae9076fe7e2dc75bd4baa"
 pkgdesc="Plasma Mobile"
 arch="all"
 url="https://community.kde.org/Plasma/Mobile"
@@ -19,15 +19,16 @@ makedepends="extra-cmake-modules kdoctools-dev plasma-workspace-dev qt5-qtdeclar
 install="$pkgname.post-install
 		 $pkgname.post-upgrade
 		 $pkgname.post-deinstall"
-source="$pkgname-$pkgver.tar.gz"
+source="$pkgname-$_commit.tar.gz::https://github.com/pmsourcedump/$pkgname/archive/$_commit.tar.gz"
 
+builddir="$srcdir/$pkgname-$_commit"
 prepare() {
 	mkdir -p "$srcdir"/build
 }
 
 build() {
 	cd "$srcdir"/build
-	cmake "$srcdir"/$pkgname \
+	cmake "$srcdir/$pkgname-$_commit" \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DLIB_INSTALL_DIR=lib \
 		-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
@@ -44,4 +45,4 @@ package() {
 	cd "$srcdir"/build
 	make DESTDIR="$pkgdir/" install
 }
-sha512sums="103daf5dd2fa5057f7db4c2ccd016cdb632e1e44062104d82c262e4e0a50dc4e2d6a3e557742bb434263641bebc4afed7f43702e53faf0bc312ee8f49a3a3ce7  plasma-mobile-1.tar.gz"
+sha512sums="49e5e559b64a72e7d6128cf6ea05e189b3877c2c16adcb3e79defd0ed45b95374d3165539691f4ba79c61cd56a8527709c5eedb9fcf9e0f2a41e63ab57f37a2c  plasma-mobile-df1eeb023083fbc300bae9076fe7e2dc75bd4baa.tar.gz"
