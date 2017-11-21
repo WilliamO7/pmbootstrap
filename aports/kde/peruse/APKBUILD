@@ -1,0 +1,46 @@
+# Contributor: Bart Ribbers <bribbers@disroot.org>
+# Contributor: Oliver Smith <ollieparanoid@bitmessage.ch>
+# Maintainer: Bart Ribbers <bribbers@disroot.org>
+pkgname=peruse
+_commit_unarr="d1be8c43a82a4320306c8e835a86fdb7b2574ca7"
+pkgver=1.2
+pkgrel=0
+pkgdesc="A comic book reader app"
+arch="all"
+url='https://community.kde.org/Frameworks'
+license="LGPL-2.1"
+depends="knewstuff kirigami2"
+depends_dev="qt5-qtbase-dev qt5-qtdeclarative-dev ki18n-dev kdeclarative-dev kconfig-dev
+	kfilemetadata-dev kiconthemes-dev kio-dev kcoreaddons-dev kpackage-dev kservice-dev
+	kbookmarks-dev kcompletion-dev kjobwidgets-dev solid-dev karchive-dev baloo-dev"
+makedepends="$depends_dev extra-cmake-modules"
+source="$pkgname-$pkgver.tar.gz::https://github.com/pmsourcedump/$pkgname/archive/$pkgver.tar.gz
+	unarr-$_commit_unarr.tar.gz::https://github.com/zeniko/unarr/archive/$_commit_unarr.tar.gz"
+options="!check" # fails for unknown reasons
+builddir="$srcdir/$pkgname-$pkgver"
+
+prepare() {
+	default_prepare
+	mv "$srcdir/unarr-$_commit_unarr"/* \
+		"$builddir/src/qtquick/karchive-rar/external/unarr"
+}
+
+build() {
+	cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DKDE_INSTALL_LIBDIR=lib
+	make
+}
+
+check() {
+	cd "$builddir"
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="${pkgdir}" install
+}
+sha512sums="728e16a853b53d8c608f7993487b39a0440ce6d6ae8b05002a8caa9fc037005ffe8507f8c3aa717d6bd93a3fa5b249f6cfd6163adda92a300a0632b90a448f54  peruse-1.2.tar.gz
+f53c4375e12bcfec10f084f345312988be96ca5c196fbe8897db0af8cf57421b17b85d2b588f8b3b2c45474376dd4fc992c3992d6a3ed2844eae01f9713e9bea  unarr-d1be8c43a82a4320306c8e835a86fdb7b2574ca7.tar.gz"
