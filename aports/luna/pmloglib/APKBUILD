@@ -1,7 +1,7 @@
 pkgname=pmloglib
 pkgver=3.2.0
-pkgrel=1
-pkgdesc="The new webOS UI of the webOS ports project."
+pkgrel=2
+pkgdesc="The Open webOS logging library"
 arch="all"
 url="http://webos-ports.org"
 license="GPL-3.0+"
@@ -9,6 +9,7 @@ depends=""
 makedepends="cmake-modules-webos glib-dev libpbnjson-dev"
 source="$pkgname-$pkgver.tar.gz::https://github.com/openwebos/pmloglib/archive/versions/3.2.0.tar.gz"
 subpackages="$pkgname-dev"
+options="!check"
 
 prepare() {
 	mkdir -p "$srcdir"/build

@@ -1,29 +1,31 @@
 pkgname=luna-next
-pkgver=9999
-pkgrel=1
+pkgver=2.6.0
+pkgrel=2.6.0_git20170922
+_commit=428a337f922691b00534f041193ee7dca8defcc2
 pkgdesc="The new webOS UI of the webOS ports project."
 arch="all"
 url="http://webos-ports.org"
 license="GPL-3.0+"
-depends=""
-makedepends="extra-cmake-modules cmake-modules-webos qt5-qtbase-dev qt5-qtdeclarative-dev wayland-dev qt5-qtwayland-dev qt5-qtwayland luna-sysmgr-common"
-source="$pkgname-$pkgver.zip::https://github.com/webOS-ports/luna-next/archive/428a337f922691b00534f041193ee7dca8defcc2.zip
-	remove-systemd-harddep.patch"
+depends="qt5-qtbase qt5-qtdeclarative qt5-qtwayland luna-prefs luna-sysmgr-common json-c nyx-lib luna-prefs"
+makedepends="extra-cmake-modules cmake-modules-webos qt5-qtbase-dev qt5-qtdeclarative-dev wayland-dev qt5-qtwayland-dev json-c-dev luna-sysmgr-common-dev nyx-lib-dev luna-prefs-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/webOS-ports/luna-next/archive/$_commit.tar.gz
+	remove-systemd-harddep.patch compile.patch"
+builddir="$srcdir/$pkgname-$_commit"
 
 prepare() {
+	default_prepare
 	mkdir -p "$srcdir"/build
-	cd "$srcdir"/$pkgname-428a337f922691b00534f041193ee7dca8defcc2
-	patch -p1 < "$srcdir"/remove-systemd-harddep.patch
 }
 
 build() {
 	cd "$srcdir"/build
-	cmake "$srcdir"/$pkgname-428a337f922691b00534f041193ee7dca8defcc2 \
-		-DCMAKE_BUILD_TYPE=Release \
+	cmake "$builddir" \
+		-DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DKDE_INSTALL_LIBDIR=lib \
 		-DKDE_INSTALL_LIBEXECDIR=lib \
-		-WEBOS_INSTALL_ROOT=/
+		-DWEBOS_INSTALL_ROOT=/ \
+		-DOE_QMAKE_PATH_QML=/usr/lib/qt5/qml/
 	make
 }
 
@@ -31,5 +33,6 @@ package() {
 	cd "$srcdir"/build
 	make DESTDIR="$pkgdir" install
 }
-sha512sums="449fdce96c6556666d8c4dcf5837b2cd99109cacc78d8ce5559913f80487db7934792ec1d15eda1ebe349e68d51b75b36f0e0859c4571c93691c9952eca70921  luna-next-9999.zip
-0d369f895560f4f0367d2882197f4d0c9689203be3556856d00b5f47b7c2b3b05e2f06f773141b1134096cd2fc0cf11970749555112e5926ab38f52f9a348209  remove-systemd-harddep.patch"
+sha512sums="37147471d8ea99321558aa8a824a76a6bc23d85cea666ea2c789585e7d398e46312da7488f2019826912addd28ae796552438f9a103ac6fec6572407ce6efb9b  luna-next-2.6.0.tar.gz
+f6dc58db48bdd1ec4126245aaeb3cf364dfb761cf0aae172ff19eda885fe0601c249fcfc5e89c1cbfb91e857d5c57bac24495bab62a4c03dff7711e7dad2a9f8  remove-systemd-harddep.patch
+f749ed8a4b2ebd2f8baea6772888772cd9769a71fab667c6bb76338324a4692a9adaa3f6aae04199af74286d00b045c3c7c9cc0c57a293b8fdf04e5af75dca71  compile.patch"

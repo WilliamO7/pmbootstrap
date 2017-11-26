@@ -1,0 +1,37 @@
+pkgname=qt5-qtquickcontrols2
+pkgver=5.9.1
+_ver=${pkgver/_/-}
+_ver=${_ver/beta0/beta}
+_ver=${_ver/rc0/rc}
+_V=${_ver/rc/RC}
+
+pkgrel=0
+pkgdesc="Qt5 - module with set of QtQuick controls"
+url="http://qt-project.org/"
+arch="all"
+license="BSD and (LGPLv2 with exceptions or GPLv3 with exceptions) and GFDL"
+depends="qt5-qtbase qt5-qtdeclarative"
+makedepends="qt5-qtbase-dev qt5-qtdeclarative-dev"
+install=""
+subpackages=""
+case $pkgver in
+*_beta*|*_rc*) _rel=development_releases;;
+*) _rel=official_releases;;
+esac
+
+source="http://download.qt-project.org/$_rel/qt/${pkgver%.*}/$_ver/submodules/qtquickcontrols2-opensource-src-$_V.tar.xz"
+
+builddir="$srcdir"/qtquickcontrols2-opensource-src-$_V
+
+build() {
+	cd "$builddir"
+	qmake-qt5
+	make
+}
+
+package() {
+	cd "$builddir"
+	make install INSTALL_ROOT="$pkgdir"
+}
+
+sha512sums="277a56adde27f2552cdc392f9c1f312104887624c0ecc6b3e465b61d17f01ea63bd9bcff45e00903dc3b53e6bcb211ac41fd28702fa72f48db35dfacc2d072e4  qtquickcontrols2-opensource-src-5.9.1.tar.xz"

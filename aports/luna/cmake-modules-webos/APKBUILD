@@ -16,7 +16,8 @@ prepare() {
 
 build() {
 	cd "$srcdir"/build
-	cmake "$srcdir"/$pkgname-submissions-$pkgver
+	cmake "$srcdir"/$pkgname-submissions-$pkgver \
+		-DWEBOS_INSTALL_ROOT=/
 	make
 }
 
