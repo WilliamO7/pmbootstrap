@@ -81,16 +81,17 @@ def cut_off_function_names(apkbuild):
     return apkbuild
 
 
-def apkbuild(args, path):
+def apkbuild(args, path, check_pkgver=True):
     """
     Parse relevant information out of the APKBUILD file. This is not meant
     to be perfect and catch every edge case (for that, a full shell parser
     would be necessary!). Instead, it should just work with the use-cases
     covered by pmbootstrap and not take too long.
 
-    :param path: Full path to the APKBUILD
-    :returns: Relevant variables from the APKBUILD. Arrays get returned as
-        arrays.
+    :param path: full path to the APKBUILD
+    :param version_check: verify that the pkgver is valid.
+    :returns: relevant variables from the APKBUILD. Arrays get returned as
+              arrays.
     """
     # Try to get a cached result first (we assume, that the aports don't change
     # in one pmbootstrap call)
@@ -158,11 +159,12 @@ def apkbuild(args, path):
                            " the folder, that contains the APKBUILD!")
 
     # Sanity check: pkgver
-    if "-r" in ret["pkgver"] or not pmb.parse.version.validate(ret["pkgver"]):
-        logging.info("NOTE: Valid pkgvers are described here:")
-        logging.info("<https://wiki.alpinelinux.org/wiki/APKBUILD_Reference#pkgver>")
-        raise RuntimeError("Invalid pkgver '" + ret["pkgver"] +
-                           "' in APKBUILD: " + path)
+    if check_pkgver:
+        if "-r" in ret["pkgver"] or not pmb.parse.version.validate(ret["pkgver"]):
+            logging.info("NOTE: Valid pkgvers are described here:")
+            logging.info("<https://wiki.alpinelinux.org/wiki/APKBUILD_Reference#pkgver>")
+            raise RuntimeError("Invalid pkgver '" + ret["pkgver"] +
+                               "' in APKBUILD: " + path)
 
     # Sanity check: arch
     if not len(ret["arch"]):
