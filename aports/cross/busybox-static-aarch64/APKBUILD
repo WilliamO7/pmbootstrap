@@ -3,7 +3,7 @@
 
 pkgname=busybox-static-aarch64
 pkgver=1.27.2
-pkgrel=3
+pkgrel=6
 
 _arch="aarch64"
 _mirror="https://nl.alpinelinux.org/alpine/"
@@ -26,4 +26,4 @@ package() {
     rm .PKGINFO .SIGN.*
 }
 
-sha512sums="a66f6085375e29cf1bc26be0db45fc4465c91b4743f10a996b13daa32eb1ff16d49db3a9e701c78f51043bf8787ef00dc379b3c2be1623fc50a07e08833ed7b1  busybox-static-1.27.2-r3-aarch64.apk"
+sha512sums="11fd908cb46257012094d369b5631084f6d4e74635353e9f0b1c69f6e1a2c825e9fe734dc2a676a91e1926fd6a39d80e1303eaf3e9547c95883a624b2ce853e2  busybox-static-1.27.2-r6-aarch64.apk"

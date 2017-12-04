@@ -164,6 +164,10 @@ def apkbuild(args, path):
         raise RuntimeError("Invalid pkgver '" + ret["pkgver"] +
                            "' in APKBUILD: " + path)
 
+    # Sanity check: arch
+    if not len(ret["arch"]):
+        raise RuntimeError("Arch must not be empty: " + path)
+
     # Fill cache
     args.cache["apkbuild"][path] = ret
     return ret
