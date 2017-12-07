@@ -23,3 +23,6 @@ after_failure:
   - cat ~/.local/var/pmbootstrap/log_testsuite.txt
 notifications:
   - email: false
+
+# newer Travis image to fix apt errors
+group: edge
