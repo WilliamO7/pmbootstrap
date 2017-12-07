@@ -64,10 +64,11 @@ def check_checksums(package):
 
 
 def check_build(packages):
-    command = ["./pmbootstrap.py", "--details-to-stdout", "build", "--strict",
-               "--force"] + list(packages)
+    command = (["./pmbootstrap.py", "--details-to-stdout", "build",
+                "--strict"] + list(packages))
     try:
-        subprocess.Popen(command)
+        process = subprocess.Popen(command)
+        process.communicate()
     except subprocess.CalledProcessError as e:
         print("** Building failed")
         exit(1)
@@ -81,7 +82,7 @@ if __name__ == "__main__":
             build = True
         else:
             print("usage: {} [--build]".format(sys.argv[0]))
-            exit(0)
+            exit(1)
 
     if 'TRAVIS_COMMIT_RANGE' in os.environ:
         print('Checking commit range: {}'.format(os.environ['TRAVIS_COMMIT_RANGE']))
