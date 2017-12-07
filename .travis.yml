@@ -7,6 +7,7 @@ addons:
     - debian-sid
     packages:
     - shellcheck
+    - qemu-system-x86
 install: "pip install flake8 pytest-cov python-coveralls"
 script:
   - test/static_code_analysis.sh
