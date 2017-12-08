@@ -6,7 +6,6 @@ addons:
     sources:
     - debian-sid
 install:
-  - sudo apt install dpkg
   - sudo apt install shellcheck qemu-system-x86
   - pip install flake8 pytest-cov python-coveralls
 script:
