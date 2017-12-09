@@ -113,8 +113,8 @@ class Qemu(object):
         pmbootstrap_yes(args, config, ["install", "--no-fde"])
         self.process = pmbootstrap_run(args, config, ["qemu", "--display",
                                                       "none"], background=True)
-        logging.info("(test) wait 120s until the VM booted up")
-        time.sleep(120)
+        logging.info("(test) wait 90s until the VM booted up")
+        time.sleep(90)
 
 
 @pytest.fixture
