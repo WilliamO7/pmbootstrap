@@ -1,0 +1,89 @@
+pkgname=libhybris-4.4
+_pkgname=libhybris
+pkgver=1263.013cf7e
+pkgrel=1
+arch="all"
+url="https://github.com/libhybris/libhybris"
+license="Apache"
+makedepends="autoconf automake libtool wayland-dev linux-headers bsd-compat-headers android-headers-4.4"
+depends_dev="bsd-compat-headers android-headers-4.4"
+_rev=54dd4749706334882f9c404fca01a19f01325d07
+source="$_pkgname-$_rev.tar.gz::https://github.com/libhybris/libhybris/archive/$_rev.tar.gz
+	0001-Make-libhybris-compile-with-musl.patch
+	0002-tests-Regression-test-for-EGL-glibc-TLS-conflict.patch
+	0003-Implement-X11-EGL-platform-based-on-wayland-code.patch"
+
+pkgdesc="libhybris allows to use bionic-based HW adaptations"
+subpackages="$pkgname-dev $pkgname-egl $pkgname-gles $pkgname-libwayland-egl:_wayland"
+provides="_pkgname"
+options="!check !strip"
+
+builddir="$srcdir/$_pkgname-$_rev"
+
+build() {
+	cd "$builddir/hybris"
+
+	./autogen.sh \
+		--prefix=/usr \
+		--enable-wayland \
+		--enable-trace \
+		--enable-debug \
+		--enable-experimental \
+		--with-android-headers=/usr/include/android \
+		--with-default-hybris-ld-library-path=/usr/libexec/droid-hybris:/system/lib:/vendor/lib:/system/lib \
+		--enable-arch=arm \
+		--enable-property-cache
+	make
+}
+
+package() {
+	cd "$builddir/hybris"
+
+	make DESTDIR="${pkgdir}" install
+}
+
+egl() {
+	pkgdesc="libhybris libEGL runtime libraries"
+	install -d "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libEGL.so.* \
+		"$subpkgdir"/usr/lib/
+}
+
+gles() {
+	pkgdesc="libhybris libGLESv2 runtime libraries"
+	install -d "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libGLES*.so.* \
+		"$subpkgdir"/usr/lib/
+}
+
+_wayland() {
+	pkgdesc="libhybris libwayland-egl library"
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libwayland-egl.so.* "$subpkgdir"/usr/lib/ \
+		|| return 1
+}
+
+dev() {
+	default_dev
+
+	# Avoid conflicts with mesa-dev
+	rm -f "$subpkgdir"/usr/lib/lib*GL*.so
+	rm -f "$subpkgdir"/usr/lib/libwayland-egl.so
+
+	cd "$subpkgdir"/usr/lib/pkgconfig
+	rm -f egl.pc glesv*.pc wayland-egl.pc
+
+	cd "$subpkgdir"/usr/include
+	# Move libhybris-provided headers into hybris dir
+	mv CL EGL GLES GLES2 KHR VG hybris
+
+	# Symlink eglhybris.h
+	mkdir -p EGL
+	cd EGL
+	ln -s ../hybris/EGL/eglhybris.h .
+}
+
+sha512sums="798360130e540d9dd29ec937b3d01a1b146881c45ec6a2dd1a599a0164d46886b58927d38575993b525a06e99fcc2dd46f020e70f7e5c7cc43258b840ae183f8  libhybris-54dd4749706334882f9c404fca01a19f01325d07.tar.gz
+9825449ea88f0038bc66f499684bf891720f095b7138ce0b8bbe1d98e8401f148e67902c7e6c67777f5671e0e6822bc4857856e3446f89f54609b7c1794aa19e  0001-Make-libhybris-compile-with-musl.patch
+3a6317fa56d2398180667d80201b7c825a50993318b6bc6f2483e58487a27d4786ef86072a69fbbd32f1ad3a9aa1c0d467c6ed2503a779255da39f6aa92d37c8  0002-tests-Regression-test-for-EGL-glibc-TLS-conflict.patch
+aefa206d577114173e05a7f4fc0677232864ec93bd40be30f247df2e9b938fd03da38b703987a6b43d9fd9165a0072533f53825e8bd9cda00c463e38a0a512d2  0003-Implement-X11-EGL-platform-based-on-wayland-code.patch"

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Add /system mount point in fstab
+if [ -z "$(grep /system /etc/fstab)" ]; then
+	mkdir -p /system
+	echo "/dev/loop1 /system   ext2    defaults        0       0" >> /etc/fstab
+fi
+
+if [ "`id -u user`" == "1000" ]; then
+	# Change default user uid from 1000 to 100000 to avoid conflicts.
+	# Beware that it ./pmbootstrap install creates user after installing
+	# packages, so it will work only when package is installed on live system
+
+	# usermod -u 100000 user doesn't work due to "user" user is being used
+	sed -i -e 's/^\(user:[^:]\):[0-9]*:[0-9]*:/\1:100000:100000:/' /etc/passwd
+	groupmod -g 100000 user
+	chown -R user:user /home/user
+
+	/usr/lib/droid/droid-user-add.sh
+	usermod -g user -a -G graphics,camera,media,media_rw,inet,net_raw user
+fi
+
+/usr/lib/droid/droid-user-add.sh
+if [ "`id -u user`" == "100000" ]; then
+	usermod -g user -a -G graphics,camera,media,media_rw,inet,net_raw user
+fi
+
+rc-update add droid-hal-init default

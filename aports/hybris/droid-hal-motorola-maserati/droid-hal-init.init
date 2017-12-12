@@ -1,0 +1,26 @@
+#!/sbin/openrc-run
+
+cmd=/usr/bin/droid/droid-hal-startup.sh
+cmd_args=""
+pid=/run/droid-hal-init.pid
+
+depend() {
+	after bootmisc
+}
+
+start() {
+	ebegin "Starting droid-hal-init"
+	start-stop-daemon --start --exec $cmd --background \
+		--pidfile $pid --make-pidfile -- $cmd_args
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping droid-hal-init"
+	start-stop-daemon --stop --exec $cmd
+	eend $?
+}
+
+restart() {
+	eerror "droid-hal-init should be never restarted"
+}

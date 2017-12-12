@@ -1,0 +1,28 @@
+pkgname="device-motorola-maserati"
+pkgdesc="Motorola Motorola Droid 4"
+pkgver=0.1
+pkgrel=1
+url="https://postmarketos.org"
+license="MIT"
+arch="noarch"
+options="!check"
+depends="linux-motorola-maserati"
+source="deviceinfo 10-safestrap-maserati.sh"
+subpackages="$pkgname-hybris"
+
+package() {
+	install -Dm644 "$srcdir"/deviceinfo \
+		"$pkgdir"/etc/deviceinfo
+
+	mkdir -p "$pkgdir"/etc/postmarketos-mkinitfs/hooks/
+	install -Dm644 "$srcdir"/10-safestrap-maserati.sh \
+		"$pkgdir"/etc/postmarketos-mkinitfs/hooks/
+}
+
+hybris() {
+    depends="droid-hal-maserati libhybris-4.4"
+    install -d -m644 "$subpkgdir"
+}
+
+sha512sums="e9e1d23303d8998def5f383ffce2b6084d8a112617090e8a2314cd1694f06be6a1cd5e89a9b3da950352cb6c6127cb8a6fe728d9791618ec47227d2923df5e98  deviceinfo
+159bee52903976ccf317cb380e77de01afe409af561d378fc62fc7383cd937700ebe05f47d2193ba5bef0190f43b20e6b90d0cf9c716de7e5d1287088226a812  10-safestrap-maserati.sh"

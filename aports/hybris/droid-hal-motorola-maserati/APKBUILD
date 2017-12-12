@@ -1,0 +1,41 @@
+pkgname=droid-hal-motorola-maserati
+pkgver=0.0.6-201709301630
+pkgrel=1
+arch="armhf"
+license="Apache"
+makedepends="rpmextract"
+depends=""
+url="https://github.com/mer-hybris"
+_filename="droid-hal-maserati-$pkgver.armv7hl.rpm"
+install="$pkgname.post-install"
+source="http://repo.merproject.org/obs/nemo:/devel:/hw:/motorola:/maserati/sailfishos_2.1.0.11/armv7hl/$_filename
+	udev/998-droid-system.rules
+	droid-hal-init.init"
+pkgdesc="Droid HAL package for maserati"
+options="!strip !check !tracedeps textrels"
+
+builddir="$srcdir/android-headers"
+
+package() {
+	mkdir -p $pkgdir
+	cd "$pkgdir"
+	rpmextract.sh "$srcdir/$_filename"
+
+    # Udev rules
+	install -D -m644 "$srcdir"/998-droid-system.rules \
+		"$pkgdir"/etc/udev/rules.d/998-droid-system.rules
+
+	install -D -m644 "$pkgdir"/lib/udev/rules.d/999-android-system.rules \
+		"$pkgdir"/etc/udev/rules.d/999-android-system.rules
+
+
+	# Init script
+	install -Dm755 "${srcdir}/droid-hal-init.init" \
+		"${pkgdir}/etc/init.d/droid-hal-init"
+
+	rm -rf "$pkgdir"/lib
+}
+
+sha512sums="855b0c4d5656de7648b4e50fe02adc96cf55e09920b1f007740d52e7f1647477317c631d06b84ec60808957896b54b49ea9dddc606ede93b622d64049f5e991a  droid-hal-maserati-0.0.6-201709301630.armv7hl.rpm
+865822222d7e47f362c887d4048ea4f598f6e4423e4c768f699e1dd0e4ec4518854e4c5a4cc6aa9a361b0b3a247066d2234805628c14f4e9acf8b9d53f3d5bea  998-droid-system.rules
+9057234a6d762d38a83cfe3000d73d2fab25cb1ad5eb122ba17d1e39cf1de379709097fba7a68f84ae2753abd1f623f2aee80a35ffbb977f130d6599f4bc6d54  droid-hal-init.init"

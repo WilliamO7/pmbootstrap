@@ -1,0 +1,37 @@
+pkgname=xf86-video-hwcomposer-4.4
+_pkgname=xf86-video-hwcomposer
+pkgver=117.c9383a3
+pkgrel=0
+pkgdesc="X.Org driver for Android devices rendering through HWComposer API"
+url="https://github.com/NotKit/_pkgname"
+arch="all"
+license="MIT"
+subpackages="$pkgname-doc"
+depends=
+makedepends="autoconf automake util-macros
+    xorg-server-dev libxi-dev fontsproto randrproto
+    videoproto renderproto xf86dgaproto libhybris-4.4-dev"
+_rev=c9383a3b28a178c47e1e94b4d73e093d7543ed36
+source="$_pkgname-$_rev.tar.gz::https://github.com/NotKit/$_pkgname/archive/$_rev.tar.gz"
+
+builddir="$srcdir/$_pkgname-$_rev"
+
+build() {
+	cd "$builddir"
+	export LDFLAGS="$LDFLAGS -Wl,-z,lazy"
+	export CPPFLAGS="$CPPFLAGS -I/usr/include/android -DMESA_EGL_NO_X11_HEADERS"
+
+	./autogen.sh \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		|| return 1
+	make || return 1
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install || return 1
+	install -Dm644 COPYING "$pkgdir"/usr/share/licenses/$_pkgname/COPYING
+}
+sha512sums="564559c05d84e114fbcdc7bfdd8a0b8297c1cd194a0152cb8a1dce8e05e63f6d8048e28566130f899b5a0c28db9f8c01a05fdf5b4e5e1ae55c6938e9ace0da72  xf86-video-hwcomposer-c9383a3b28a178c47e1e94b4d73e093d7543ed36.tar.gz"

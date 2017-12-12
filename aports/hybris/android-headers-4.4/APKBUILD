@@ -1,0 +1,29 @@
+pkgname=android-headers-4.4
+pkgver=4.4
+pkgrel=0
+arch="noarch"
+license="Apache"
+makedepends="rpmextract"
+depends=""
+url="https://github.com/mer-hybris"
+_filename="droid-hal-maserati-devel-0.0.6-201709301630.armv7hl.rpm"
+source="http://repo.merproject.org/obs/nemo:/devel:/hw:/motorola:/maserati/sailfishos_2.1.0.11/armv7hl/$_filename
+        android-headers.pc"
+pkgdesc="Android headers used for building libhybris"
+options="!check"
+
+builddir="$srcdir/android-headers"
+
+package() {
+  mkdir -p "$builddir"
+  cd "$builddir"
+  rpmextract.sh ../$_filename
+
+  mkdir -p "${pkgdir}/usr/include"
+  cp -r "usr/lib/droid-devel/droid-headers" "${pkgdir}/usr/include/android"
+
+  install -Dm644 "$srcdir/android-headers.pc" "${pkgdir}/usr/lib/pkgconfig"
+}
+
+sha512sums="48b1651c6cba972cb1eb9090ac715f0479c43e8ade28d5d6a390ddd8d8a20ebcea10bec8bc0bb50c8459bd7f86fc754f9913ce41695e73d7cbf2d8964c9ee592  droid-hal-maserati-devel-0.0.6-201709301630.armv7hl.rpm
+7a35307d5caf86c4b8861f587586102419f13bb352578b539c7533931a00d3c77b70e2d97e4031118596eda3e7c2050c0a41f2877e44a6da0639e1b4a5b93e43  android-headers.pc"
