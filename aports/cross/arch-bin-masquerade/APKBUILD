@@ -27,7 +27,7 @@ package() {
 		mkdir -p "$_bindir"
 		cd "$_bindir"
 
-		# Create scripts that wrap the arch gcc as regular gcc etc.
+		# Iterate over binaries and create wrappers
 		for _bin in $_bins; do
 			{
 				echo "#!/bin/sh"
