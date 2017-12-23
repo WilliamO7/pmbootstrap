@@ -2,25 +2,21 @@
 pkgname="device-samsung-espresso10"
 pkgdesc="Samsung Galaxy Tab 2 (10.1 inch)"
 pkgver=0.1
-pkgrel=6
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="noarch"
 options="!check"
 depends="linux-samsung-espresso10 firmware-samsung-espresso10 mkbootimg"
 makedepends="devicepkg-dev"
-source="deviceinfo 90-android-touch-dev.rules"
+source="deviceinfo"
 
 build() {
 	devicepkg_build $startdir $pkgname
 }
 
 package() {
-	install -D -m644 "$srcdir/deviceinfo" \
-		"$pkgdir/etc/deviceinfo"
-	install -Dm644 "$srcdir"/90-android-touch-dev.rules \
-		"$pkgdir"/etc/udev/rules.d/90-android-touch-dev.rules
+	devicepkg_package $startdir $pkgname
 }
 
-sha512sums="ad04a8a3830e1ebeff0c52660ff9051607f6ecd163d8aaff78052ccad0fef48a80426154e923f5c2276820a280f53bb7b6beb357e6aa08530d4ee790803644f1  deviceinfo
-abeb1298cecf9de80efe43a6faa510e9b5eb99fce797c19536a2b49ced5c52a3615906c7f431972dfc12141e2d671829f3dac2275f8db94af06bd313c069466b  90-android-touch-dev.rules"
+sha512sums="52b9cd540941d0d4059c90483e0e5d7f6b742ab012201add20a6602836e1831bd5fef8c930f3084f65da4a9c22ebaa5109dfa4d2eacd86c259b967eb4fedb0cb  deviceinfo"
