@@ -1,0 +1,22 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="device-motorola-peregrine"
+pkgdesc="Motorola Moto G (2013) 4G Edition"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="noarch"
+options="!check"
+depends="linux-motorola-peregrine mkbootimg msm-fb-refresher libsparse"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="0fa881ac46edf17b12431cf430e3b632d02d16dba8243e0160b110c3275f1337bcafba69591076cbad1b2d912273cab11c493eed4d8a4a2ef21dbf1a397c1c86  deviceinfo"
