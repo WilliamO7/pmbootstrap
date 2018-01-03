@@ -32,6 +32,7 @@ def check_sonyelf(path, file_output):
 
 
 def bootimg(args, path):
+    bootimg_is_sonyelf = False
     if not os.path.exists(path):
         raise RuntimeError("Could not find file '" + path + "'")
 
@@ -53,7 +54,7 @@ def bootimg(args, path):
                                " flash method. See also: "
                                "<https://wiki.postmarketos.org/wiki/Deviceinfo_flash_methods>")
         elif check_sonyelf(bootimg_path, file_output.lower()) is True:
-            bootimg_is_sonyelf = True
+           bootimg_is_sonyelf = True
             # We have a Sony Xperia ELF format boot image, which some devices
             # (such as the Xperia J) have. We need special tools to deal with these,
             # namely unpackelf to get the required offsets.
