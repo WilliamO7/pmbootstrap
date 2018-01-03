@@ -100,6 +100,7 @@ def generate_deviceinfo_fastboot_content(args, bootimg=None):
     if bootimg is None:
         bootimg = {"cmdline": "",
                    "qcdt": "false",
+                   "sonyelf": "false",
                    "base": "",
                    "kernel_offset": "",
                    "ramdisk_offset": "",
@@ -110,6 +111,7 @@ def generate_deviceinfo_fastboot_content(args, bootimg=None):
         deviceinfo_kernel_cmdline=\"""" + bootimg["cmdline"] + """\"
         deviceinfo_generate_bootimg="true"
         deviceinfo_bootimg_qcdt=\"""" + bootimg["qcdt"] + """\"
+        deviceinfo_bootimg_sonyelf=\"""" + bootimg["sonyelf"] + """\"
         deviceinfo_flash_offset_base=\"""" + bootimg["base"] + """\"
         deviceinfo_flash_offset_kernel=\"""" + bootimg["kernel_offset"] + """\"
         deviceinfo_flash_offset_ramdisk=\"""" + bootimg["ramdisk_offset"] + """\"

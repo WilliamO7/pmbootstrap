@@ -188,7 +188,7 @@ create_uboot_files()
 # Android devices
 create_bootimg()
 {
-	[ "${deviceinfo_generate_bootimg}" == "true" ] || return
+	[ "${deviceinfo_generate_bootimg}" == "true" ] && [ "${deviceinfo_bootimg_sonyelf}" == "false" ] || return
 	echo "==> initramfs: creating boot.img"
 	_base="${deviceinfo_flash_offset_base}"
 	[ -z "$_base" ] && _base="0x10000000"
@@ -213,6 +213,28 @@ create_bootimg()
 		--pagesize "${deviceinfo_flash_pagesize}" \
 		${_dt} \
 		-o "${outfile/initramfs-/boot.img-}"
+}
+
+# Create a Sony ELF boot image
+create_sonyelf()
+{
+	[ "${deviceinfo_generate_bootimg}" == "true" ] && [ "${deviceinfo_bootimg_sonyelf}" == "true" ] || return
+	echo "==> initramfs: creating sonyelf boot.img"
+
+	kernelfile="${outfile/initramfs-/vmlinuz-}"
+	if [ -n "${deviceinfo_dtb}" ]; then
+		kernelfile="${kernelfile}-dtb"
+	fi
+	
+	# put the cmdline into a file first
+	_cmdlinefile="/boot/sonyelf-cmdline"
+	echo "${deviceinfo_kernel_cmdline}" > "${_cmdlinefile}"
+
+	mkelf \
+	-o "${outfile/initramfs-/boot.img-}" \
+	 "${kernelfile}"@"${deviceinfo_flash_offset_kernel}" \
+	 "$outfile"@"${deviceinfo_flash_offset_ramdisk}",ramdisk \
+     "${_cmdlinefile}"@cmdline
 }
 
 # Create splash screens
@@ -361,6 +383,7 @@ replace_init_variables
 create_cpio_image "$tmpdir" "$outfile"
 append_device_tree
 create_uboot_files
+create_sonyelf 
 create_bootimg
 
 rm -rf "$tmpdir"

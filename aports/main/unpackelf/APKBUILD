@@ -1,0 +1,26 @@
+pkgname=unpackelf
+pkgver="21"
+pkgrel=1
+pkgdesc="A single tool to unpack Sony ELF kernel format image variants"
+url="https://github.com/osm0sis/unpackelf/"
+arch="all"
+license="APACHE2"
+depends=""
+_commit="2735dd0b35d2e40a03008eb609b465acb83190db"
+source="
+$pkgname-$_commit.tar.gz::https://github.com/osm0sis/unpackelf/archive/${_commit}.tar.gz
+"
+options="!check"
+builddir="$srcdir"/"$pkgname-$_commit"
+
+build() {
+	cd "$builddir"
+	make
+}
+
+package() {
+	install -Dm755 "$builddir"/unpackelf \
+		"$pkgdir"/usr/bin/unpackelf
+}
+
+sha512sums="97b60623da52739a47bcb33e55345cc4673e28709dd1a8b7cda1aab7629323d91155578db9b0265efbce7c9f475e827aa8b07f91b88cb122f56082128ef54343  unpackelf-2735dd0b35d2e40a03008eb609b465acb83190db.tar.gz"

@@ -1,0 +1,22 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="device-sony-jlo"
+pkgdesc="Sony Xperia J"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="noarch"
+options="!check"
+depends="linux-sony-jlo mkbootimg"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="f00b2dbaf9b1ca41e8995a20739a8b56dc9d926e64dcdf58f9a36bd85b4a01a74a7444d7946af37052d6a36b54e6c148cf2e12d5885a897bcd8c2e04b5b35278  deviceinfo"
