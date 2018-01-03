@@ -383,7 +383,7 @@ replace_init_variables
 create_cpio_image "$tmpdir" "$outfile"
 append_device_tree
 create_uboot_files
-if "${deviceinfo_bootimg_sonyelf}" == true; then
+if "${deviceinfo_bootimg_sonyelf}" == "true"; then
 	create_sonyelf
 else 
 	create_bootimg
