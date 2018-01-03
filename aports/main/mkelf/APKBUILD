@@ -7,7 +7,8 @@ arch="noarch"
 license="APACHE2"
 depends="python2"
 subpackages=""
-source="$pkgname::https://raw.githubusercontent.com/LineageOS/android_device_sony_tamsui-common/jellybean-3.4/tools/mkelf.py"
+_commit="3bdeaa5f406e326a02795d1e942c526360d9daaa"
+source="$pkgname::https://raw.githubusercontent.com/LineageOS/android_device_sony_tamsui-common/blob/${_commit}/tools/mkelf.py"
 options="!check"
 
 build() {

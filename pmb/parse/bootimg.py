@@ -21,6 +21,16 @@ import logging
 import pmb
 
 
+def check_sonyelf(path, file_output):
+    # Check the file output for the expected types
+    case1 = "ELF 32-bit LSB executable, ARM"
+    case2 = "ELF 64-bit LSB executable, ARM"
+    if file_output != case1 or file_output != case2:
+        return False
+    else:
+        return True
+
+
 def bootimg(args, path):
     if not os.path.exists(path):
         raise RuntimeError("Could not find file '" + path + "'")
@@ -42,7 +52,8 @@ def bootimg(args, path):
             raise RuntimeError("File is a Kernel image, you might need the 'heimdall-isorec'"
                                " flash method. See also: "
                                "<https://wiki.postmarketos.org/wiki/Deviceinfo_flash_methods>")
-        elif "elf" in file_output.lower():
+        elif check_sonyelf(bootimg_path, file_output.lower()) == True:
+            bootimg_is_sonyelf = True
             # We have a Sony Xperia ELF format boot image, which some devices
             # (such as the Xperia J) have. We need special tools to deal with these,
             # namely unpackelf to get the required offsets.
@@ -52,10 +63,9 @@ def bootimg(args, path):
                 "File is not an Android bootimg. (" + file_output + ")")
 
     # Extract all the files using the correct tool.
-    if "elf" in file_output.lower():
+    if bootimg_is_sonyelf == True:
         pmb.chroot.user(
-            args, [
-                "unpackelf", "-i", "boot.img"], working_dir=temp_path)
+            args, ["unpackelf", "-i", "boot.img"], working_dir=temp_path)
     else:
         pmb.chroot.user(args, ["unpackbootimg", "-i",
                                "boot.img"], working_dir=temp_path)
@@ -64,7 +74,7 @@ def bootimg(args, path):
     # Get base, offsets, pagesize, cmdline and qcdt info
 
     # SonyELF images have less info to work with, so let's make a special case
-    if "elf" in file_output.lower():
+    if bootimg_is_sonyelf == True:
         with open(bootimg_path + "-base", 'r') as f:
             output["base"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-kerneloff", 'r') as f:
@@ -78,7 +88,7 @@ def bootimg(args, path):
         with open(bootimg_path + "-cmdline", 'r') as f:
             output["cmdline"] = f.read().replace('\n', '')
         output["sonyelf"] = (
-            "true" if "elf" in file_output.lower() else "false")
+            "true" if bootimg_is_sonyelf == True else "false")
         # Fill these sections w/ dummy data (we don't use them to make the ELF)
         output["second_offset"] = ("0x00000000")
         output["tags_offset"] = ("0x00000000")
