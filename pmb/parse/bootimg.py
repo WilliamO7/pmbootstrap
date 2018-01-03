@@ -43,57 +43,68 @@ def bootimg(args, path):
                                " flash method. See also: "
                                "<https://wiki.postmarketos.org/wiki/Deviceinfo_flash_methods>")
         elif "elf" in file_output.lower():
-        	# We have a Sony Xperia ELF format boot image, which some devices 
-        	# (such as the Xperia J) have. We need special tools to deal with these,
-        	# namely unpackelf to get the required offsets.
-        	pmb.chroot.apk.install(args, ["file", "unpackelf"])
+            # We have a Sony Xperia ELF format boot image, which some devices
+            # (such as the Xperia J) have. We need special tools to deal with these,
+            # namely unpackelf to get the required offsets.
+            pmb.chroot.apk.install(args, ["file", "unpackelf"])
         else:
-            raise RuntimeError("File is not an Android bootimg. (" + file_output + ")")
+            raise RuntimeError(
+                "File is not an Android bootimg. (" + file_output + ")")
 
     # Extract all the files using the correct tool.
     if "elf" in file_output.lower():
-        pmb.chroot.user(args, ["unpackelf", "-i", "boot.img"], working_dir=temp_path)
+        pmb.chroot.user(
+            args, [
+                "unpackelf", "-i", "boot.img"], working_dir=temp_path)
     else:
-    	pmb.chroot.user(args, ["unpackbootimg", "-i", "boot.img"], working_dir=temp_path)
+        pmb.chroot.user(args, ["unpackbootimg", "-i",
+                               "boot.img"], working_dir=temp_path)
 
     output = {}
     # Get base, offsets, pagesize, cmdline and qcdt info
-    
+
     # SonyELF images have less info to work with, so let's make a special case
     if "elf" in file_output.lower():
         with open(bootimg_path + "-base", 'r') as f:
             output["base"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-kerneloff", 'r') as f:
-            output["kernel_offset"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
+            output["kernel_offset"] = ("0x%08x" %
+                                       int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-ramdiskoff", 'r') as f:
-            output["ramdisk_offset"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
+            output["ramdisk_offset"] = ("0x%08x" %
+                                        int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-pagesize", 'r') as f:
             output["pagesize"] = f.read().replace('\n', '')
         with open(bootimg_path + "-cmdline", 'r') as f:
             output["cmdline"] = f.read().replace('\n', '')
-        output["sonyelf"] = ("true" if "elf" in file_output.lower() else "false")
-                # Fill these sections w/ dummy data (we don't use them to make the ELF)    
+        output["sonyelf"] = (
+            "true" if "elf" in file_output.lower() else "false")
+        # Fill these sections w/ dummy data (we don't use them to make the ELF)
         output["second_offset"] = ("0x00000000")
         output["tags_offset"] = ("0x00000000")
         # DTB is appended to kernel, no need to do it here
         output["qcdt"] = ("false")
-    else:	
+    else:
         with open(bootimg_path + "-base", 'r') as f:
             output["base"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-kernel_offset", 'r') as f:
-            output["kernel_offset"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
+            output["kernel_offset"] = ("0x%08x" %
+                                       int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-ramdisk_offset", 'r') as f:
-            output["ramdisk_offset"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
+            output["ramdisk_offset"] = ("0x%08x" %
+                                        int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-second_offset", 'r') as f:
-            output["second_offset"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
+            output["second_offset"] = ("0x%08x" %
+                                       int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-tags_offset", 'r') as f:
-            output["tags_offset"] = ("0x%08x" % int(f.read().replace('\n', ''), 16))
+            output["tags_offset"] = ("0x%08x" %
+                                     int(f.read().replace('\n', ''), 16))
         with open(bootimg_path + "-pagesize", 'r') as f:
             output["pagesize"] = f.read().replace('\n', '')
         with open(bootimg_path + "-cmdline", 'r') as f:
             output["cmdline"] = f.read().replace('\n', '')
         output["qcdt"] = ("true" if os.path.isfile(bootimg_path + "-dt") and
-                      	  os.path.getsize(bootimg_path + "-dt") > 0 else "false")
+                          os.path.getsize(bootimg_path + "-dt") > 0 else "false")
 
     # Cleanup
     pmb.chroot.root(args, ["rm", "-r", temp_path])
