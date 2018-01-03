@@ -1,0 +1,81 @@
+# Kernel config based on: arch/arm64/configs/exynos8890-hero2lte_defconfig
+
+pkgname="linux-samsung-hero2lte"
+pkgver=3.18.14
+pkgrel=0
+pkgdesc="Samsung Galaxy S7 Edge kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="samsung-hero2lte"
+url="https://kernel.org"
+license="GPL2"
+options="!strip !check !tracedeps"
+makedepends="perl sed installkernel bash gmp-dev bc linux-headers elfutils-dev dtbtool"
+HOSTCC="${CC:-gcc}"
+HOSTCC="${HOSTCC#${CROSS_COMPILE}}"
+
+# Source - using kernel that compiles w/ gcc6
+_repository="android_kernel_samsung_universal8890"
+_commit="487b797659bc7de9fa029cc5e499ededee19ec1c"
+_config="config-${_flavor}.${arch}"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/ivanmeler/${_repository}/archive/${_commit}.tar.gz
+	$_config
+"
+builddir="$srcdir/${_repository}-${_commit}"
+
+prepare() {
+	default_prepare
+
+	# Remove -Werror from all makefiles
+	find . -type f -name Makefile -print0 | \
+		xargs -0 sed -i 's/-Werror-/-W/g'
+	find . -type f -name Makefile -print0 | \
+		xargs -0 sed -i 's/-Werror//g'
+
+	# Prepare kernel config ('yes ""' for kernels lacking olddefconfig)
+	cp "$srcdir"/$_config "$builddir"/.config
+	yes "" | make ARCH="$_carch" HOSTCC="$HOSTCC" oldconfig
+}
+
+menuconfig() {
+	cd "$builddir"
+	make ARCH="$_carch" menuconfig
+	cp .config "$startdir"/$_config
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+		
+	# Generate master DTB
+    dtbTool -s 2048 -p "scripts/dtc/" -o "arch/arm/boot/dt.img" "arch/arm/boot/"
+}
+
+package() {
+	# kernel.release
+	install -D "$builddir/include/config/kernel.release" \
+		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
+
+	# zImage (find the right one)
+	cd "$builddir/arch/$_carch/boot"
+	_target="$pkgdir/boot/vmlinuz-$_flavor"
+	for _zimg in zImage-dtb Image.gz-dtb *zImage Image; do
+		[ -e "$_zimg" ] || continue
+		msg "zImage found: $_zimg"
+		install -Dm644 "$_zimg" "$_target"
+		break
+	done
+	if ! [ -e "$_target" ]; then
+		error "Could not find zImage in $PWD!"
+		return 1
+	fi
+	
+	# Master DTB
+	install -Dm644 "$builddir/arch/arm/boot/dt.img" \
+"$pkgdir/boot/dt.img"
+}
+
+sha512sums="c2e60ede98d37fbce46cdda26d2c0c48a8a3d4ccc42298f349a5d02542c6fbaf4766fa44c41ec7555b4291bf06abe41a308fe6a7de353a9a49d08ba44bac3ddc  linux-samsung-hero2lte-487b797659bc7de9fa029cc5e499ededee19ec1c.tar.gz
+df12a719b8fe1f9fb27dff8253f169a9f71ed2d37d8f9c95a2cd67bf56a0f5d6ee085aeb3617dba003a2043d06fe32836d2386ac84391fc995af1fb861ff0a2c  config-samsung-hero2lte.aarch64"

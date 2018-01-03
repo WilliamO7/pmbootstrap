@@ -1,0 +1,22 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="device-samsung-hero2lte"
+pkgdesc="Samsung Galaxy S7 Edge"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="noarch"
+options="!check"
+depends="linux-samsung-hero2lte mkbootimg"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="729a04d6104cca378069cbd9daf3e26f2e6962ae1806d75c33d47db8198d69e5be194886b7833b0dfc5a5469068590aafb012c07fae96a4c458e02cdb776f2c3  deviceinfo"
