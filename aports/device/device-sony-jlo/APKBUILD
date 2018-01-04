@@ -7,7 +7,7 @@ url="https://postmarketos.org"
 license="MIT"
 arch="noarch"
 options="!check"
-depends="linux-sony-jlo mkbootimg"
+depends="linux-sony-jlo mkelf"
 makedepends="devicepkg-dev"
 source="deviceinfo"
 

@@ -1,10 +1,10 @@
 pkgname=mkelf
-pkgver=10.1
-pkgrel=1
+pkgver=1.0_git3bdeaa5f4
+pkgrel=0
 pkgdesc="Sony ELF (boot.img equivalent) creation tool"
 url="https://github.com/LineageOS/android_device_sony_tamsui-common/blob/jellybean-3.4/tools/mkelf.py"
 arch="noarch"
-license="APACHE2"
+license="BSD-3-Clause"
 depends="python2"
 subpackages=""
 _commit="3bdeaa5f406e326a02795d1e942c526360d9daaa"

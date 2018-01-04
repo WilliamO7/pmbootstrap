@@ -189,6 +189,7 @@ create_uboot_files()
 create_bootimg()
 {
 	[ "${deviceinfo_generate_bootimg}" == "true" ] || return
+	[ "${deviceinfo_generate_sonyelf}" == "true" ] && return
 	echo "==> initramfs: creating boot.img"
 	_base="${deviceinfo_flash_offset_base}"
 	[ -z "$_base" ] && _base="0x10000000"
@@ -218,7 +219,7 @@ create_bootimg()
 # Create a Sony ELF boot image
 create_sonyelf()
 {
-	[ "${deviceinfo_generate_bootimg}" == "true" ] || return
+	[ "${deviceinfo_bootimg_sonyelf}" == "true" ] || return
 	echo "==> initramfs: creating sonyelf boot.img"
 
 	kernelfile="${outfile/initramfs-/vmlinuz-}"
@@ -231,10 +232,10 @@ create_sonyelf()
 	echo "${deviceinfo_kernel_cmdline}" > "${_cmdlinefile}"
 
 	mkelf \
-	-o "${outfile/initramfs-/boot.img-}" \
-	 "${kernelfile}"@"${deviceinfo_flash_offset_kernel}" \
-	 "$outfile"@"${deviceinfo_flash_offset_ramdisk}",ramdisk \
-     "${_cmdlinefile}"@cmdline
+		-o "${outfile/initramfs-/boot.img-}" \
+	 	"${kernelfile}"@"${deviceinfo_flash_offset_kernel}" \
+	 	"$outfile"@"${deviceinfo_flash_offset_ramdisk}",ramdisk \
+     	"${_cmdlinefile}"@cmdline
 }
 
 # Create splash screens
@@ -383,11 +384,9 @@ replace_init_variables
 create_cpio_image "$tmpdir" "$outfile"
 append_device_tree
 create_uboot_files
-if "${deviceinfo_bootimg_sonyelf}" == "true"; then
-	create_sonyelf
-else 
-	create_bootimg
-fi
+create_bootimg
+create_sonyelf
+
 
 rm -rf "$tmpdir"
 

@@ -97,28 +97,38 @@ def ask_for_bootimg(args):
 
 
 def generate_deviceinfo_fastboot_content(args, bootimg=None):
-    if bootimg is None:
-        bootimg = {"cmdline": "",
-                   "qcdt": "false",
-                   "sonyelf": "false",
+    # Left: deviceinfo key, right: bootimg key
+    mapping = {"kernel_cmdline": "cmdline",
+               "generate_bootimg": "generate_bootimg",
+               "bootimg_qcdt": "qcdt",
+               "bootimg_sonyelf": "sonyelf",
+               "flash_offset_base": "base",
+               "flash_offset_kernel": "kernel_offset",
+               "flash_offset_ramdisk": "ramdisk_offset",
+               "flash_offset_second": "second_offset",
+               "flash_offset_tags": "tags_offset",
+               "flash_pagesize": "pagesize"}
+
+    # Defaults in case the user skipped boot.img analysis
+    ret = "\n"
+    if not bootimg:
+        ret += "# Run 'pmbootstrap bootimg_analyze' to get the values, then remove this comment\n"
+        bootimg = {"generate_bootimg": "true",
+                   "cmdline": "",
+                   "qcdt": "",
+                   "sonyelf": "",
                    "base": "",
                    "kernel_offset": "",
                    "ramdisk_offset": "",
                    "second_offset": "",
                    "tags_offset": "",
                    "pagesize": "2048"}
-    return """\
-        deviceinfo_kernel_cmdline=\"""" + bootimg["cmdline"] + """\"
-        deviceinfo_generate_bootimg="true"
-        deviceinfo_bootimg_qcdt=\"""" + bootimg["qcdt"] + """\"
-        deviceinfo_bootimg_sonyelf=\"""" + bootimg["sonyelf"] + """\"
-        deviceinfo_flash_offset_base=\"""" + bootimg["base"] + """\"
-        deviceinfo_flash_offset_kernel=\"""" + bootimg["kernel_offset"] + """\"
-        deviceinfo_flash_offset_ramdisk=\"""" + bootimg["ramdisk_offset"] + """\"
-        deviceinfo_flash_offset_second=\"""" + bootimg["second_offset"] + """\"
-        deviceinfo_flash_offset_tags=\"""" + bootimg["tags_offset"] + """\"
-        deviceinfo_flash_pagesize=\"""" + bootimg["pagesize"] + """\"
-        """
+
+    # Return the deviceinfo block
+    for deviceinfo_key, bootimg_key in mapping.items():
+        if bootimg_key in bootimg:
+            ret += "deviceinfo_" + deviceinfo_key + "=\"" + bootimg[bootimg_key] + "\"\n"
+    return ret
 
 
 def generate_deviceinfo(args, pkgname, name, manufacturer, arch, has_keyboard,

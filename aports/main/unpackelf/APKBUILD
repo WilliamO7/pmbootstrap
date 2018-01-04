@@ -1,6 +1,6 @@
 pkgname=unpackelf
-pkgver="21"
-pkgrel=1
+pkgver="1.0_git2735dd0b"
+pkgrel=0
 pkgdesc="A single tool to unpack Sony ELF kernel format image variants"
 url="https://github.com/osm0sis/unpackelf/"
 arch="all"
